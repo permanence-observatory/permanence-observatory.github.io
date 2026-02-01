@@ -30,17 +30,6 @@ jobs:
     - name: Run GDELT mapper
       run: python gdelt_version_v21.py
     
-    - name: Archive CSV with date (if exists)
-      run: |
-        DATE=$(date +%Y-%m-%d)
-        if [ -f "slum_news_data.csv" ]; then
-          mkdir -p archive
-          mv slum_news_data.csv "archive/slum_news_data_${DATE}.csv"
-          echo "✅ CSV archived as slum_news_data_${DATE}.csv"
-        else
-          echo "⚠️  No CSV file generated (no data found)"
-        fi
-    
     - name: Move HTML to root (for GitHub Pages)
       run: |
         if [ -f "slum_news_map.html" ]; then
@@ -56,14 +45,14 @@ jobs:
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         
-        # Add files that exist
-        git add -A
+        # Add only the index.html file
+        git add index.html
         
         # Check if there are changes to commit
         if git diff --staged --quiet; then
-          echo "ℹ️  No changes to commit"
+          echo "ℹ️  No changes to commit (map unchanged)"
         else
           git commit -m "🗺️ Daily map update - $(date +%Y-%m-%d)"
           git push
-          echo "✅ Changes pushed successfully"
+          echo "✅ Map published successfully!"
         fi
