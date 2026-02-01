@@ -1,0 +1,48 @@
+name: Update Slum News Map Daily
+
+on:
+  schedule:
+    # Run every day at 00:00 UTC (adjust time as needed)
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
+
+jobs:
+  update-map:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write  # Required to push changes
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests pandas
+    
+    - name: Run GDELT mapper
+      run: python gdelt_version_v21.py
+    
+    - name: Rename CSV with date
+      run: |
+        DATE=$(date +%Y-%m-%d)
+        mv slum_news_data.csv "archive/slum_news_data_${DATE}.csv"
+    
+    - name: Move HTML to root (for GitHub Pages)
+      run: |
+        cp slum_news_map.html index.html
+    
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add index.html archive/
+        git diff --quiet && git diff --staged --quiet || git commit -m "🗺️ Daily map update - $(date +%Y-%m-%d)"
+        git push
