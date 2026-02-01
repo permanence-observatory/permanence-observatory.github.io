@@ -1365,33 +1365,34 @@ def main():
     print(f"🗺️  SUCCESSFULLY MAPPED {len(events)} NEWS ITEMS")
     print("=" * 100)
     
-    # Save data
+    # Save data (JSON only for now - CSV generation disabled)
     with open('slum_news_data.json', 'w', encoding='utf-8') as f:
         json.dump(events, f, indent=2, ensure_ascii=False)
     print("\n✅ Data saved: slum_news_data.json")
     
-    # Create CSV
-    df_data = []
-    for event in events:
-        df_data.append({
-            'Title': event['title'],
-            'Date': event['date'],
-            'Source': event['source'],
-            'Event Type': event['event_type'],
-            'Slum': event['slum_name'],
-            'City': event['city'],
-            'Country': event['country'],
-            'Location': event['coordinates']['address'],
-            'Latitude': event['coordinates']['lat'],
-            'Longitude': event['coordinates']['lon'],
-            'People Affected': event['affected_count'],
-            'URL': event['url'],
-            'Geocode Source': 'database'
-        })
-    
-    df = pd.DataFrame(df_data)
-    df.to_csv('slum_news_data.csv', index=False, encoding='utf-8')
-    print("✅ Data saved: slum_news_data.csv")
+    # CSV generation DISABLED for simplified workflow
+    # Uncomment below if you want CSV files later:
+    # df_data = []
+    # for event in events:
+    #     df_data.append({
+    #         'Title': event['title'],
+    #         'Date': event['date'],
+    #         'Source': event['source'],
+    #         'Event Type': event['event_type'],
+    #         'Slum': event['slum_name'],
+    #         'City': event['city'],
+    #         'Country': event['country'],
+    #         'Location': event['coordinates']['address'],
+    #         'Latitude': event['coordinates']['lat'],
+    #         'Longitude': event['coordinates']['lon'],
+    #         'People Affected': event['affected_count'],
+    #         'URL': event['url'],
+    #         'Geocode Source': 'database'
+    #     })
+    # 
+    # df = pd.DataFrame(df_data)
+    # df.to_csv('slum_news_data.csv', index=False, encoding='utf-8')
+    # print("✅ Data saved: slum_news_data.csv")
     
     # Create HTML map
     mapper.create_html_map(events)
@@ -1428,13 +1429,12 @@ def main():
     print("✅ SUCCESS! Files created:")
     print("   - slum_news_map.html (interactive map with bar chart)")
     print("   - slum_news_data.json (complete data)")
-    print("   - slum_news_data.csv (tabular data)")
-    print("\n📌 IMPROVED FEATURES:")
+    print("\n📌 FEATURES:")
     print("   • Removed date restrictions from GDELT queries")
     print("   • 'Other' category can now be filtered separately")
-    print("   • Brand name changed to 'permanence.dev' (white, larger)")
+    print("   • Brand name: 'permanence.dev' (white, larger)")
     print("   • Enhanced filtering: clicking a filter shows ONLY that event type")
-    print("   • Better handling of GDELT JSON errors")
+    print("   • Simplified version: CSV generation disabled")
     print("=" * 100)
 
 
