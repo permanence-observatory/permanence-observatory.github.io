@@ -84,19 +84,17 @@ It is our intention that our documentation can be used as **legal evidence in co
 
 ## Research Network
 
-### Principal Investigator
-- **prof.dr. M. Kuffer (Monika)** - University of Twente
-
 ### PhD Candidates
 - **F. Campomanes MSc (Enzo)** - PhD Candidate
 - **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate
 
 ### Research Team
-- **Jota Samper** - Associate Professor, University of Colorado Boulder
-- **Malena Jaramillo Espinosa** - Researcher
-- **Julio Pedrassoli** - Researcher & News Tracker Developer
-- **Juan Manuel D'Attoli** - Researcher
-- **dr. R. Vargas Maretto (Raian)** - Assistant Professor, University of São Paulo
+- **Jota Samper** - University of Colorado Boulder
+- **Julio Pedrassoli** - University of São Paulo & Western Michigan University
+- **M. Kuffer (Monika)** - University of Twente
+- **Malena Jaramillo Espinosa** - Associate Researcher
+- **Juan Manuel D'Attoli** - Associate Researcher
+- **R. Vargas Maretto (Raian)** - University of Twente
 
 ---
 
@@ -105,6 +103,7 @@ It is our intention that our documentation can be used as **legal evidence in co
 <p align="center">
   <img src="university_of_twente_logo.jpg" alt="University of Twente" height="80" style="margin: 20px;">
   <img src="cu_boulder_logo.avif" alt="University of Colorado Boulder" height="80" style="margin: 20px;">
+  <img src="WMU primary-digital.png" alt="Western Michigan University" height="80" style="margin: 20px;"
   <img src="usp_logo.png" alt="University of São Paulo" height="80" style="margin: 20px;">
 </p>
 
@@ -127,12 +126,6 @@ For technical details about the news tracker, contact:
 
 ---
 
-## Mission Statement
-
-We believe that **data is power**. By documenting the permanence of informal settlements through scientific methods, we provide communities with the evidence they need to defend their right to housing. Our work transforms geospatial technology into a tool for social justice.
-
----
-
 ## Repository Structure
 
 ```
@@ -152,13 +145,6 @@ permanence.github.io/
 This project is part of the Permanence Observatory's mission to support informal settlement communities. The code and data are provided for research, advocacy, and educational purposes.
 
 For collaboration inquiries or to support our mission, please contact us through our institutional partners.
-
----
-
-<p align="center">
-  <strong>The Permanence Observatory</strong><br>
-  Defending the right to remain through science, law, and advocacy
-</p>
 
 ---
 
