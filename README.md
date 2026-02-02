@@ -11,7 +11,7 @@
 The **Permanence Observatory (PO)** is a global initiative that uses geospatial analysis and field documentation to protect informal settlement communities from unlawful evictions. By combining satellite imagery, remote sensing, and legal advocacy, PO provides irrefutable evidence of territorial occupation, helping communities secure their right to remain. 
 
 Funded by human rights and technology grants, PO collaborates with global practitioners to present its findings in courts, advocacy forums, and international bodies.
-Find out more: [www.permanenceobservatory.org/](https://www.permanenceobservatory.org/)]
+Find out more: [www.permanenceobservatory.org/](https://www.permanenceobservatory.org/)
 
 ---
 
