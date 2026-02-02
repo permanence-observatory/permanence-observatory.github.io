@@ -1,198 +1,165 @@
-# 🗺️ Slum News Map - Automated Daily Updates
+# The Permanence Observatory
 
-An automatically-updating interactive map tracking news about informal settlements globally, powered by GDELT data.
+![Permanence Observatory Banner](banner_po.jpg)
 
-**Live Map:** [https://permanence.github.io](https://permanence.github.io)
+<p align="center">
+  <img src="po_logo.avif" alt="Permanence Observatory Logo" width="200">
+</p>
 
-## 📋 Features
+## About the Observatory
 
-- **Daily automatic updates** via GitHub Actions
-- **Interactive map** with 200+ global locations
-- **Event filtering** (evictions, fires, violence, health, etc.)
-- **Historical data** archived as dated CSV files
-- **Powered by GDELT** - comprehensive global news coverage
+The **Permanence Observatory (PO)** is a global initiative that uses geospatial analysis and field documentation to protect informal settlement communities from unlawful evictions. By combining satellite imagery, remote sensing, and legal advocacy, PO provides irrefutable evidence of territorial occupation, helping communities secure their right to remain. 
 
----
-
-## 🚀 Setup Instructions (First Time)
-
-### Step 1: Create Your Repository
-
-1. Go to GitHub: https://github.com
-2. Click the **"+"** icon (top-right) → **"New repository"**
-3. Repository name: `permanence.github.io` ⚠️ **EXACT NAME REQUIRED**
-4. Description: `Automated daily map of news about informal settlements`
-5. Select **Public** (required for free GitHub Pages)
-6. ✅ Check **"Add a README file"**
-7. Click **"Create repository"**
-
-⚠️ **IMPORTANT:** The repository name MUST be exactly `permanence.github.io` (your username + `.github.io`) to get the root domain URL.
-
-### Step 2: Upload Files to Repository
-
-1. Click **"Add file"** → **"Upload files"**
-2. Upload these files:
-   - `gdelt_version_v21.py`
-   - `.github/workflows/update-map.yml`
-3. Click **"Commit changes"**
-
-### Step 3: Create Archive Directory
-
-1. In your repository, click **"Add file"** → **"Create new file"**
-2. In the name field, type: `archive/.gitkeep`
-3. Click **"Commit changes"**
-
-This creates an `archive/` folder where dated CSV files will be stored.
-
-### Step 4: Enable GitHub Pages
-
-1. Go to repository **Settings** → **Pages** (left sidebar)
-2. Under **"Source"**, select:
-   - Branch: `main`
-   - Folder: `/ (root)`
-3. Click **"Save"**
-4. Wait 1-2 minutes, then refresh the page
-5. You'll see: **"Your site is live at https://permanence.github.io"**
-
-### Step 5: Run First Update
-
-1. Go to **Actions** tab in your repository
-2. Click **"Update Slum News Map Daily"** (left sidebar)
-3. Click **"Run workflow"** → **"Run workflow"** button
-4. Wait 2-3 minutes for the workflow to complete
-5. Visit your live map at: `https://YOUR-USERNAME.github.io/slum-news-map`
+Funded by human rights and technology grants, PO collaborates with global practitioners to present its findings in courts, advocacy forums, and international bodies.
 
 ---
 
-## ⚙️ How It Works
+## Who We Are
 
-### Automatic Daily Updates
+We are global mappers investigating informal settlements. Our team includes experts in:
+- Remote sensing technology
+- Field documentation
+- Urban planning
+- Legal advocacy
+- Human rights
 
-The map updates automatically **every day at midnight UTC** (00:00).
+We employ advanced tools including satellite imagery, geospatial data, and on-the-ground testimonies to create comprehensive documentation crucial in defending communities against forced evictions. We are an interdisciplinary organization working at the intersection of technology, law, and human rights.
 
-- **GitHub Actions** runs the Python script
-- **New HTML map** replaces the old `index.html`
-- **CSV data** is archived with today's date: `slum_news_data_YYYY-MM-DD.csv`
-- Changes are automatically committed and published
+---
 
-### File Structure
+## What We Do
+
+We use **geospatial analysis** and **field surveys** to provide scientific proof of communities' land occupation. Our work helps prevent evictions by supporting legal recognition and protection. Through advocacy and evidence, we empower communities to claim their housing rights.
+
+### The News Tracker
+
+This repository hosts the **Slum News Tracker** - an automated, daily-updating interactive map that monitors global news coverage of informal settlements. The tracker:
+
+- 🗺️ **Maps global news** about informal settlements in real-time
+- 📊 **Categorizes events** (evictions, fires, violence, health crises, etc.)
+- 🔍 **Provides interactive filtering** by event type and location
+- 📈 **Visualizes trends** through bar charts and geographic clustering
+- 🌐 **Aggregates data** from 200+ locations across Africa, Asia, and Latin America
+- 🤖 **Updates automatically** every day using GDELT data
+
+**Live Map:** [https://permanence-observatory.github.io](https://permanence-observatory.github.io)
+
+---
+
+## How We Choose Our Projects
+
+We partner with communities at risk of eviction to provide legal and spatial documentation. Our focus is on cases where our methods can make a decisive impact. We aim to influence policies and legal decisions that secure housing rights.
+
+---
+
+## How We Are Funded
+
+Our funding comes from:
+- Human rights and technology grants
+- Academic partnerships
+- Project-specific support
+
+All income is reinvested to advance our mission.
+
+---
+
+## Where Our Work Is Presented
+
+We share our findings with:
+- **Courts** - Legal cases defending community rights
+- **Policymakers** - Influencing housing and urban policy
+- **Advocacy groups** - Supporting grassroots movements
+- **International bodies** - UN, European Court of Human Rights
+- **Citizen tribunals** - Public forums amplifying marginalized voices
+
+Our evidence is used in legal cases and public forums. We strive to amplify marginalized voices in decision-making spaces.
+
+---
+
+## Legal Admissibility
+
+It is our intention that our documentation can be used as **legal evidence in courts worldwide**, including the UN and the European Court of Human Rights. Its scientific rigor strengthens community claims against forced displacement.
+
+---
+
+## Research Network
+
+### Principal Investigator
+- **prof.dr. M. Kuffer (Monika)** - University of Twente
+
+### PhD Candidates
+- **F. Campomanes MSc (Enzo)** - PhD Candidate
+- **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate
+
+### Research Team
+- **Jota Samper** - Associate Professor, University of Colorado Boulder
+- **Malena Jaramillo Espinosa** - Researcher
+- **Julio Pedrassoli** - Researcher & News Tracker Developer
+- **Juan Manuel D'Attoli** - Researcher
+- **dr. R. Vargas Maretto (Raian)** - Assistant Professor, University of São Paulo
+
+---
+
+## Institutional Partners
+
+<p align="center">
+  <img src="university_of_twente_logo.jpg" alt="University of Twente" height="80" style="margin: 20px;">
+  <img src="cu_boulder_logo.avif" alt="University of Colorado Boulder" height="80" style="margin: 20px;">
+  <img src="usp_logo.png" alt="University of São Paulo" height="80" style="margin: 20px;">
+</p>
+
+---
+
+## Technical Information
+
+### News Tracker Technology
+- **Data Source:** GDELT Project (Global Database of Events, Language, and Tone)
+- **Coverage:** 200+ informal settlement locations globally
+- **Update Frequency:** Daily (automated via GitHub Actions)
+- **Technology Stack:** Python, Leaflet.js, GitHub Pages
+- **Multilingual Support:** Keywords in English, Spanish, Portuguese, French, Hindi, and more
+
+### Contact
+For technical details about the news tracker, contact:
+
+**Julio Pedrassoli**  
+📧 jpedrassoli@usp.br
+
+---
+
+## Mission Statement
+
+We believe that **data is power**. By documenting the permanence of informal settlements through scientific methods, we provide communities with the evidence they need to defend their right to housing. Our work transforms geospatial technology into a tool for social justice.
+
+---
+
+## Repository Structure
 
 ```
-slum-news-map/
+permanence.github.io/
+├── index.html              # Live news map (auto-generated daily)
+├── gdelt_version_v21.py    # Main news tracker script
 ├── .github/
 │   └── workflows/
-│       └── update-map.yml          # Automation workflow
-├── archive/
-│   ├── slum_news_data_2026-01-31.csv
-│   ├── slum_news_data_2026-02-01.csv
-│   └── ...                         # Daily CSV backups
-├── gdelt_version_v21.py            # Main Python script
-├── index.html                      # Published map (auto-generated)
-└── README.md                       # This file
+│       └── update-map.yml  # Automation workflow
+└── README.md               # This file
 ```
 
-### Data Sources
+---
 
-- **GDELT Project**: Global Database of Events, Language, and Tone
-- Covers 200+ slum locations across Africa, Asia, and Latin America
-- Multilingual keyword detection
-- Event categorization (evictions, fires, violence, health, etc.)
+## License & Usage
+
+This project is part of the Permanence Observatory's mission to support informal settlement communities. The code and data are provided for research, advocacy, and educational purposes.
+
+For collaboration inquiries or to support our mission, please contact us through our institutional partners.
 
 ---
 
-## 🔧 Customization
-
-### Change Update Time
-
-Edit `.github/workflows/update-map.yml`:
-
-```yaml
-schedule:
-  - cron: '0 0 * * *'  # Daily at 00:00 UTC
-```
-
-Examples:
-- `'0 6 * * *'` - Daily at 6:00 AM UTC
-- `'0 */12 * * *'` - Every 12 hours
-- `'0 9 * * 1'` - Weekly on Mondays at 9:00 AM UTC
-
-See [crontab.guru](https://crontab.guru) for help with cron syntax.
-
-### Modify Map Appearance
-
-Edit `gdelt_version_v21.py`:
-- **Line 1338**: Change brand name
-- **Colors/styling**: Search for CSS sections in the HTML template
-- **Locations**: Modify the `location_db` dictionary (lines 32-250)
-
-After editing, commit changes to GitHub. The next scheduled run will use your updates.
+<p align="center">
+  <strong>The Permanence Observatory</strong><br>
+  Defending the right to remain through science, law, and advocacy
+</p>
 
 ---
 
-## 📊 Accessing Historical Data
-
-All daily CSV files are stored in the `archive/` folder:
-
-```
-archive/slum_news_data_2026-01-31.csv
-archive/slum_news_data_2026-02-01.csv
-...
-```
-
-To download:
-1. Go to the `archive/` folder in your repository
-2. Click on any CSV file
-3. Click **"Download"** button
-
----
-
-## 🐛 Troubleshooting
-
-### Map not updating?
-
-1. Check **Actions** tab for workflow errors
-2. Look for red ❌ marks
-3. Click on the failed workflow to see error details
-
-### Common issues:
-
-- **No articles found**: GDELT API may be temporarily down (retry later)
-- **Permission denied**: Ensure Actions have write permissions:
-  - Go to **Settings** → **Actions** → **General**
-  - Under "Workflow permissions", select **"Read and write permissions"**
-  - Click **"Save"**
-
-### Manual trigger:
-
-You can run the update manually anytime:
-1. Go to **Actions** tab
-2. Click **"Update Slum News Map Daily"**
-3. Click **"Run workflow"** → **"Run workflow"**
-
----
-
-## 📝 License & Credits
-
-- **Code**: Feel free to use and modify
-- **Data**: GDELT Project (open data)
-- **Map tiles**: OpenStreetMap contributors
-- **Created by**: permanence.dev
-
----
-
-## 🤝 Contributing
-
-To improve the map:
-1. Fork this repository
-2. Make your changes
-3. Submit a pull request
-
-Or open an issue for suggestions!
-
----
-
-## 📧 Contact
-
-Questions or issues? Open a GitHub issue or contact the maintainer.
-
-**Last updated**: Automatically via GitHub Actions ⚡
+*Last updated: February 2026*
