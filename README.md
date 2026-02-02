@@ -84,10 +84,6 @@ It is our intention that our documentation can be used as **legal evidence in co
 
 ## Research Network
 
-### PhD Candidates
-- **F. Campomanes MSc (Enzo)** - PhD Candidate
-- **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate
-
 ### Research Team
 - **Jota Samper** - University of Colorado Boulder
 - **Julio Pedrassoli** - University of São Paulo & Western Michigan University
@@ -96,6 +92,10 @@ It is our intention that our documentation can be used as **legal evidence in co
 - **Juan Manuel D'Attoli** - Associate Researcher
 - **R. Vargas Maretto (Raian)** - University of Twente
 
+### PhD Candidates
+- **F. Campomanes MSc (Enzo)** - PhD Candidate
+- **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate
+
 ---
 
 ## Institutional Partners
@@ -103,7 +103,7 @@ It is our intention that our documentation can be used as **legal evidence in co
 <p align="center">
   <img src="university_of_twente_logo.jpg" alt="University of Twente" height="80" style="margin: 20px;">
   <img src="cu_boulder_logo.avif" alt="University of Colorado Boulder" height="80" style="margin: 20px;">
-  <img src="WMU primary-digital.png" alt="Western Michigan University" height="80" style="margin: 20px;"
+  <img src="WMU primary-digital.png" alt="Western Michigan University" height="80" style="margin: 20px;">
   <img src="usp_logo.png" alt="University of São Paulo" height="80" style="margin: 20px;">
 </p>
 
