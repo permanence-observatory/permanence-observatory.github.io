@@ -89,8 +89,9 @@ It is our intention that our documentation can be used as **legal evidence in co
 - **Jota Samper** - University of Colorado Boulder
 - **Julio Pedrassoli** - University of São Paulo & Western Michigan University
 - **M. Kuffer (Monika)** - University of Twente
-- **Malena Jaramillo Espinosa** - Associate Researcher
-- **Juan Manuel D'Attoli** - Associate Researcher
+- **Malena Jaramillo Espinosa** - Associate Researcher (Permanence Observatory)
+- **Juan Manuel D'Attoli** - Associate Researcher (Permanence Observatory)
+- **Angela Abascal** - Public Universityof Navarra (Postdoctoral Researcher)
 - **R. Vargas Maretto (Raian)** - University of Twente
 
 ### PhD Candidates
