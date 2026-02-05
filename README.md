@@ -91,7 +91,7 @@ It is our intention that our documentation can be used as **legal evidence in co
 - **M. Kuffer (Monika)** - University of Twente
 - **Malena Jaramillo Espinosa** - Associate Researcher (Permanence Observatory)
 - **Juan Manuel D'Attoli** - Associate Researcher (Permanence Observatory)
-- **Angela Abascal** - Public Universityof Navarra (Postdoctoral Researcher)
+- **Angela Abascal** - Public University of Navarra (Postdoctoral Researcher)
 - **R. Vargas Maretto (Raian)** - University of Twente
 
 ### PhD Candidates
