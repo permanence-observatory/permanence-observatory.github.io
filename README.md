@@ -86,17 +86,19 @@ It is our intention that our documentation can be used as **legal evidence in co
 ## Research Network
 
 ### Research Team
-- **Jota Samper** - University of Colorado Boulder
-- **Julio Pedrassoli** - University of São Paulo & Western Michigan University
-- **M. Kuffer (Monika)** - University of Twente
+- **Jota Samper** - University of Colorado Boulder (Professor)
+- **Julio Pedrassoli** - University of São Paulo & Western Michigan University (Professor)
+- **M. Kuffer (Monika)** - University of Twente (Professor)
 - **Malena Jaramillo Espinosa** - Associate Researcher (Permanence Observatory)
 - **Juan Manuel D'Attoli** - Associate Researcher (Permanence Observatory)
 - **Angela Abascal** - Public University of Navarra (Postdoctoral Researcher)
-- **R. Vargas Maretto (Raian)** - University of Twente
+- **R. Vargas Maretto (Raian)** - University of Twente (Professor)
+- **Andrew Maki** - Justice and Empowerment Initiatives - JEI (Co-director)
+- **Anthony Boanada-Fuchs** - Institute for Housing and Urban Development Studies - IHS (Head of Projects and Partnerships)
 
 ### PhD Candidates
-- **F. Campomanes MSc (Enzo)** - PhD Candidate
-- **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate
+- **F. Campomanes MSc (Enzo)** - PhD Candidate at University of Twente
+- **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate at University of Twente
 
 ---
 
