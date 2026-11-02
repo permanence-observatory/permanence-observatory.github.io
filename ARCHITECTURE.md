@@ -19,7 +19,7 @@ GitHub Actions (cron diário)
 
 - **Quando roda:** `cron: '0 0 * * *'` (00:00 UTC) e manualmente via `workflow_dispatch` na aba Actions. Na prática o GitHub atrasa jobs agendados: os commits do bot costumam chegar entre ~04:45 e 05:00 UTC.
 - **Ambiente:** `ubuntu-latest`, Python 3.11, `pip install requests pandas` (o `pandas` só é usado no código de CSV, que está comentado).
-- **Saída:** copia `slum_news_map.html` para `index.html` e commita **apenas** `index.html`, com a mensagem `🗺️ Daily map update - AAAA-MM-DD`. Se o mapa não mudou, não há commit. Se o script não gerar o HTML, o job falha.
+- **Saída:** copia `slum_news_map.html` para `index.html` e commita **apenas** `index.html`, com a mensagem `🗺️ Daily map update - AAAA-MM-DD`. Se o mapa não mudou, não há commit. Se o script não gerar o HTML, o job falha. Antes do push o job faz `git pull --rebase`, porque a `main` pode receber commits durante a rodada (que leva cerca de 1 h); e o grupo de `concurrency` impede duas rodadas simultâneas.
 - `slum_news_data.json` é gerado mas **não é commitado** (só existe no runner).
 - `.github/workflows/archive/` está vazio (só `.gitkeep`).
 
