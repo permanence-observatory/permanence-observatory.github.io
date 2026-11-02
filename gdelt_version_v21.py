@@ -1098,7 +1098,7 @@ class RefinedSlumMapper:
         const eventsData = {events_json};
         const map = L.map('map').setView([{avg_lat}, {avg_lon}], 2);
 
-        // DARK MODE TILES - OpenStreetMap (free, no API key) + CSS dark filter
+        // DARK MODE TILES - Esri World Dark Gray (free, no API key; replaced CARTO, which now requires one)
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{{z}}/{{y}}/{{x}}', {{
             maxZoom: 16,
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
