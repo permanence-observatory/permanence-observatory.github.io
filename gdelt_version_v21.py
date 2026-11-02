@@ -508,9 +508,11 @@ class RefinedSlumMapper:
     
     def parse_gdelt_date(self, seendate):
         """Parse GDELT date format to ISO 8601"""
-        if not seendate or len(seendate) < 8:
+        # The DOC API sends 'YYYYMMDDTHHMMSSZ'; keep only the digits
+        seendate = re.sub(r'\D', '', seendate or '')
+        if len(seendate) < 8:
             return datetime.now().isoformat() + "Z"
-        
+
         try:
             # Format: YYYYMMDDHHMMSS
             year = int(seendate[:4])

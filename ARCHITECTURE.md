@@ -48,7 +48,7 @@ Como o bot commita em `main` todo dia, sempre faça `git pull` antes de trabalha
 - **Modelos de IA podem fazer parte do método.** Modelos de linguagem e de processamento de texto podem ser usados na coleta, filtragem, geolocalização e classificação das notícias, desde que isso seja documentado como parte da metodologia (qual modelo, versão e instruções usadas) e que os resultados possam ser auditados (guardar o trecho do texto que justifica cada localização e classificação).
 - **Fonte de dados: só GDELT DOC API** (sem chave de API). Outras fontes foram removidas ("GDELT only").
 - **Geocodificação só pelo dicionário local**, sem serviço externo de geocoding. Vários slums usam a coordenada da cidade, de propósito. Para cobrir um novo lugar, adicione-o em `load_extended_database()` (isso também cria uma nova consulta, se for `type: 'slum'`).
-- **Sem filtro de data** nas consultas (o GDELT já devolve basicamente notícias recentes, ~0–7 dias).
+- **Sem filtro de data** nas consultas: cada consulta traz as 50 notícias mais recentes daquele termo, que podem ter semanas. A data de cada evento vem do `seendate` da GDELT (formato `AAAAMMDDTHHMMSSZ`); até 2026-11-02 um erro de leitura desse formato fazia todos os eventos receberem a data da rodada.
 - **CSV desativado**; só o JSON é gerado, e ele não é publicado.
 - **Categoria "other"** aparece no mapa e tem botão de filtro, mas fica fora do gráfico de barras.
 - **Legenda dinâmica**: as faixas de intensidade são calculadas em Python (`calculate_legend_intervals`) e repetidas em JS (`getIntensityColor`). Se mudar uma, mude a outra.
