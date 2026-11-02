@@ -25,8 +25,11 @@ from collections import Counter
 
 import requests
 
+sys.path.insert(0, os.path.dirname(__file__))
+from gkg_prototype import AMBIGUOUS_NAMES, RefinedSlumMapper  # noqa: E402
+
 DEFAULT_ENDPOINT = 'http://localhost:11434/v1/chat/completions'
-PROMPT_VERSION = '2026-11-02.1'
+PROMPT_VERSION = '2026-11-02.2'
 
 EVENT_TYPES = {
     'eviction': 'Despejo/remoção', 'demolition': 'Demolição', 'protest': 'Protesto',
@@ -46,21 +49,51 @@ For each item decide:
 relevant:
   "yes" only if an informal settlement, or its residents as residents of it, is the CENTRAL
         subject of the article (e.g. eviction or demolition of a favela, fire in a shantytown,
-        police operation inside a favela, slum upgrading policy, data on slum population).
+        police operation or gang war inside a favela, slum upgrading, irregular occupation of
+        land, housing backlog of people living in informal dwellings, data on slum or
+        informal urban population).
   "no"  if the matching word is a coincidence (person, sports club, US "township" municipality,
         planned "township" development, generic "community", ordinary neighbourhood called
         "barriada"), or the settlement is only a backdrop to a city-wide or unrelated story.
   "uncertain" only when the headline genuinely cannot be decided either way.
 event_type: one of {', '.join(EVENT_TYPES)}. Use "not_applicable" when relevant is "no".
-reason: at most 20 words, in Portuguese.
+reason: at most 15 words, in Portuguese, only when relevant is "yes" or "uncertain";
+        use "" when relevant is "no".
+
+Each item has "clues" from our pipeline. They are strong evidence about the article body,
+which you cannot see, but not proof:
+  - a SLUMS theme clue means GDELT read the full text and found slum-related language;
+  - a settlement clue means a place name in the article is on our list of informal settlements.
+A known settlement where the event happens (shooting, police raid, fire, flood, demolition)
+makes the article "yes" even if the headline never says "slum" or "favela". Clues do not
+override an obvious coincidence (a sports club, a singer, a US township).
 
 Headlines can be in any language. Use the URL words and the GDELT locations as extra clues,
 but GDELT locations are often wrong. Answer only with JSON:
 {{"items": [{{"id": "...", "relevant": "...", "event_type": "...", "reason": "..."}}]}}"""
 
 
+def build_clues(row, db):
+    """Turn what the pre-filter found into short hints for the model."""
+    clues = []
+    terms = [t.strip() for t in row.get('terms', '').split(',') if t.strip()]
+    for t in terms:
+        if t == 'SLUMS':
+            clues.append('GDELT full-text analysis tagged this article with its SLUMS theme')
+            continue
+        entry = db.get(t.lower())
+        if entry and entry.get('type') == 'slum':
+            clue = f"'{t}' is on our list as an informal settlement in {entry['city']}, {entry['country']}"
+            if t.lower() in AMBIGUOUS_NAMES:
+                clue += ' (the word also has other common meanings)'
+            clues.append(clue)
+        else:
+            clues.append(f"keyword '{t}' matched")
+    return clues
+
+
 def call_model(endpoint, model, items, max_retries=4):
-    user = json.dumps([{k: it[k] for k in ('id', 'title', 'url', 'language', 'gdelt_locations')}
+    user = json.dumps([{k: it[k] for k in ('id', 'title', 'url', 'language', 'gdelt_locations', 'clues')}
                        for it in items], ensure_ascii=False)
     body = {
         'model': model, 'temperature': 0,
@@ -132,8 +165,10 @@ def main():
     # Labels typed outside the dropdown during the first labeling round
     fix = {'Violência e segurança pública': 'Violência/operação policial',
            'Crise habitacional / favelas': 'Política habitacional'}
+    db = RefinedSlumMapper().location_db
     for r in rows:
         r['event_type'] = fix.get(r['event_type'], r['event_type'])
+        r['clues'] = build_clues(r, db)
     todo = rows[:args.limit] if args.limit else rows
 
     tokens_used = Counter()
@@ -160,7 +195,7 @@ def main():
     with open(out, 'w', encoding='utf-8-sig', newline='') as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
-        w.writerows(todo)
+        w.writerows({**r, 'clues': '; '.join(r['clues'])} for r in todo)
 
     print(f'\nModel {args.model} | prompt {PROMPT_VERSION} | {len(todo)} items in '
           f'{time.perf_counter() - t0:.0f}s | tokens {dict(tokens_used)}')
