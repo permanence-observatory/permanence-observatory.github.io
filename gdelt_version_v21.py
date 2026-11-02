@@ -920,8 +920,8 @@ class RefinedSlumMapper:
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         body {{ margin: 0; font-family: Arial, sans-serif; background: #1a1a1a; }}
-        #map {{ height: 100vh; width: 100%; }}
-        
+        #map {{ height: 100vh; width: 100%; background: #1a1a1a; }}
+
         /* COMBINED LEFT PANEL - Info + Legend + Bar Chart */
         .left-panel {{
             position: absolute; top: 80px; left: 10px;
@@ -1098,10 +1098,14 @@ class RefinedSlumMapper:
         const eventsData = {events_json};
         const map = L.map('map').setView([{avg_lat}, {avg_lon}], 2);
 
-        // DARK MODE TILES - CartoDB Dark Matter
-        L.tileLayer('https://{{s}}.basemaps.cartocdn.com/dark_all/{{z}}/{{x}}/{{y}}{{r}}.png', {{
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        // DARK MODE TILES - OpenStreetMap (free, no API key) + CSS dark filter
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{{z}}/{{y}}/{{x}}', {{
+            maxZoom: 16,
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+        }}).addTo(map);
+        // Labels (country/city names) on top of the dark base
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{{z}}/{{y}}/{{x}}', {{
+            maxZoom: 16
         }}).addTo(map);
 
         // Store all markers and filtered markers
