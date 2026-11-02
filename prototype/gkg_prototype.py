@@ -27,6 +27,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import zipfile
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -50,6 +51,40 @@ C_THEMES, C_LOCATIONS, C_ALLNAMES, C_TRANSLATION, C_EXTRAS = 7, 9, 23, 25, 26
 
 LOCATION_TYPES = {'1': 'country', '2': 'us_state', '3': 'us_city', '4': 'world_city', '5': 'world_adm1'}
 TITLE_RE = re.compile(r'<PAGE_TITLE>(.*?)</PAGE_TITLE>', re.S)
+
+# How GKG may spell countries that the location database names differently
+COUNTRY_ALIASES = {'DRC': ['Congo'], 'Ivory Coast': ["Cote d'Ivoire", 'Ivory Coast']}
+
+# Settlement names that are also common words, person names or whole districts.
+# Initial list from the 2026-11-02 sample; these also need the city to match.
+AMBIGUOUS_NAMES = {
+    'alexandra', 'medina', 'bello', 'sadar', 'jamestown', 'langa', 'el alto',
+    'masina', 'basti', 'jhuggi', 'matonge', 'comas', 'badia', 'yeka', 'uttara',
+    'mirpur', 'mohammadpur', 'soacha', 'agege', 'mushin', 'bariga',
+}
+
+
+def fold(text):
+    """Lowercase and strip accents, so 'Bogotá' matches 'Bogota'."""
+    return ''.join(c for c in unicodedata.normalize('NFKD', text.lower()) if not unicodedata.combining(c))
+
+
+def confirm_names(hit_names, locations, location_db):
+    """Keep a settlement name only if GKG located the article in the same country
+    (and, for ambiguous names, the same city)."""
+    places = fold(' | '.join(l['name'] for l in locations))
+    confirmed = []
+    for name in hit_names:
+        entry = location_db.get(name)
+        if not entry:
+            continue
+        countries = [entry['country']] + COUNTRY_ALIASES.get(entry['country'], [])
+        if not any(fold(c) in places for c in countries):
+            continue
+        if name in AMBIGUOUS_NAMES and fold(entry['city']) not in places:
+            continue
+        confirmed.append(name)
+    return confirmed
 
 
 def build_matcher(terms):
@@ -158,19 +193,23 @@ def main():
                 hit_theme = sorted(themes & TARGET_THEMES)
                 hit_name = sorted({x.lower() for x in name_re.findall(f"{title_url} {row[C_ALLNAMES]} {loc_names}")})
                 hit_kw = sorted({x.lower() for x in kw_re.findall(title_url)})
-                if not (hit_theme or hit_name or hit_kw):
+                name_ok = confirm_names(hit_name, locations, mapper.location_db)
+                if hit_name and not name_ok:
+                    stats['names_rejected_by_location'] += 1
+                if not (hit_theme or name_ok or hit_kw):
                     continue
 
                 lang = row[C_TRANSLATION].split(';')[0].replace('srclc:', '') if row[C_TRANSLATION] else 'eng'
                 matches[url] = {
                     'url': url, 'source': row[C_SOURCE], 'gkg_date': row[C_DATE], 'feed': feed,
                     'language': lang, 'title': title,
-                    'hit_theme': hit_theme, 'hit_name': hit_name, 'hit_keyword': hit_kw,
+                    'hit_theme': hit_theme, 'hit_name': name_ok, 'hit_name_raw': hit_name,
+                    'hit_keyword': hit_kw,
                     'locations': locations[:10],
                     'themes': sorted(themes),
                 }
                 langs[lang] += 1
-                for t in hit_name:
+                for t in name_ok:
                     term_hits[('name', t)] += 1
                 for t in hit_kw:
                     term_hits[('keyword', t)] += 1
@@ -213,6 +252,7 @@ def main():
         'records_en': stats['records_en'], 'records_translation': stats['records_translation'],
         'unique_urls_seen': len(all_urls),
         'matches': len(m), 'matches_by_criterion': dict(by.most_common()),
+        'records_whose_names_were_all_rejected': stats['names_rejected_by_location'],
         'languages': dict(langs.most_common(15)),
         'location_types_in_matches': dict(loc_types.most_common()),
         'top_terms': [f"{k}:{t} = {c}" for (k, t), c in term_hits.most_common(40)],
