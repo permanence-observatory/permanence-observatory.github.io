@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import csv
 import json
 import os
 import random
@@ -69,6 +70,56 @@ def balanced_sample(records, size, seed):
     return sample
 
 
+def term_key(r):
+    """The term that put a record in the sample; None for the GKG theme."""
+    if r['_criterion'] == 'name':
+        return r['hit_name'][0].lower()
+    if r['_criterion'] == 'keyword':
+        return r['hit_keyword'][0].lower()
+    return None
+
+
+def weighted_sample(records, size, shares, term_cap, seed):
+    """Fill a quota per criterion, cycling through languages, with at most
+    term_cap records per matched term, so frequent noisy terms (township,
+    comunidades...) do not crowd out the rest. Unused quota goes to the
+    other criteria."""
+    rng = random.Random(seed)
+    pools = defaultdict(lambda: defaultdict(list))
+    for r in records:
+        pools[r['_criterion']][r['language']].append(r)
+    for langs in pools.values():
+        for g in langs.values():
+            rng.shuffle(g)
+    used = Counter()
+    sample = []
+
+    def take(criterion, quota):
+        langs = pools[criterion]
+        got = 0
+        while got < quota and any(langs.values()):
+            for lang in sorted(langs):
+                if got >= quota or not langs[lang]:
+                    continue
+                r = langs[lang].pop()
+                key = term_key(r)
+                if key and term_cap and used[key] >= term_cap:
+                    continue
+                used[key] += 1
+                sample.append(r)
+                got += 1
+        return got
+
+    total = sum(shares.values())
+    for criterion, share in shares.items():
+        take(criterion, round(size * share / total))
+    for criterion in shares:
+        if len(sample) < size:
+            take(criterion, size - len(sample))
+    rng.shuffle(sample)
+    return sample[:size]
+
+
 def write_instructions(ws, source_file, counts):
     ws.title = 'Instruções'
     ws.column_dimensions['A'].width = 34
@@ -81,10 +132,11 @@ def write_instructions(ws, source_file, counts):
                      'considerou candidata.'),
         ('O que preencher', 'Apenas as colunas com fundo amarelo (J a O) da aba "Rotulagem". '
                             'Abra o link quando o título não for suficiente para decidir.'),
-        ('Sobre assentamento informal?', 'Sim: a notícia trata de uma favela, assentamento informal, ocupação '
-                                         'ou de seus moradores. Não: o termo aparece por outro motivo (nome de '
-                                         'pessoa, time de futebol, bairro comum, sentido figurado). Incerto: '
-                                         'não dá para decidir nem lendo a notícia.'),
+        ('Sobre assentamento informal?', 'Sim: o tema central da notícia é uma favela, assentamento informal ou '
+                                         'ocupação, ou seus moradores enquanto moradores dele. Não: o termo aparece '
+                                         'por outro motivo (nome de pessoa, time de futebol, bairro comum, sentido '
+                                         'figurado) ou o assentamento é só cenário de uma notícia sobre outro '
+                                         'assunto. Incerto: não dá para decidir nem lendo a notícia.'),
         ('Tipo de evento', 'O assunto principal da notícia. Se não for sobre assentamento informal, use '
                            '"Não se aplica".'),
         ('Local correto?', 'Compare a coluna H (locais que o GDELT extraiu) com o local real da notícia. '
@@ -101,8 +153,9 @@ def write_instructions(ws, source_file, counts):
         ('  Rotulado por', 'JP'),
         ('  Observações', 'Também menciona protesto; o assunto principal é a demolição'),
         ('', ''),
-        ('Origem dos dados', f'{source_file}. Amostra equilibrada por critério e idioma, só idiomas que a '
-                             'equipe lê (inglês, português, espanhol, francês). Títulos repetidos foram removidos.'),
+        ('Origem dos dados', f'{source_file}. Amostra distribuída por critério e idioma, só idiomas que a '
+                             'equipe lê (inglês, português, espanhol, francês). Títulos repetidos ou já '
+                             'rotulados antes foram removidos.'),
         ('Composição da amostra', counts),
     ]
     for i, (a, b) in enumerate(rows, 1):
@@ -113,7 +166,7 @@ def write_instructions(ws, source_file, counts):
         ws.cell(i, 1).alignment = Alignment(vertical='top')
 
 
-def write_labels(ws, sample):
+def write_labels(ws, sample, id_prefix='R'):
     ws.title = 'Rotulagem'
     info_cols = [
         ('ID', 7), ('Idioma', 11), ('Veículo', 22), ('Título', 60), ('Link', 30),
@@ -138,7 +191,7 @@ def write_labels(ws, sample):
         places = '; '.join(l['name'] for l in r['locations'][:3])
         d = r['gkg_date']
         values = [
-            f"R{i - 1:03d}", LANGUAGES[r['language']], r['source'], r['title'], r['url'],
+            f"{id_prefix}{i - 1:03d}", LANGUAGES[r['language']], r['source'], r['title'], r['url'],
             CRITERIA[r['_criterion']], ', '.join(terms), places,
             f"{d[:4]}-{d[4:6]}-{d[6:8]} {d[8:10]}:{d[10:12]}",
         ]
@@ -165,9 +218,15 @@ def write_labels(ws, sample):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('matches')
+    ap.add_argument('matches', nargs='+')
     ap.add_argument('--size', type=int, default=200)
     ap.add_argument('--seed', type=int, default=42)
+    ap.add_argument('--exclude', nargs='*', default=[],
+                    help='CSV files with a "title" column already labeled; skip those titles')
+    ap.add_argument('--shares', help='quota per criterion, e.g. theme=55,name=30,keyword=15 '
+                                     '(default: equal round-robin over criterion and language)')
+    ap.add_argument('--term-cap', type=int, default=0, help='max records per matched term (0 = no cap)')
+    ap.add_argument('--id-prefix', default='R')
     ap.add_argument('--out')
     args = ap.parse_args()
     if hasattr(sys.stdout, 'reconfigure'):
@@ -175,36 +234,48 @@ def main():
 
     db = RefinedSlumMapper().location_db
     records, seen_titles = [], set()
+    for path in args.exclude:
+        with open(path, encoding='utf-8-sig') as f:
+            seen_titles.update(r['title'].strip().lower() for r in csv.DictReader(f))
     before = Counter()
-    with open(args.matches, encoding='utf-8') as f:
-        for line in f:
-            r = json.loads(line)
-            # Older outputs stored unconfirmed names in hit_name
-            raw = r.get('hit_name_raw', r['hit_name'])
-            r['hit_name'] = confirm_names(raw, r['locations'], db)
-            r['_criterion'] = primary_criterion(r)
-            before['all'] += 1
-            if not r['_criterion']:
-                before['dropped_by_location_check'] += 1
-                continue
-            before['candidates'] += 1
-            if r['language'] not in LANGUAGES:
-                continue
-            key = r['title'].strip().lower()
-            if not key or key in seen_titles:
-                continue
-            seen_titles.add(key)
-            records.append(r)
+    lines = []
+    for path in args.matches:
+        with open(path, encoding='utf-8') as f:
+            lines.extend(f)
+    for line in lines:
+        r = json.loads(line)
+        # Older outputs stored unconfirmed names in hit_name
+        raw = r.get('hit_name_raw', r['hit_name'])
+        r['hit_name'] = confirm_names(raw, r['locations'], db)
+        r['_criterion'] = primary_criterion(r)
+        before['all'] += 1
+        if not r['_criterion']:
+            before['dropped_by_location_check'] += 1
+            continue
+        before['candidates'] += 1
+        if r['language'] not in LANGUAGES:
+            continue
+        key = r['title'].strip().lower()
+        if not key or key in seen_titles:
+            continue
+        seen_titles.add(key)
+        records.append(r)
 
-    sample = balanced_sample(records, args.size, args.seed)
+    if args.shares:
+        shares = {k: float(v) for k, v in (p.split('=') for p in args.shares.split(','))}
+        sample = weighted_sample(records, args.size, shares, args.term_cap, args.seed)
+    else:
+        sample = balanced_sample(records, args.size, args.seed)
     comp = Counter((CRITERIA[r['_criterion']], LANGUAGES[r['language']]) for r in sample)
     counts = '; '.join(f'{c} / {l}: {n}' for (c, l), n in sorted(comp.items()))
 
+    sources = ', '.join(os.path.basename(p) for p in args.matches)
     wb = Workbook()
-    write_instructions(wb.active, os.path.basename(args.matches), counts)
-    write_labels(wb.create_sheet(), sample)
-    out = args.out or os.path.join(os.path.dirname(args.matches),
-                                   'rotulagem_' + os.path.basename(args.matches).split('_', 1)[1].split('_')[0] + '.xlsx')
+    write_instructions(wb.active, sources, counts)
+    write_labels(wb.create_sheet(), sample, args.id_prefix)
+    first = args.matches[0]
+    out = args.out or os.path.join(os.path.dirname(first),
+                                   'rotulagem_' + os.path.basename(first).split('_', 1)[1].split('_')[0] + '.xlsx')
     wb.save(out)
 
     print(f"Records in file: {before['all']}")
