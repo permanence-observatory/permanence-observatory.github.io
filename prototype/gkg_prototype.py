@@ -130,30 +130,17 @@ def url_text(url):
     return re.sub(r'[\W_]+', ' ', path)
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('--date', required=True, help='UTC day, YYYY-MM-DD')
-    ap.add_argument('--every', type=int, default=1, help='use 1 of every N 15-min files (sampling)')
-    ap.add_argument('--feeds', default='en,translation')
-    ap.add_argument('--workers', type=int, default=4)
-    ap.add_argument('--out', default=os.path.join(os.path.dirname(__file__), 'output'))
-    ap.add_argument('--compare', default=os.path.join(os.path.dirname(__file__), '..', 'index.html'),
-                    help='published map to compare against')
-    args = ap.parse_args()
-    os.makedirs(args.out, exist_ok=True)
-    if hasattr(sys.stdout, 'reconfigure'):
-        sys.stdout.reconfigure(encoding='utf-8')  # titles come in many scripts
-
-    mapper = RefinedSlumMapper()
+def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None):
+    """Download one UTC day of GKG files and return (matches, stats, counters, all_urls)."""
+    mapper = mapper or RefinedSlumMapper()
     slum_names = [n for n, d in mapper.location_db.items() if d['type'] == 'slum']
     keywords = [k for lang in mapper.slum_keywords.values() for k in lang]
     name_re = build_matcher(slum_names)
     kw_re = build_matcher(keywords)
 
-    feeds = args.feeds.split(',')
     jobs = [(feed, ts, f"{BASE}/{FEEDS[feed].format(ts=ts)}")
-            for ts in timestamps(args.date, args.every) for feed in feeds]
-    print(f"{len(jobs)} files to fetch ({args.date}, 1 in {args.every} slots, feeds={feeds})")
+            for ts in timestamps(day, every) for feed in feeds]
+    print(f"{len(jobs)} files to fetch ({day}, 1 in {every} slots, feeds={list(feeds)})")
 
     stats = Counter()
     term_hits, co_themes, langs, loc_types = Counter(), Counter(), Counter(), Counter()
@@ -161,7 +148,7 @@ def main():
     t0 = time.perf_counter()
     parse_time = 0.0
 
-    with ThreadPoolExecutor(args.workers) as pool:
+    with ThreadPoolExecutor(workers) as pool:
         futures = {pool.submit(download, url): (feed, ts) for feed, ts, url in jobs}
         for n, fut in enumerate(as_completed(futures), 1):
             feed, ts = futures[fut]
@@ -219,8 +206,32 @@ def main():
             if n % 10 == 0:
                 print(f"  {n}/{len(jobs)} files, {len(matches)} matches so far", flush=True)
 
-    total = time.perf_counter() - t0
-    m = list(matches.values())
+    stats['seconds_total'] = time.perf_counter() - t0
+    stats['seconds_parsing'] = parse_time
+    counters = {'term_hits': term_hits, 'co_themes': co_themes, 'langs': langs, 'loc_types': loc_types}
+    return list(matches.values()), stats, counters, all_urls
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--date', required=True, help='UTC day, YYYY-MM-DD')
+    ap.add_argument('--every', type=int, default=1, help='use 1 of every N 15-min files (sampling)')
+    ap.add_argument('--feeds', default='en,translation')
+    ap.add_argument('--workers', type=int, default=4)
+    ap.add_argument('--out', default=os.path.join(os.path.dirname(__file__), 'output'))
+    ap.add_argument('--compare', default=os.path.join(os.path.dirname(__file__), '..', 'index.html'),
+                    help='published map to compare against')
+    args = ap.parse_args()
+    os.makedirs(args.out, exist_ok=True)
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')  # titles come in many scripts
+
+    feeds = args.feeds.split(',')
+    m, stats, counters, all_urls = collect(args.date, args.every, feeds, args.workers)
+    matches = {r['url']: r for r in m}
+    term_hits, co_themes = counters['term_hits'], counters['co_themes']
+    langs, loc_types = counters['langs'], counters['loc_types']
+    total, parse_time = stats['seconds_total'], stats['seconds_parsing']
     by = Counter()
     for r in m:
         key = '+'.join(k for k in ('theme', 'name', 'keyword') if r[f'hit_{k}'])
