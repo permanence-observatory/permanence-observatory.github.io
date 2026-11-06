@@ -47,7 +47,7 @@ jobs:
         run: |
           mkdir -p results
           SAFE=$(echo "${{ matrix.model }}" | tr ':/' '--')
-          python prototype/classify_llm.py prototype/data/reference_2026-11-02.csv \
+          python prototype/classify_llm.py prototype/data/reference_2026-11-05_proxy.csv \
             --model "${{ matrix.model }}" \
             --out "results/pred_${SAFE}.csv" 2>&1 | tee "results/log_${SAFE}.txt"
           nproc > "results/machine_${SAFE}.txt"; free -g >> "results/machine_${SAFE}.txt"
