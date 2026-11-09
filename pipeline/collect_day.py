@@ -34,18 +34,84 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 sys.path.insert(0, os.path.join(ROOT, 'prototype'))
 from classify_llm import (DEFAULT_ENDPOINT, EVENT_TYPES, PROMPT_VERSION,  # noqa: E402
                           call_model)
-from gkg_prototype import collect, fold, url_text  # noqa: E402
+from gkg_prototype import AMBIGUOUS_NAMES, collect, fold, url_text  # noqa: E402
 
-PIPELINE_VERSION = '2026-11-06.1'
+PIPELINE_VERSION = '2026-11-09.1'
 
-# Removal words, matched on accent-free lowercase title + URL words
-REMOVAL_RE = re.compile(
-    r'\b(evict\w*|demoli\w*|bulldoz\w*|razed|desaloj\w*|desmantel\w*|despej\w*|'
+# Removal words, matched on accent-free lowercase title + URL words.
+# Strong words almost always mean removal of homes; weak ones also mean
+# "evacuate" or "clear a road" in Spanish, so they need more evidence.
+STRONG_REMOVAL_RE = re.compile(
+    r'\b(evict\w*|demoli\w*|bulldoz\w*|razed|desmantel\w*|despejos?|despejad[ao]s?|'
     r'remoc\w*|reintegracao de posse|deguerpi\w*|demantel\w*)\b')
+WEAK_REMOVAL_RE = re.compile(r'\b(desaloj\w*|despej\w*)\b')
+
+# Settlement names that are whole districts or municipalities: seeing one in a
+# headline says nothing about an informal settlement.
+LARGE_DISTRICTS = {
+    'ecatepec', 'iztapalapa', 'tlahuac', 'soweto', 'khayelitsha', 'mitchells plain',
+    'villa el salvador', 'el alto', 'ciudad bolivar', 'soacha', 'pikine', 'guediawaye',
+}
 
 
-def removal_terms(record):
-    return sorted(set(REMOVAL_RE.findall(fold(f"{record['title']} {url_text(record['url'])}"))))
+def removal_check(record, ambiguous_names):
+    """Return (terms, flag): flag is True when the record looks like a removal story.
+    Strong word + any settlement evidence (theme, keyword or a specific name in the
+    title/URL) flags it; a weak word needs a keyword or specific name in the title/URL."""
+    text = fold(f"{record['title']} {url_text(record['url'])}")
+    strong = set(STRONG_REMOVAL_RE.findall(text))
+    weak = set(WEAK_REMOVAL_RE.findall(text)) - strong
+    specific_name = any(n in text for n in record['hit_name']
+                        if n not in LARGE_DISTRICTS and n not in ambiguous_names)
+    in_title = bool(record['hit_keyword']) or specific_name
+    flag = bool(strong and (in_title or record['hit_theme'])) or bool(weak and in_title)
+    return sorted(strong | weak), flag
+
+
+def assign_stories(records, day, min_shared=3, max_df=0.05):
+    """Group records that tell the same story. Two titles are linked when they share
+    at least min_shared words that are rare that day (in at most max_df of titles),
+    or a rare two-word proper name ("Kim Liên", "Los Asperones").
+    Approximate: catches reprints and rewrites in the same language."""
+    words = [set(w for w in re.findall(r'\w+', fold(r['title'])) if len(w) >= 3 and not w.isdigit())
+             for r in records]
+    df = Counter(w for ws in words for w in ws)
+    limit = max(3, max_df * len(records))
+    rare = [{w for w in ws if df[w] <= limit} for ws in words]
+    # Two capitalized words in a row; a big story makes its own name common, so
+    # names get a looser limit than single words
+    names = []
+    for r in records:
+        tokens = re.findall(r'\w+', r['title'])
+        names.append({f'{fold(a)} {fold(b)}' for a, b in zip(tokens, tokens[1:])
+                      if a[:1].isupper() and b[:1].isupper() and len(a) >= 3 and len(b) >= 3})
+    name_df = Counter(n for ns in names for n in ns)
+    for ws, ns in zip(rare, names):
+        ws.update(n for n in ns if name_df[n] <= 3 * limit)  # counts as enough on its own, see below
+    parent = list(range(len(records)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    by_word = {}
+    for i, ws in enumerate(rare):
+        for w in ws:
+            by_word.setdefault(w, []).append(i)
+    shared = Counter()
+    for w, idx in by_word.items():
+        weight = min_shared if ' ' in w else 1  # a shared proper name links on its own
+        for a in range(len(idx)):
+            for b in range(a + 1, len(idx)):
+                shared[(idx[a], idx[b])] += weight
+    for (a, b), n in shared.items():
+        if n >= min_shared or (records[a]['title'] and records[a]['title'].lower() == records[b]['title'].lower()):
+            parent[find(a)] = find(b)
+    ids = {}
+    for i, r in enumerate(records):
+        r['story_id'] = f"{day}-{ids.setdefault(find(i), len(ids) + 1):04d}"
 
 
 def classify(records, model, endpoint, batch):
@@ -83,6 +149,25 @@ def classify(records, model, endpoint, batch):
             print(f"   {done}/{len(unique)} ({(time.perf_counter() - t0) / done:.1f}s per title)", flush=True)
 
 
+def summarize(records, day):
+    """Daily numbers for monitoring: a sudden jump or drop points to a problem."""
+    relevant = [r for r in records if r['relevant'] == 'yes']
+    stories = {}
+    for r in relevant:
+        stories.setdefault(r['story_id'], []).append(r)
+    return {
+        'date': day,
+        'candidates': len(records),
+        'relevant': dict(Counter(str(r['relevant']) for r in records)),
+        'stories_relevant': len(stories),
+        'flagged_for_review': sum(r['review'] for r in records),
+        'event_types_by_story': dict(Counter(g[0]['event_type'] for g in stories.values()).most_common()),
+        'languages_relevant': dict(Counter(r['language'] for r in relevant).most_common()),
+        'top_stories': [{'story_id': sid, 'records': len(g), 'title': g[0]['title']}
+                        for sid, g in sorted(stories.items(), key=lambda kv: -len(kv[1]))[:10]],
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--date', help='UTC day YYYY-MM-DD (default: yesterday)')
@@ -96,6 +181,7 @@ def main():
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8')
     day = args.date or (datetime.now(timezone.utc) - timedelta(days=1)).strftime('%Y-%m-%d')
+    t_start = time.perf_counter()
 
     records, stats, _, _ = collect(day, args.every)
     if args.no_llm:
@@ -106,12 +192,13 @@ def main():
 
     flagged = 0
     for r in records:
-        terms = removal_terms(r)
+        terms, looks_like_removal = removal_check(r, AMBIGUOUS_NAMES)
         r['removal_terms'] = terms
-        r['review'] = bool(terms) and r['relevant'] in ('no', None)
+        r['review'] = looks_like_removal and r['relevant'] in ('no', None)
         if r['review'] and r['relevant'] == 'no':
             r['relevant'] = 'uncertain'
         flagged += r['review']
+    assign_stories(records, day)
 
     meta = {'collected_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
             'pipeline_version': PIPELINE_VERSION,
@@ -121,16 +208,21 @@ def main():
     folder = os.path.join(args.out, day[:4], day[5:7])
     os.makedirs(folder, exist_ok=True)
     path = os.path.join(folder, f'{day}.jsonl')
-    keep = ('url', 'source', 'gkg_date', 'language', 'title', 'hit_theme', 'hit_name', 'hit_keyword',
+    keep = ('url', 'source', 'gkg_date', 'language', 'title', 'story_id', 'hit_theme', 'hit_name', 'hit_keyword',
             'locations', 'relevant', 'event_type', 'reason', 'removal_terms', 'review')
     with open(path, 'w', encoding='utf-8') as f:
         for r in sorted(records, key=lambda r: (r['gkg_date'], r['url'])):
             r['locations'] = r['locations'][:5]  # keeps the history file small
             f.write(json.dumps({**{k: r[k] for k in keep}, **meta}, ensure_ascii=False) + '\n')
 
-    counts = Counter(r['relevant'] for r in records)
-    print(f"\n{day}: {len(records)} candidates from {stats['files_ok']} files "
-          f"({stats['files_missing']} missing) | relevant {dict(counts)} | flagged for review {flagged}")
+    summary = summarize(records, day)
+    summary.update(meta, files_ok=stats['files_ok'], files_missing=stats['files_missing'],
+                   seconds_total=round(time.perf_counter() - t_start))
+    with open(os.path.join(folder, f'{day}.summary.json'), 'w', encoding='utf-8') as f:
+        json.dump(summary, f, indent=2, ensure_ascii=False)
+
+    print(f"\n{day}: {len(records)} candidates from {stats['files_ok']} files ({stats['files_missing']} missing)")
+    print(json.dumps({k: summary[k] for k in ('relevant', 'stories_relevant', 'flagged_for_review')}, ensure_ascii=False))
     print(f"Saved {path}")
     if stats['files_ok'] == 0:
         sys.exit('No GKG files downloaded')
