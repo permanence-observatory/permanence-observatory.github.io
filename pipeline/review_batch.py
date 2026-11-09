@@ -23,6 +23,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from collect_day import AMBIGUOUS_NAMES, assign_stories, removal_check  # noqa: E402
 
+READABLE = {'por', 'spa', 'eng', 'fra'}  # languages the team reads; others get a translation
+
 
 def load(path):
     with open(path, encoding='utf-8') as f:
@@ -47,6 +49,9 @@ def main():
     ap.add_argument('--batch', help='batch name (default: the day, or first~last)')
     ap.add_argument('--sample', type=int, default=20, help='discarded stories to sample')
     ap.add_argument('--seed', type=int, default=1)
+    ap.add_argument('--translations', help='JSON file {original title: Portuguese title} shown to reviewers')
+    ap.add_argument('--list-untranslated', action='store_true',
+                    help='print the titles in languages other than por/spa/eng/fra and stop')
     ap.add_argument('--out', required=True)
     args = ap.parse_args()
     if hasattr(sys.stdout, 'reconfigure'):
@@ -79,19 +84,33 @@ def main():
               + [(s, 'sample') for s in rng.sample(discarded, min(args.sample, len(discarded)))])
     rng.shuffle(picked)
 
+    def face_of(group):
+        # Show the relevant record (or the flagged one, or the first) as the story's face
+        return next((r for r in group if r['relevant'] == 'yes'), next((r for r in group if r['review']), group[0]))
+
+    if args.list_untranslated:
+        titles = sorted({face_of(stories[s])['title'] for s, _ in picked
+                         if face_of(stories[s])['language'] not in READABLE and face_of(stories[s])['title']})
+        print(json.dumps({t: '' for t in titles}, ensure_ascii=False, indent=1))
+        return
+    translations = {}
+    if args.translations:
+        with open(args.translations, encoding='utf-8') as f:
+            translations = json.load(f)
+
     os.makedirs(args.out, exist_ok=True)
     manifest = []
     for order, (sid, k) in enumerate(picked, 1):
         g = stories[sid]
-        # Show the relevant record (or the first) as the story's face
-        face = next((r for r in g if r['relevant'] == 'yes'), next((r for r in g if r['review']), g[0]))
+        face = face_of(g)
         others = []
         for r in g:
             if r['title'] and r['title'] != face['title'] and r['title'] not in others:
                 others.append(r['title'])
         doc = {
             'batch': batch, 'order': order, 'kind': k, 'story_id': sid,
-            'title': face['title'] or '(sem título)', 'url': face['url'], 'source': face['source'],
+            'title': face['title'] or '(sem título)', 'title_pt': translations.get(face['title']) or None,
+            'url': face['url'], 'source': face['source'],
             'language': face['language'], 'records': len(g), 'other_titles': others[:3],
             'removal_terms': face.get('removal_terms', []),
             'model': {'relevant': face['relevant'], 'event_type': face['event_type'],
