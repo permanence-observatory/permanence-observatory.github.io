@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-08",
+  "candidates": 565,
+  "relevant": {
+    "no": 549,
+    "yes": 15,
+    "uncertain": 1
+  },
+  "stories_relevant": 15,
+  "flagged_for_review": 1,
+  "event_types_by_story": {
+    "upgrading_infrastructure": 8,
+    "protest": 5,
+    "demolition": 1,
+    "housing_policy": 1
+  },
+  "languages_relevant": {
+    "por": 5,
+    "eng": 4,
+    "spa": 3,
+    "hin": 1,
+    "mar": 1,
+    "fra": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-08-0014",
+      "records": 1,
+      "title": "Chembur Hutment Dwellers Move Bombay HC Against Proposed Demolition; Seek Survey And Rehabilitation For 3,500 Residents"
+    },
+    {
+      "story_id": "2026-11-08-0024",
+      "records": 1,
+      "title": "Expo Favela reúne 150 empreendedores e recebe mais de 15 mil visitantes no RS"
+    },
+    {
+      "story_id": "2026-11-08-0004",
+      "records": 1,
+      "title": "El asombro del mundo: medios hablan de \"histórica\" visita del papa a Uruguay y resaltan pobreza extrema de Casavalle"
+    },
+    {
+      "story_id": "2026-11-08-0097",
+      "records": 1,
+      "title": "Armed gangs backing squatters - Jamaica Observer"
+    },
+    {
+      "story_id": "2026-11-08-0099",
+      "records": 1,
+      "title": "Frame Policy To Prevent Garbage Dumping In Slum Areas, Bombay HC Tells Maharashtra Government"
+    },
+    {
+      "story_id": "2026-11-08-0131",
+      "records": 1,
+      "title": "Comunidade se mobiliza para garantir permanência da Feira da Ponta Norte"
+    },
+    {
+      "story_id": "2026-11-08-0173",
+      "records": 1,
+      "title": "Além da foto na laje: conheça cinco passeios diferentes que moradores da Rocinha estão preparando para turistas"
+    },
+    {
+      "story_id": "2026-11-08-0190",
+      "records": 1,
+      "title": ""
+    },
+    {
+      "story_id": "2026-11-08-0205",
+      "records": 1,
+      "title": "Bombay High Court: मुबंईच्या झोपडपट्टीतील कचऱ्याची  दखल  उच्च न्यायालयाने घेतली; राज्य सरकारला धाडले निर्देश,एका आठवड्यात नोटिसा पाठवणार"
+    },
+    {
+      "story_id": "2026-11-08-0227",
+      "records": 1,
+      "title": "PM cancela show de Natanzinho em Paraisópolis e comunidade se revolta"
+    }
+  ],
+  "collected_at": "2026-11-09T13:34:07Z",
+  "pipeline_version": "2026-11-09.1",
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-02.1",
+  "every": 1,
+  "files_ok": 192,
+  "files_missing": 0,
+  "seconds_total": 3939
+}
