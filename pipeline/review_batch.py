@@ -3,8 +3,9 @@
 Build a review batch from one or more daily history files.
 
 One item per story (repeated reprints count once):
-  - every story the model marked relevant,
-  - every story flagged by the removal rule,
+  - every story the model marked relevant or as a removal,
+  - every story flagged by the removal rule, and every story with a removal word
+    even if discarded (removals are rare, so all of them are checked),
   - a random sample of stories the model discarded (to estimate what it misses).
 Items are shuffled and carry the model's answer, which the review page shows
 only after the reviewer answers. Writes one JSON file per item plus the batch
@@ -40,6 +41,10 @@ def load(path):
             if r['review'] and r['relevant'] == 'no':
                 r['relevant'] = 'uncertain'
         assign_stories(records, day)
+    for r in records:
+        # Files classified before topics and the removal question
+        r.setdefault('topics', [])
+        r.setdefault('removal', None)
     return records
 
 
@@ -66,10 +71,14 @@ def main():
         stories.setdefault(r['story_id'], []).append(r)
 
     def kind(group):
-        if any(r['relevant'] == 'yes' for r in group):
-            return 'relevant'
+        if any(r['removal'] for r in group):
+            return 'removal'
         if any(r['review'] for r in group):
             return 'flagged'
+        if any(r['relevant'] == 'yes' for r in group):
+            return 'relevant'
+        if any(r.get('removal_terms') for r in group):
+            return 'removal_terms'
         if all(r['relevant'] == 'no' for r in group):
             return 'discarded'
         return 'other'
@@ -79,14 +88,18 @@ def main():
         by_kind.setdefault(kind(g), []).append(sid)
     rng = random.Random(args.seed)
     discarded = sorted(by_kind.get('discarded', []))
-    picked = ([(s, 'relevant') for s in by_kind.get('relevant', [])]
-              + [(s, 'flagged') for s in by_kind.get('flagged', [])]
-              + [(s, 'sample') for s in rng.sample(discarded, min(args.sample, len(discarded)))])
+    picked = [(s, k) for k in ('removal', 'flagged', 'relevant', 'removal_terms') for s in by_kind.get(k, [])]
+    picked += [(s, 'sample') for s in rng.sample(discarded, min(args.sample, len(discarded)))]
     rng.shuffle(picked)
 
     def face_of(group):
         # Show the relevant record (or the flagged one, or the first) as the story's face
-        return next((r for r in group if r['relevant'] == 'yes'), next((r for r in group if r['review']), group[0]))
+        for test in (lambda r: r['removal'], lambda r: r['review'], lambda r: r['relevant'] == 'yes',
+                     lambda r: r.get('removal_terms')):
+            hit = next((r for r in group if test(r)), None)
+            if hit:
+                return hit
+        return group[0]
 
     if args.list_untranslated:
         titles = sorted({face_of(stories[s])['title'] for s, _ in picked
@@ -113,15 +126,16 @@ def main():
             'url': face['url'], 'source': face['source'],
             'language': face['language'], 'records': len(g), 'other_titles': others[:3],
             'removal_terms': face.get('removal_terms', []),
-            'model': {'relevant': face['relevant'], 'event_type': face['event_type'],
-                      'reason': face.get('reason') or ''},
+            'model': {'relevant': face['relevant'], 'topics': face['topics'], 'removal': face['removal'],
+                      'event_type': face.get('event_type'), 'reason': face.get('reason') or ''},
         }
         doc_id = f"{batch}~{order:03d}".replace('~', '_')
         with open(os.path.join(args.out, f'{doc_id}.json'), 'w', encoding='utf-8') as f:
             json.dump(doc, f, ensure_ascii=False)
         manifest.append(doc_id)
 
-    counts = {k: sum(1 for _, kk in picked if kk == k) for k in ('relevant', 'flagged', 'sample')}
+    counts = {k: sum(1 for _, kk in picked if kk == k)
+              for k in ('removal', 'flagged', 'relevant', 'removal_terms', 'sample')}
     batch_doc = {'name': batch, 'days': days, 'items': len(picked), 'counts': counts,
                  'candidates': len(records), 'stories': len(stories),
                  'discarded_stories': len(discarded)}

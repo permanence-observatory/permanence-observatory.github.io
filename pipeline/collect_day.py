@@ -8,10 +8,12 @@ UTC day it:
      that match the SLUMS theme, a settlement name (checked against the GKG
      locations) or a keyword  -- same filter as prototype/gkg_prototype.py;
   2. classifies each unique title with a local open model served by Ollama
-     (relevance + event type), using the prompt in prototype/classify_llm.py;
+     (broad relevance, one or more topics, and whether it is a removal story and
+     at which stage), using the prompt in prototype/classify_llm.py;
   3. never lets a removal story be dropped silently: if the title or URL has a
      removal word (eviction, desalojo, despejo, déguerpissement...) and the model
-     says "no", the record becomes "uncertain" and is flagged for review;
+     did not call it a removal, the record is flagged for review (and a "no"
+     becomes "uncertain");
   4. writes every candidate, relevant or not, to data/gkg/YYYY/MM/YYYY-MM-DD.jsonl,
      with the model name and prompt version, so the history can be re-checked or
      re-classified later.
@@ -32,11 +34,12 @@ from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 sys.path.insert(0, os.path.join(ROOT, 'prototype'))
-from classify_llm import (DEFAULT_ENDPOINT, EVENT_TYPES, PROMPT_VERSION,  # noqa: E402
-                          call_model)
+from classify_llm import (DEFAULT_ENDPOINT, PROMPT_VERSION, call_model,  # noqa: E402
+                          normalize_answer)
 from gkg_prototype import AMBIGUOUS_NAMES, collect, fold, url_text  # noqa: E402
 
-PIPELINE_VERSION = '2026-11-09.1'
+PIPELINE_VERSION = '2026-11-10.1'
+UNCLASSIFIED = {'relevant': None, 'topics': [], 'removal': None, 'reason': None}
 
 # Removal words, matched on accent-free lowercase title + URL words.
 # Strong words almost always mean removal of homes; weak ones also mean
@@ -137,13 +140,9 @@ def classify(records, model, endpoint, batch):
         by_id = {str(a.get('id')): a for a in answers if isinstance(a, dict)}
         for j, g in enumerate(group):
             a = by_id.get(str(j)) or (answers[j] if len(answers) == len(group) and isinstance(answers[j], dict) else None)
+            answer = UNCLASSIFIED if a is None else normalize_answer(a)
             for r in g:
-                if a is None:
-                    r.update(relevant=None, event_type=None, reason=None)
-                else:
-                    r.update(relevant=a.get('relevant') if a.get('relevant') in ('yes', 'no', 'uncertain') else 'uncertain',
-                             event_type=a.get('event_type') if a.get('event_type') in EVENT_TYPES else 'other',
-                             reason=a.get('reason', ''))
+                r.update({**answer, 'topics': list(answer['topics'])})
         done = min(i + batch, len(unique))
         if done % 50 < batch or done == len(unique):
             print(f"   {done}/{len(unique)} ({(time.perf_counter() - t0) / done:.1f}s per title)", flush=True)
@@ -155,13 +154,18 @@ def summarize(records, day):
     stories = {}
     for r in relevant:
         stories.setdefault(r['story_id'], []).append(r)
+    removals = [g for g in stories.values() if any(r['removal'] for r in g)]
     return {
         'date': day,
         'candidates': len(records),
         'relevant': dict(Counter(str(r['relevant']) for r in records)),
         'stories_relevant': len(stories),
+        'stories_removal': len(removals),
         'flagged_for_review': sum(r['review'] for r in records),
-        'event_types_by_story': dict(Counter(g[0]['event_type'] for g in stories.values()).most_common()),
+        'topics_by_story': dict(Counter(t for g in stories.values()
+                                        for t in {t for r in g for t in r['topics']}).most_common()),
+        'removal_stories': [{'story_id': g[0]['story_id'], 'stage': next(r['removal'] for r in g if r['removal']),
+                             'title': g[0]['title']} for g in removals],
         'languages_relevant': dict(Counter(r['language'] for r in relevant).most_common()),
         'top_stories': [{'story_id': sid, 'records': len(g), 'title': g[0]['title']}
                         for sid, g in sorted(stories.items(), key=lambda kv: -len(kv[1]))[:10]],
@@ -186,7 +190,7 @@ def main():
     records, stats, _, _ = collect(day, args.every)
     if args.no_llm:
         for r in records:
-            r.update(relevant=None, event_type=None, reason=None)
+            r.update({**UNCLASSIFIED, 'topics': []})
     else:
         classify(records, args.model, args.endpoint, args.batch)
 
@@ -194,7 +198,8 @@ def main():
     for r in records:
         terms, looks_like_removal = removal_check(r, AMBIGUOUS_NAMES)
         r['removal_terms'] = terms
-        r['review'] = looks_like_removal and r['relevant'] in ('no', None)
+        # A possible removal the model did not call one goes to review
+        r['review'] = looks_like_removal and not r['removal']
         if r['review'] and r['relevant'] == 'no':
             r['relevant'] = 'uncertain'
         flagged += r['review']
@@ -209,7 +214,7 @@ def main():
     os.makedirs(folder, exist_ok=True)
     path = os.path.join(folder, f'{day}.jsonl')
     keep = ('url', 'source', 'gkg_date', 'language', 'title', 'story_id', 'hit_theme', 'hit_name', 'hit_keyword',
-            'locations', 'relevant', 'event_type', 'reason', 'removal_terms', 'review')
+            'locations', 'relevant', 'topics', 'removal', 'reason', 'removal_terms', 'review')
     with open(path, 'w', encoding='utf-8') as f:
         for r in sorted(records, key=lambda r: (r['gkg_date'], r['url'])):
             r['locations'] = r['locations'][:5]  # keeps the history file small
@@ -222,7 +227,8 @@ def main():
         json.dump(summary, f, indent=2, ensure_ascii=False)
 
     print(f"\n{day}: {len(records)} candidates from {stats['files_ok']} files ({stats['files_missing']} missing)")
-    print(json.dumps({k: summary[k] for k in ('relevant', 'stories_relevant', 'flagged_for_review')}, ensure_ascii=False))
+    print(json.dumps({k: summary[k] for k in ('relevant', 'stories_relevant', 'stories_removal', 'flagged_for_review')},
+                     ensure_ascii=False))
     print(f"Saved {path}")
     if stats['files_ok'] == 0:
         sys.exit('No GKG files downloaded')
