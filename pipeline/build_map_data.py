@@ -5,6 +5,9 @@ Build the data file for the new map (mapa/index.html) from the daily history.
 Reads every data/gkg/YYYY/MM/YYYY-MM-DD.jsonl, keeps the stories the model
 marked relevant or as a removal, and writes one point per story to
 mapa/events.json. A story's place is chosen from, in order:
+  0. the place the model read in the headline ("Chembur, Mumbai, India"), geocoded
+     offline with GeoNames (pipeline/geocode.py), for stories classified since
+     prompt 2026-11-11.1;
   1. a GKG location whose name contains the matched settlement name (settlement);
   2. the settlement's entry in the location dictionary (city: the dictionary
      mostly stores city coordinates);
@@ -28,6 +31,9 @@ from datetime import datetime, timezone
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 sys.path.insert(0, os.path.join(ROOT, 'prototype'))
 from gkg_prototype import RefinedSlumMapper, fold  # noqa: E402
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from geocode import Geocoder  # noqa: E402
 
 # Event types of prompt 2026-11-02.1 (before topics) mapped to topics
 OLD_TYPE_TOPICS = {
@@ -67,9 +73,34 @@ def short_name(name):
     return ', '.join([parts[0], parts[-1]]) if len(parts) > 2 else ', '.join(parts)
 
 
-def place_for(group, db):
+def place_from_model(group, geocoder):
+    """The place the model read in the headline, geocoded with GeoNames, or None."""
+    if not geocoder:
+        return None
+    locations = [l for r in group for l in r.get('locations', [])]
+    hint = next((geocoder.fips.get(l.get('country_code')) for l in locations if l.get('country_code')), None)
+    city = next((l for l in locations if l['type'] in CITY_TYPES), None)
+    near = (city['lat'], city['lon'], city['name'].split(',')[0]) if city else None
+    for r in group:
+        if r.get('place'):
+            hit = geocoder.geocode(r['place'], iso_hint=hint, near_hint=near)
+            if hit:
+                return hit
+    return None
+
+
+def place_for(group, db, geocoder=None):
     names = [n for r in group for n in r.get('hit_name', [])]
     locations = [l for r in group for l in r.get('locations', [])]
+    model = place_from_model(group, geocoder)
+    gkg = _place_from_gkg(names, locations, db)
+    # GDELT wins only when it pins the settlement and the model's place is coarser
+    if model and not (gkg and gkg[3] == 'assentamento' and model[3] != 'assentamento'):
+        return (*model, 'modelo + GeoNames')
+    return (*gkg, 'GDELT') if gkg else None
+
+
+def _place_from_gkg(names, locations, db):
     for n in names:
         for l in locations:
             if fold(n) in fold(l['name']) and l['type'] in CITY_TYPES:
@@ -94,6 +125,11 @@ def main():
         sys.stdout.reconfigure(encoding='utf-8')
 
     db = RefinedSlumMapper().location_db
+    try:
+        geocoder = Geocoder()
+    except Exception as e:  # GeoNames unreachable: fall back to the GDELT locations
+        print(f'GeoNames unavailable ({e}); using GDELT locations only')
+        geocoder = None
     files = sorted(f for f in glob.glob(os.path.join(args.data, '*', '*', '*.jsonl')))
     events, skipped, days = [], Counter(), []
     for path in files:
@@ -107,11 +143,11 @@ def main():
         for sid, g in stories.items():
             # The record with the most information represents the story
             face = next((r for r in g if r.get('removal')), g[0])
-            place = place_for(g, db)
+            place = place_for(g, db, geocoder)
             if not place:
                 skipped['no_place'] += 1
                 continue
-            lat, lon, place_name, precision = place
+            lat, lon, place_name, precision, geo_source = place
             topics = sorted({t for r in g for t in (r.get('topics') or [])})
             removal = face.get('removal')
             if not topics and 'event_type' in face:
@@ -126,7 +162,7 @@ def main():
                 'lang': face['language'], 'reason': face.get('reason') or '',
                 'topics': topics, 'removal': removal,
                 'lat': round(lat, 4), 'lon': round(lon, 4), 'place': place_name, 'precision': precision,
-                'region': world_region(place_name),
+                'region': world_region(place_name), 'geo': geo_source,
                 'versions': len(g), 'prompt': face.get('prompt_version'),
             })
 
