@@ -11,10 +11,10 @@ in .cache/geonames/:
                       neighbourhoods such as Tondo or Payatas that the cities file lacks).
 
 A place string reads from specific to general, e.g. "Chembur, Mumbai, India".
-The last part names the country; the geocoder tries the most specific part first,
-inside that country, and when a city is also given it prefers the candidate
-closest to that city. The result says whether the point is the settlement or
-neighbourhood itself, or only the city.
+The last part that names a country sets the country. The most general part left
+is the context: a city, a state, or both. The more specific parts are looked up
+inside it, first next to the city, then anywhere in the state. The result says
+whether the point is a settlement or neighbourhood, a city, or only a region.
 
 Usage (quick check):
   python pipeline/geocode.py "Chembur, Mumbai, India" "Kibos, Kisumu, Kenya"
@@ -23,6 +23,7 @@ Usage (quick check):
 import io
 import math
 import os
+import re
 import sys
 import urllib.request
 import zipfile
@@ -50,6 +51,12 @@ COUNTRY_ALIASES = {
 # then islands and other terrain, then administrative divisions
 CLASS_RANK = {'P': 0, 'L': 1, 'S': 2, 'T': 3, 'A': 4}
 REGION_CLASSES = {'T', 'A'}
+NEAR_KM = 60          # a place given with its city must lie this close to it
+HINT_KM = 30          # ... or this close to the city GDELT found in the text
+BIG_CITY = 100_000    # a lone name this big is read as the city, not the state
+# Parts that name no place ("101 favelas and communities", "Colonias")
+GENERIC_RE = re.compile(r'^\d|\b(favelas?|comunidades?|communities|colonias|settlements|slums|barrios|bairros|'
+                        r'villages|asentamientos|neighbou?rhoods)\b')
 
 
 def _fetch(name):
@@ -73,6 +80,28 @@ def _km(a, b):
     return 6371 * 2 * math.asin(math.sqrt(h))
 
 
+def _rank(c):
+    return CLASS_RANK.get(c[3], 9), -c[5]
+
+
+def _feature_precision(c):
+    """Precision from the GeoNames feature alone: a section of a town, a spot or an
+    area is a settlement; a division or terrain is a region; any other place a city."""
+    if c[3] in REGION_CLASSES:
+        return 'região'
+    if c[4] == 'PPLX' or c[3] in ('S', 'L'):
+        return 'assentamento'
+    return 'cidade'
+
+
+def _hinted(c, name, near_hint):
+    """'assentamento' when a place lies next to, but is not, the city GDELT found."""
+    if (near_hint and c[3] not in REGION_CLASSES and _km(c[:2], near_hint[:2]) <= HINT_KM
+            and fold(name) not in fold(near_hint[2]) and fold(near_hint[2]) not in fold(name)):
+        return 'assentamento'
+    return None
+
+
 class Geocoder:
     def __init__(self):
         self.countries = {}       # folded name -> ISO2
@@ -92,12 +121,13 @@ class Geocoder:
 
     @staticmethod
     def _index(lines, alternates=True, keep_classes=('P', 'L', 'S', 'T', 'A')):
+        # entry: (lat, lon, country, class, feature code, population, name, admin1 code)
         idx = {}
         for line in lines:
             p = line.split('\t')
             if len(p) < 15 or p[6] not in keep_classes:
                 continue
-            entry = (float(p[4]), float(p[5]), p[8], p[6], p[7], int(p[14] or 0), p[1])
+            entry = (float(p[4]), float(p[5]), p[8], p[6], p[7], int(p[14] or 0), p[1], p[10])
             names = {fold(p[1]), fold(p[2])}
             if alternates and p[3]:
                 names.update(fold(a) for a in p[3].split(',')[:30])
@@ -124,48 +154,93 @@ class Geocoder:
             found += self._country_index(iso).get(key, [])
         return found
 
-    @staticmethod
-    def _best(cands, near=None):
-        if not cands:
-            return None
-        if near:
-            close = [c for c in cands if _km(c[:2], near) <= 60]
-            if close:
-                return min(close, key=lambda c: (CLASS_RANK.get(c[3], 9), _km(c[:2], near)))
-            return None
-        return min(cands, key=lambda c: (CLASS_RANK.get(c[3], 9), -c[5]))
+    def _city(self, name, iso):
+        """The most populous town of that name in the country, or None."""
+        cands = [c for c in self._candidates(name, iso, local=False) if c[3] == 'P']
+        return max(cands, key=lambda c: c[5]) if cands else None
 
-    def geocode(self, place, iso_hint=None):
+    def _state(self, name, iso):
+        """The first-level division (state, province) of that name, or None."""
+        cands = [c for c in self._candidates(name, iso) if c[4] == 'ADM1']
+        return cands[0] if cands else None
+
+    def geocode(self, place, iso_hint=None, near_hint=None):
         """'Chembur, Mumbai, India' -> (lat, lon, label, precision) or None.
-        precision is 'assentamento' when the point is the specific place below the
-        city, 'cidade' when only the city (or a single-name town) was found."""
+
+        precision is 'assentamento' for a place below the city (a neighbourhood or
+        settlement), 'cidade' for a town or city, 'região' for a state or province.
+        near_hint is (lat, lon, name) of the city GDELT found in the text; it settles
+        lone names such as "Rocinha, Brazil"."""
         if not place or not place.strip():
             return None
+        place = place.split(';')[0]   # several places: keep the first
         parts = [p.strip() for p in place.split(',') if p.strip()]
-        iso = self.country_code(parts[-1]) if parts else None
-        if iso:
-            parts = parts[:-1]
+        iso = None
+        for k in range(len(parts) - 1, -1, -1):   # the country: the last part that names one
+            iso = self.country_code(parts[k])
+            if iso:
+                parts = parts[:k]
+                break
         iso = iso or iso_hint
+        parts = [p for p in parts if not GENERIC_RE.search(fold(p))]
         if not iso or not parts:
             return None
         country = self.country_names.get(iso, iso)
-        # The most general part below the country is usually the city
-        city = self._best(self._candidates(parts[-1], iso, local=False)) if len(parts) >= 2 else None
-        near = city[:2] if city else None
-        for i, name in enumerate(parts):
-            cand = self._best(self._candidates(name, iso), near if i < len(parts) - 1 else None)
-            if cand:
-                label = f"{name}, {parts[-1]}, {country}" if i < len(parts) - 1 else f"{name}, {country}"
-                if cand[3] in REGION_CLASSES:
-                    precision = 'região'
-                elif i < len(parts) - 1 or (len(parts) == 1 and cand[4] in ('PPLX', 'AREA')):
+        if len(parts) == 1:
+            return self._lone(parts[0], iso, country, near_hint)
+
+        # The most general part is the context: a city, a state, or a name that is both
+        ctx = parts[-1]
+        city, state = self._city(ctx, iso), self._state(ctx, iso)
+        if city and state and city[5] < BIG_CITY:
+            city = None   # "Bahia", "Paraná": the state, not the small town of that name
+        anchor = city
+        if not city and not state:
+            # an island, a county, a town spelled otherwise: any place of that name anchors the search
+            others = self._candidates(ctx, iso)
+            anchor = min(others, key=_rank) if others else None
+        for i, name in enumerate(parts[:-1]):
+            accepted = []
+            for c in self._candidates(name, iso):
+                if anchor and _km(c[:2], anchor[:2]) <= NEAR_KM:
+                    accepted.append((c, 'near'))
+                elif state and c[7] == state[7]:
+                    accepted.append((c, 'state'))
+            if accepted:
+                c, how = min(accepted, key=lambda a: (a[1] != 'near', _rank(a[0])))
+                if how == 'near' and city and c[3] not in REGION_CLASSES:
                     precision = 'assentamento'
                 else:
-                    precision = 'cidade'
-                return cand[0], cand[1], label, precision
+                    precision = _hinted(c, name, near_hint) or _feature_precision(c)
+                return c[0], c[1], f"{name}, {parts[i + 1]}, {country}", precision
         if city:
-            return city[0], city[1], f"{parts[-1]}, {country}", 'cidade'
+            return city[0], city[1], f"{ctx}, {country}", 'cidade'
+        if state:
+            return state[0], state[1], f"{ctx}, {country}", 'região'
+        if anchor:
+            return anchor[0], anchor[1], f"{ctx}, {country}", _feature_precision(anchor)
         return None
+
+    def _lone(self, name, iso, country, near_hint):
+        """A single name with its country: 'Rocinha, Brazil', 'Alagoas, Brazil'."""
+        cands = self._candidates(name, iso)
+        if not cands:
+            return None
+        label = f"{name}, {country}"
+        city, state = self._city(name, iso), self._state(name, iso)
+        if city and city[5] >= BIG_CITY:
+            return city[0], city[1], label, 'cidade'
+        if state:   # "Alagoas": the state, even if a farm near the story's city shares the name
+            return state[0], state[1], label, 'região'
+        if near_hint:
+            close = [c for c in cands if _km(c[:2], near_hint[:2]) <= HINT_KM]
+            if close:
+                c = min(close, key=_rank)
+                return c[0], c[1], label, _hinted(c, name, near_hint) or _feature_precision(c)
+        if city:
+            return city[0], city[1], label, 'cidade'
+        c = min(cands, key=_rank)
+        return c[0], c[1], label, _feature_precision(c)
 
 
 if __name__ == '__main__':

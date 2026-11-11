@@ -79,22 +79,25 @@ def place_from_model(group, geocoder):
         return None
     locations = [l for r in group for l in r.get('locations', [])]
     hint = next((geocoder.fips.get(l.get('country_code')) for l in locations if l.get('country_code')), None)
+    city = next((l for l in locations if l['type'] in CITY_TYPES), None)
+    near = (city['lat'], city['lon'], city['name'].split(',')[0]) if city else None
     for r in group:
         if r.get('place'):
-            hit = geocoder.geocode(r['place'], iso_hint=hint)
+            hit = geocoder.geocode(r['place'], iso_hint=hint, near_hint=near)
             if hit:
                 return hit
     return None
 
 
 def place_for(group, db, geocoder=None):
-    hit = place_from_model(group, geocoder)
-    if hit:
-        return (*hit, 'modelo + GeoNames')
     names = [n for r in group for n in r.get('hit_name', [])]
     locations = [l for r in group for l in r.get('locations', [])]
-    hit = _place_from_gkg(names, locations, db)
-    return (*hit, 'GDELT') if hit else None
+    model = place_from_model(group, geocoder)
+    gkg = _place_from_gkg(names, locations, db)
+    # GDELT wins only when it pins the settlement and the model's place is coarser
+    if model and not (gkg and gkg[3] == 'assentamento' and model[3] != 'assentamento'):
+        return (*model, 'modelo + GeoNames')
+    return (*gkg, 'GDELT') if gkg else None
 
 
 def _place_from_gkg(names, locations, db):
