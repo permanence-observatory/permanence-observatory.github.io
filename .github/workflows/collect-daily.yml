@@ -1,0 +1,81 @@
+# Daily GKG collection with language-model classification, saved as history in data/gkg/,
+# plus the data of the experimental map (mapa/events.json).
+# Runs alongside the main map update and does not change index.html.
+# The schedule only takes effect on main; pushes to the prototype branch also run it.
+name: Daily GKG collection
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # after the map update (00:00 UTC, ~1 h) has pushed
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'UTC day to collect (YYYY-MM-DD); empty = yesterday'
+        required: false
+  push:
+    branches: [gkg-prototype]
+    paths:
+      - '.github/workflows/collect-daily.yml'
+      - 'pipeline/**'
+      - 'prototype/classify_llm.py'
+      - 'prototype/gkg_prototype.py'
+
+concurrency:
+  group: collect-daily
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: write
+    env:
+      MODEL: qwen2.5:7b
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install requests pandas
+
+      - name: Install and start Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          if ! curl -sf http://localhost:11434/api/version; then
+            nohup ollama serve > ollama.log 2>&1 &
+          fi
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:11434/api/version && break
+            sleep 2
+          done
+
+      - name: Download model
+        run: ollama pull "$MODEL"
+
+      - name: Collect and classify
+        run: |
+          DAY="${{ github.event.inputs.date }}"
+          [ -z "$DAY" ] && DAY=$(date -u -d yesterday +%Y-%m-%d)
+          echo "DAY=$DAY" >> "$GITHUB_ENV"
+          python pipeline/collect_day.py --date "$DAY" --model "$MODEL"
+
+      - name: Rebuild the experimental map data
+        run: python pipeline/build_map_data.py
+
+      - name: Commit history file and map data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/gkg mapa/events.json
+          if git diff --staged --quiet; then
+            echo "No new data"
+          else
+            git commit -m "📥 Daily GKG collection - $DAY"
+            # the branch may have received commits while this job was running
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

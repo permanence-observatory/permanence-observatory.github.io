@@ -508,9 +508,11 @@ class RefinedSlumMapper:
     
     def parse_gdelt_date(self, seendate):
         """Parse GDELT date format to ISO 8601"""
-        if not seendate or len(seendate) < 8:
+        # The DOC API sends 'YYYYMMDDTHHMMSSZ'; keep only the digits
+        seendate = re.sub(r'\D', '', seendate or '')
+        if len(seendate) < 8:
             return datetime.now().isoformat() + "Z"
-        
+
         try:
             # Format: YYYYMMDDHHMMSS
             year = int(seendate[:4])
@@ -1098,7 +1100,7 @@ class RefinedSlumMapper:
         const eventsData = {events_json};
         const map = L.map('map').setView([{avg_lat}, {avg_lon}], 2);
 
-        // DARK MODE TILES - OpenStreetMap (free, no API key) + CSS dark filter
+        // DARK MODE TILES - Esri World Dark Gray (free, no API key; replaced CARTO, which now requires one)
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{{z}}/{{y}}/{{x}}', {{
             maxZoom: 16,
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'

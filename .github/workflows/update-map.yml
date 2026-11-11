@@ -6,6 +6,11 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:  # Allows manual trigger from GitHub UI
 
+# Never run two map updates at the same time; a new run waits for the current one
+concurrency:
+  group: update-map
+  cancel-in-progress: false
+
 jobs:
   update-map:
     runs-on: ubuntu-latest
@@ -53,6 +58,8 @@ jobs:
           echo "ℹ️  No changes to commit (map unchanged)"
         else
           git commit -m "🗺️ Daily map update - $(date +%Y-%m-%d)"
+          # main may have received commits while the script was running
+          git pull --rebase origin main
           git push
           echo "✅ Map published successfully!"
         fi

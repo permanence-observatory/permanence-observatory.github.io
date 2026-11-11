@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-09",
+  "candidates": 514,
+  "relevant": {
+    "no": 443,
+    "yes": 65,
+    "uncertain": 3,
+    "None": 3
+  },
+  "stories_relevant": 47,
+  "stories_removal": 5,
+  "flagged_for_review": 0,
+  "topics_by_story": {
+    "culture": 20,
+    "disaster": 11,
+    "housing_policy": 7,
+    "removal": 5,
+    "infrastructure": 4,
+    "economy": 3,
+    "protest": 2,
+    "violence": 2,
+    "data": 2
+  },
+  "removal_stories": [
+    {
+      "story_id": "2026-11-09-0103",
+      "stage": "unspecified",
+      "title": "ককটেল ফাটিয়ে পালানোর সময় গ্রেপ্তার যুবক"
+    },
+    {
+      "story_id": "2026-11-09-0128",
+      "stage": "threat",
+      "title": "\"I fear my home will fall into a sinkhole\" says Cape Town resident"
+    },
+    {
+      "story_id": "2026-11-09-0141",
+      "stage": "threat",
+      "title": "Faro Pechiguera: suspenden el desalojo de familias en infraviviendas"
+    },
+    {
+      "story_id": "2026-11-09-0265",
+      "stage": "unspecified",
+      "title": "Techos de zinc no frenan el plomo: el terror de las balas perdidas"
+    },
+    {
+      "story_id": "2026-11-09-0030",
+      "stage": "unspecified",
+      "title": "Investiga Fiscalía a grupos armados dedicados al despojo de propiedades en comunidades rurales de Quintana Roo"
+    }
+  ],
+  "languages_relevant": {
+    "eng": 18,
+    "spa": 15,
+    "por": 12,
+    "hin": 8,
+    "mar": 3,
+    "tur": 2,
+    "ben": 2,
+    "guj": 2,
+    "ind": 1,
+    "kan": 1,
+    "deu": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-09-0048",
+      "records": 9,
+      "title": "बांग्लादेश के गरीब इलाकों में लाइवस्ट्रीमिंग कर रहे चीनी व्लॉगर्स, ढाका की झुग्गियों को 'नई दिल्ली' बताकर फैला रहे हैं झूठ - chinese vloggers live stream dhaka as new delhi disinformation"
+    },
+    {
+      "story_id": "2026-11-09-0044",
+      "records": 3,
+      "title": "दीवाली की रात आग से राजस्थान-दिल्ली समेत देशभर में 23 मौतें, MP में 13 तो महाराष्ट्र में 6 लोग जिंदा जले - diwali fires across india killed too many people in rajasthan uttar pradesh and delhi sixmember families in both madhya pradesh maharashtra"
+    },
+    {
+      "story_id": "2026-11-09-0060",
+      "records": 3,
+      "title": "Los desplazamientos por desastres naturales la 'patata caliente' que pone sobre la mesa de la COP31 la OIM"
+    },
+    {
+      "story_id": "2026-11-09-0005",
+      "records": 2,
+      "title": "Lagos debate: Doherty, GRV fault govt over traffic, flooding, housing"
+    },
+    {
+      "story_id": "2026-11-09-0058",
+      "records": 2,
+      "title": "The Kenyan slum fighting back against poverty tourism"
+    },
+    {
+      "story_id": "2026-11-09-0128",
+      "records": 2,
+      "title": "\"I fear my home will fall into a sinkhole\" says Cape Town resident"
+    },
+    {
+      "story_id": "2026-11-09-0149",
+      "records": 2,
+      "title": "ઢાકાની ઝૂંપડપટ્ટીને 'દિલ્હી' બતાવી રહ્યા છે ચાઈનીઝ વ્લોગર્સ!..."
+    },
+    {
+      "story_id": "2026-11-09-0288",
+      "records": 2,
+      "title": "Mirante do Caldas celebra 5 anos com programação voltada à floresta, à economia criativa e à comunidade"
+    },
+    {
+      "story_id": "2026-11-09-0292",
+      "records": 2,
+      "title": "Comunidades de Tlaxcala llevan su cultura y tradiciones a California - Quadratín"
+    },
+    {
+      "story_id": "2026-11-09-0018",
+      "records": 1,
+      "title": "IAS Ashutosh Dwivedi,IAS आशुतोष द्विवेदी ने महादलित बस्ती में मनाई दीपावलीः कटिहार DM ने बच्ची को गोद में लिया, जलाई फुलझड़ियां -  ias ashutosh dwivedi celebrated diwali in mahadalit basti katihar dm lit sparklers with girl  - Katihar News"
+    }
+  ],
+  "collected_at": "2026-11-10T15:05:36Z",
+  "pipeline_version": "2026-11-10.1",
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-10.1",
+  "every": 1,
+  "files_ok": 192,
+  "files_missing": 0,
+  "seconds_total": 7497
+}
