@@ -64,6 +64,14 @@ jobs:
           echo "DAY=$DAY" >> "$GITHUB_ENV"
           python pipeline/collect_day.py --date "$DAY" --model "$MODEL"
 
+      - name: Restore the GeoNames files
+        uses: actions/cache@v4
+        with:
+          path: .cache/geonames
+          # One shared copy; country files fetched during a run are added on the next save
+          key: geonames-v1-${{ github.run_id }}
+          restore-keys: geonames-v1-
+
       - name: Rebuild the experimental map data
         run: python pipeline/build_map_data.py
 

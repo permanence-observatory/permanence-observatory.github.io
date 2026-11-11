@@ -39,8 +39,8 @@ from classify_llm import (DEFAULT_ENDPOINT, PROMPT_VERSION, call_model,  # noqa:
 from gkg_prototype import (AMBIGUOUS_NAMES, STRONG_REMOVAL_RE, WEAK_REMOVAL_RE,  # noqa: E402
                            collect, fold, url_text)
 
-PIPELINE_VERSION = '2026-11-11.1'
-UNCLASSIFIED = {'relevant': None, 'topics': [], 'removal': None, 'reason': None}
+PIPELINE_VERSION = '2026-11-11.2'
+UNCLASSIFIED = {'relevant': None, 'topics': [], 'removal': None, 'place': '', 'reason': None}
 
 # Settlement names that are whole districts or municipalities: seeing one in a
 # headline says nothing about an informal settlement.
@@ -210,7 +210,7 @@ def main():
     path = os.path.join(folder, f'{day}.jsonl')
     keep = ('url', 'source', 'gkg_date', 'language', 'title', 'story_id', 'hit_theme', 'hit_name', 'hit_keyword',
             'hit_removal',
-            'locations', 'relevant', 'topics', 'removal', 'reason', 'removal_terms', 'review')
+            'locations', 'relevant', 'topics', 'removal', 'place', 'reason', 'removal_terms', 'review')
     with open(path, 'w', encoding='utf-8') as f:
         for r in sorted(records, key=lambda r: (r['gkg_date'], r['url'])):
             r['locations'] = r['locations'][:5]  # keeps the history file small

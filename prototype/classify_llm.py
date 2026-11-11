@@ -26,7 +26,7 @@ from collections import Counter
 import requests
 
 DEFAULT_ENDPOINT = 'http://localhost:11434/v1/chat/completions'
-PROMPT_VERSION = '2026-11-10.1'
+PROMPT_VERSION = '2026-11-11.1'
 
 # Topics; a story can have several. Removal is the observatory's priority.
 TOPICS = {
@@ -65,10 +65,14 @@ removal: "none" unless the article is about removing homes in an informal settle
   "court" (a court authorizes or blocks it), "resettlement" (families moved or rehoused).
   When removal is not "none", topics must include "removal".
 reason: at most 15 words, in Portuguese, only when relevant is "yes" or "uncertain"; else "".
+place: only when relevant is "yes" or "uncertain": the most specific place the article is about,
+  from specific to general, as "settlement or neighbourhood, city, country" (for example
+  "Chembur, Mumbai, India" or "Kibos, Kisumu, Kenya"); leave out parts you cannot tell, and
+  write the country in English. Use "" when no place can be told; else "".
 
 Headlines can be in any language. Use the URL words and the GDELT locations as extra clues,
 but GDELT locations are often wrong. Answer only with JSON:
-{{"items": [{{"id": "...", "relevant": "...", "topics": ["..."], "removal": "...", "reason": "..."}}]}}"""
+{{"items": [{{"id": "...", "relevant": "...", "topics": ["..."], "removal": "...", "place": "...", "reason": "..."}}]}}"""
 
 
 def normalize_answer(a):
@@ -81,11 +85,14 @@ def normalize_answer(a):
         topics.insert(0, 'removal')
     if 'removal' in topics and not removal:
         removal = 'unspecified'
+    place = a.get('place') if isinstance(a.get('place'), str) else ''
+    place = place.strip()[:120]
     if relevant == 'no':
-        topics, removal = [], None
+        topics, removal, place = [], None, ''
     elif not topics:
         topics = ['other']
-    return {'relevant': relevant, 'topics': topics, 'removal': removal, 'reason': a.get('reason') or ''}
+    return {'relevant': relevant, 'topics': topics, 'removal': removal, 'place': place,
+            'reason': a.get('reason') or ''}
 
 
 def call_model(endpoint, model, items, max_retries=4):
