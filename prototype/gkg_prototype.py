@@ -11,8 +11,11 @@ A record is kept when any of these match:
   - theme:   a GKG theme in TARGET_THEMES (e.g. SLUMS)
   - name:    a settlement name from the current location database
   - keyword: a multilingual keyword from the current script
-Names and keywords are searched in the page title and URL; names also in
-GKG's extracted proper names and locations.
+  - removal: a removal word (eviction, desalojo, despejo, déguerpissement...)
+             together with a housing word (homes, families, ocupação, viviendas...),
+             so eviction stories reach the classifier even without "slum" or "favela"
+Names, keywords and removal words are searched in the page title and URL;
+names also in GKG's extracted proper names and locations.
 
 Usage:
   python prototype/gkg_prototype.py --date 2026-11-01 --every 8   # sample
@@ -62,6 +65,27 @@ AMBIGUOUS_NAMES = {
     'masina', 'basti', 'jhuggi', 'matonge', 'comas', 'badia', 'yeka', 'uttara',
     'mirpur', 'mohammadpur', 'soacha', 'agege', 'mushin', 'bariga',
 }
+
+
+# Removal words, matched on accent-free lowercase title + URL words.
+# Strong words almost always mean removal of homes; weak ones also mean
+# "evacuate" or "clear a road" in Spanish, so they need more evidence.
+STRONG_REMOVAL_RE = re.compile(
+    r'\b(evict\w*|demoli\w*|bulldoz\w*|razed|desmantel\w*|despejos?|despejad[ao]s?|'
+    r'remoc\w*|reintegracao de posse|deguerpi\w*|demantel\w*)\b')
+WEAK_REMOVAL_RE = re.compile(r'\b(desaloj\w*|despej\w*)\b')
+# Housing or occupation words that make a removal word about people's homes
+HOUSING_RE = re.compile(
+    r'\b(casas?|moradias?|moradores?|familias|ocupac\w*|ocupantes?|invasao|invasoes|assentamentos?|barracos?|'
+    r'viviendas?|asentamientos?|campamentos?|tomas? de (?:tierras?|terrenos?)|colonias?|'
+    r'residents?|families|homes?|houses?|housing|settlements?|settlers?|squatt\w*|shacks?|dwellers?|slums?|hutments?|'
+    r'logements?|familles|habitants?|maisons?|bidonvilles?|occupants?|informal\w*)\b')
+
+
+def removal_entry(text_folded):
+    """Removal words in a text that also talks about homes, or [] (entry criterion)."""
+    words = set(STRONG_REMOVAL_RE.findall(text_folded)) | set(WEAK_REMOVAL_RE.findall(text_folded))
+    return sorted(words) if words and HOUSING_RE.search(text_folded) else []
 
 
 def fold(text):
@@ -130,8 +154,25 @@ def url_text(url):
     return re.sub(r'[\W_]+', ' ', path)
 
 
-def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None):
-    """Download one UTC day of GKG files and return (matches, stats, counters, all_urls)."""
+# GKG themes about housing, land and displacement; records with them that miss the
+# pre-filter are the "near misses" the funnel audit samples
+NEAR_MISS_THEMES = {
+    'WB_817_LAND_AND_HOUSING', 'WB_2186_SOCIAL_HOUSING', 'WB_1722_HOUSING_POLICY_AND_INSTITUTIONS',
+    'WB_888_LAND_TENURE', 'WB_964_PROPERTY_AND_LAND_LAW', 'WB_891_LAND_REFORM', 'EVICTION',
+}
+# Settlement and occupation words that, unlike "house" or "home", rarely mean something else
+SETTLEMENT_WORD_RE = re.compile(
+    r'\b(moradias? precarias?|ocupac\w* (?:irregular\w*|ilega\w*|urbana\w*)|ocupacoes urbanas|ocupantes?|barracos?|'
+    r'comunidades? carentes?|viviendas? (?:precarias?|irregulares?|informales?)|infraviviendas?|'
+    r'asentamientos?|campamentos?|tomas? de (?:tierras?|terrenos?)|colonias? (?:populares?|irregulares?)|'
+    r'informal settlements?|squatt\w*|shacks?|slum dwellers?|hutments?|shanty\w*|'
+    r'logements? (?:sociaux|insalubres?)|bidonvilles?|quartiers? precaires?)\b')
+
+
+def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None, near_miss=False):
+    """Download one UTC day of GKG files and return (matches, stats, counters, all_urls).
+    With near_miss=True, counters['near_miss'] also lists records that did NOT pass the
+    pre-filter but carry a housing/land theme or a settlement/occupation word in the title."""
     mapper = mapper or RefinedSlumMapper()
     slum_names = [n for n, d in mapper.location_db.items() if d['type'] == 'slum']
     keywords = [k for lang in mapper.slum_keywords.values() for k in lang]
@@ -144,7 +185,7 @@ def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None):
 
     stats = Counter()
     term_hits, co_themes, langs, loc_types = Counter(), Counter(), Counter(), Counter()
-    all_urls, matches = set(), {}
+    all_urls, matches, near = set(), {}, {}
     t0 = time.perf_counter()
     parse_time = 0.0
 
@@ -183,15 +224,25 @@ def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None):
                 name_ok = confirm_names(hit_name, locations, mapper.location_db)
                 if hit_name and not name_ok:
                     stats['names_rejected_by_location'] += 1
-                if not (hit_theme or name_ok or hit_kw):
+                hit_removal = removal_entry(fold(title_url))
+                if not (hit_theme or name_ok or hit_kw or hit_removal):
+                    if near_miss and title and url not in near and len(near) < 50000 and (
+                            themes & NEAR_MISS_THEMES or any('EVICT' in t for t in themes)
+                            or SETTLEMENT_WORD_RE.search(fold(title_url))):
+                        lang = row[C_TRANSLATION].split(';')[0].replace('srclc:', '') if row[C_TRANSLATION] else 'eng'
+                        near[url] = {'url': url, 'source': row[C_SOURCE], 'gkg_date': row[C_DATE], 'language': lang,
+                                     'title': title, 'locations': locations[:5],
+                                     'themes': sorted(themes & NEAR_MISS_THEMES)}
                     continue
+                if hit_removal and not (hit_theme or name_ok or hit_kw):
+                    stats['entered_by_removal_only'] += 1
 
                 lang = row[C_TRANSLATION].split(';')[0].replace('srclc:', '') if row[C_TRANSLATION] else 'eng'
                 matches[url] = {
                     'url': url, 'source': row[C_SOURCE], 'gkg_date': row[C_DATE], 'feed': feed,
                     'language': lang, 'title': title,
                     'hit_theme': hit_theme, 'hit_name': name_ok, 'hit_name_raw': hit_name,
-                    'hit_keyword': hit_kw,
+                    'hit_keyword': hit_kw, 'hit_removal': hit_removal,
                     'locations': locations[:10],
                     'themes': sorted(themes),
                 }
@@ -208,7 +259,8 @@ def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None):
 
     stats['seconds_total'] = time.perf_counter() - t0
     stats['seconds_parsing'] = parse_time
-    counters = {'term_hits': term_hits, 'co_themes': co_themes, 'langs': langs, 'loc_types': loc_types}
+    counters = {'term_hits': term_hits, 'co_themes': co_themes, 'langs': langs, 'loc_types': loc_types,
+                'near_miss': [r for u, r in near.items() if u not in matches]}
     return list(matches.values()), stats, counters, all_urls
 
 
@@ -234,7 +286,7 @@ def main():
     total, parse_time = stats['seconds_total'], stats['seconds_parsing']
     by = Counter()
     for r in m:
-        key = '+'.join(k for k in ('theme', 'name', 'keyword') if r[f'hit_{k}'])
+        key = '+'.join(k for k in ('theme', 'name', 'keyword', 'removal') if r.get(f'hit_{k}'))
         by[key] += 1
 
     # Compare with the published map (same calendar day only)
@@ -264,6 +316,7 @@ def main():
         'unique_urls_seen': len(all_urls),
         'matches': len(m), 'matches_by_criterion': dict(by.most_common()),
         'records_whose_names_were_all_rejected': stats['names_rejected_by_location'],
+        'entered_by_removal_only': stats['entered_by_removal_only'],
         'languages': dict(langs.most_common(15)),
         'location_types_in_matches': dict(loc_types.most_common()),
         'top_terms': [f"{k}:{t} = {c}" for (k, t), c in term_hits.most_common(40)],

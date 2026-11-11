@@ -36,18 +36,11 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 sys.path.insert(0, os.path.join(ROOT, 'prototype'))
 from classify_llm import (DEFAULT_ENDPOINT, PROMPT_VERSION, call_model,  # noqa: E402
                           normalize_answer)
-from gkg_prototype import AMBIGUOUS_NAMES, collect, fold, url_text  # noqa: E402
+from gkg_prototype import (AMBIGUOUS_NAMES, STRONG_REMOVAL_RE, WEAK_REMOVAL_RE,  # noqa: E402
+                           collect, fold, url_text)
 
-PIPELINE_VERSION = '2026-11-10.1'
+PIPELINE_VERSION = '2026-11-11.1'
 UNCLASSIFIED = {'relevant': None, 'topics': [], 'removal': None, 'reason': None}
-
-# Removal words, matched on accent-free lowercase title + URL words.
-# Strong words almost always mean removal of homes; weak ones also mean
-# "evacuate" or "clear a road" in Spanish, so they need more evidence.
-STRONG_REMOVAL_RE = re.compile(
-    r'\b(evict\w*|demoli\w*|bulldoz\w*|razed|desmantel\w*|despejos?|despejad[ao]s?|'
-    r'remoc\w*|reintegracao de posse|deguerpi\w*|demantel\w*)\b')
-WEAK_REMOVAL_RE = re.compile(r'\b(desaloj\w*|despej\w*)\b')
 
 # Settlement names that are whole districts or municipalities: seeing one in a
 # headline says nothing about an informal settlement.
@@ -59,15 +52,17 @@ LARGE_DISTRICTS = {
 
 def removal_check(record, ambiguous_names):
     """Return (terms, flag): flag is True when the record looks like a removal story.
-    Strong word + any settlement evidence (theme, keyword or a specific name in the
-    title/URL) flags it; a weak word needs a keyword or specific name in the title/URL."""
+    Strong word + any settlement evidence (theme, keyword, a specific name in the
+    title/URL, or a housing word, which is how removal-only entries got in) flags it;
+    a weak word needs a keyword or specific name in the title/URL."""
     text = fold(f"{record['title']} {url_text(record['url'])}")
     strong = set(STRONG_REMOVAL_RE.findall(text))
     weak = set(WEAK_REMOVAL_RE.findall(text)) - strong
     specific_name = any(n in text for n in record['hit_name']
                         if n not in LARGE_DISTRICTS and n not in ambiguous_names)
     in_title = bool(record['hit_keyword']) or specific_name
-    flag = bool(strong and (in_title or record['hit_theme'])) or bool(weak and in_title)
+    flag = (bool(strong and (in_title or record['hit_theme'] or record.get('hit_removal')))
+            or bool(weak and in_title))
     return sorted(strong | weak), flag
 
 
@@ -214,6 +209,7 @@ def main():
     os.makedirs(folder, exist_ok=True)
     path = os.path.join(folder, f'{day}.jsonl')
     keep = ('url', 'source', 'gkg_date', 'language', 'title', 'story_id', 'hit_theme', 'hit_name', 'hit_keyword',
+            'hit_removal',
             'locations', 'relevant', 'topics', 'removal', 'reason', 'removal_terms', 'review')
     with open(path, 'w', encoding='utf-8') as f:
         for r in sorted(records, key=lambda r: (r['gkg_date'], r['url'])):
@@ -230,8 +226,15 @@ def main():
     print(json.dumps({k: summary[k] for k in ('relevant', 'stories_relevant', 'stories_removal', 'flagged_for_review')},
                      ensure_ascii=False))
     print(f"Saved {path}")
-    if stats['files_ok'] == 0:
-        sys.exit('No GKG files downloaded')
+    # Fail the run (and so raise the alert) when the day is clearly incomplete
+    expected = 2 * len(range(0, 96, args.every))
+    if stats['files_ok'] == 0 or not records:
+        sys.exit('No GKG files or no candidates: the day is missing')
+    if stats['files_missing'] > expected / 4:
+        sys.exit(f"{stats['files_missing']} of {expected} GKG files missing: the day is incomplete")
+    unclassified = sum(r['relevant'] is None for r in records)
+    if not args.no_llm and unclassified > len(records) / 5:
+        sys.exit(f'{unclassified} of {len(records)} candidates left unclassified: check the model server')
 
 
 if __name__ == '__main__':

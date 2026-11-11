@@ -30,6 +30,7 @@ jobs:
     timeout-minutes: 300
     permissions:
       contents: write
+      issues: write  # to open an issue when the run fails
     env:
       MODEL: qwen2.5:7b
     steps:
@@ -79,3 +80,17 @@ jobs:
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
+
+      - name: Open an issue if the run failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "Coletor diário falhou (${DAY:-data desconhecida})" \
+            --body "A rodada do coletor diário falhou e o dia ${DAY:-?} pode estar faltando no histórico (data/gkg) e no mapa experimental.
+
+          Rodada: $RUN_URL
+
+          Para recoletar o dia: aba Actions > Daily GKG collection > Run workflow, com a data. Feche esta issue quando o dia estiver no histórico."

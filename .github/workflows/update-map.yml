@@ -17,7 +17,8 @@ jobs:
     
     permissions:
       contents: write  # Required to push changes
-    
+      issues: write    # To open an issue when the run fails
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -63,3 +64,17 @@ jobs:
           git push
           echo "✅ Map published successfully!"
         fi
+
+    - name: Open an issue if the run failed
+      if: failure()
+      env:
+        GH_TOKEN: ${{ github.token }}
+        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: |
+        gh issue create --repo "$GITHUB_REPOSITORY" \
+          --title "Atualização do mapa principal falhou ($(date -u +%Y-%m-%d))" \
+          --body "A rodada diária do mapa principal (index.html) falhou; o site continua com o mapa do dia anterior.
+
+        Rodada: $RUN_URL
+
+        Para rodar de novo: aba Actions > Update Slum News Map Daily > Run workflow. Feche esta issue quando o mapa voltar a atualizar."
