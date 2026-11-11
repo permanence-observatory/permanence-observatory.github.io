@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Permanence · Mapa experimental</title>
+<meta name="description" content="Notícias sobre favelas e assentamentos informais coletadas diariamente do GDELT e classificadas por um modelo de linguagem aberto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<style>
+/* Layout: a reading panel beside a dark map; removals are the one warm color on the page */
+:root {
+  color-scheme: dark;
+  --bg: #0e1315; --panel: #141b1e; --raise: #1b2428; --ink: #e6ecea; --muted: #94a3a0; --line: #26312f;
+  --removal: #ff7452; --removal-soft: rgba(255,116,82,.16); --point: #7fd1d9; --point-soft: rgba(127,209,217,.14);
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box }
+html, body { height: 100%; margin: 0 }
+body { background: var(--bg); color: var(--ink); font: 14px/1.5 var(--body); display: grid; grid-template-columns: 400px minmax(0, 1fr) }
+aside { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0;
+  padding-top: env(safe-area-inset-top, 0px); padding-left: env(safe-area-inset-left, 0px) }
+#map { height: 100%; background: var(--bg) }
+.head { padding: 22px 20px 14px; display: grid; gap: 8px; border-bottom: 1px solid var(--line) }
+.eyebrow { font: 500 .72rem var(--mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase }
+h1 { font: 600 1.7rem/1.1 var(--display); margin: 0; text-wrap: balance }
+.lede { margin: 0; color: var(--muted); font-size: .88rem }
+.stats { display: flex; gap: 18px; font: .78rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums }
+.stats b { display: block; font: 600 1.25rem var(--body); color: var(--ink) }
+.stats .rem b { color: var(--removal) }
+.filters { padding: 14px 20px; display: grid; gap: 12px; border-bottom: 1px solid var(--line) }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.label { font: 500 .72rem var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; width: 100% }
+button, select, input { font: inherit; color: var(--ink) }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--point); outline-offset: 2px }
+.switch { display: inline-flex; align-items: center; gap: 10px; background: var(--removal-soft); border: 1px solid transparent;
+  border-radius: 999px; padding: 6px 14px 6px 8px; cursor: pointer; color: var(--ink); font-weight: 600 }
+.switch i { width: 30px; height: 18px; border-radius: 9px; background: var(--line); position: relative; transition: background .2s }
+.switch i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); transition: left .2s }
+.switch[aria-pressed="true"] { border-color: var(--removal) }
+.switch[aria-pressed="true"] i { background: var(--removal) }
+.switch[aria-pressed="true"] i::after { left: 14px }
+select, input[type=search] { background: var(--raise); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px }
+input[type=search] { width: 100% }
+.chip { background: var(--raise); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; cursor: pointer; font-size: .8rem; color: var(--muted) }
+.chip[aria-pressed="true"] { color: var(--ink); border-color: var(--point); background: var(--point-soft) }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden }
+.seg button { background: var(--raise); border: 0; padding: 5px 12px; cursor: pointer; color: var(--muted); font-size: .82rem }
+.seg button + button { border-left: 1px solid var(--line) }
+.seg button[aria-pressed="true"] { color: var(--ink); background: var(--point-soft) }
+.listhead { padding: 12px 20px 6px; font: .75rem var(--mono); color: var(--muted); display: flex; justify-content: space-between; gap: 8px }
+ol.list { list-style: none; margin: 0; padding: 0 12px 12px; overflow-y: auto; flex: 1; min-height: 0 }
+.item { padding: 10px 8px; border-bottom: 1px solid var(--line); cursor: pointer; display: grid; gap: 4px; border-radius: 6px }
+.item:hover, .item:focus-visible { background: var(--raise) }
+.item .when { font: .72rem var(--mono); color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap }
+.item h2 { font: 500 1rem/1.3 var(--display); margin: 0; overflow-wrap: anywhere }
+.item[data-removal] h2::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--removal); margin-right: 6px; vertical-align: middle }
+.tags { display: flex; flex-wrap: wrap; gap: 4px }
+.tag { font-size: .7rem; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px }
+.tag.rem { color: var(--removal); border-color: var(--removal) }
+.empty { color: var(--muted); padding: 24px 8px; text-align: center }
+.foot { padding: 12px 20px calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); font-size: .75rem; color: var(--muted); display: grid; gap: 4px }
+.foot a { color: var(--point) }
+
+/* Leaflet skin */
+.leaflet-container { font: 13px/1.45 var(--body); background: var(--bg) }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--panel); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(0,0,0,.45) }
+.leaflet-popup-content { margin: 14px 16px; min-width: 240px; max-width: 320px }
+.leaflet-container a.leaflet-popup-close-button { color: var(--muted) }
+.pop { display: grid; gap: 6px }
+.pop .when { font: .72rem var(--mono); color: var(--muted) }
+.pop h3 { font: 500 1.05rem/1.3 var(--display); margin: 0 }
+.pop h3 a { color: var(--ink); text-decoration-color: var(--line) }
+.pop p { margin: 0; color: var(--muted); font-size: .82rem }
+.pop .src { font: .72rem var(--mono); color: var(--muted) }
+.leaflet-control-zoom a { background: var(--panel); color: var(--ink); border-color: var(--line) }
+.leaflet-control-attribution { background: rgba(14,19,21,.75) !important; color: var(--muted) }
+.leaflet-control-attribution a { color: var(--muted) }
+.cl { display: grid; place-items: center; border-radius: 50%; font: 600 12px var(--body); color: var(--bg); background: var(--point); box-shadow: 0 0 0 5px var(--point-soft) }
+.cl.has-rem { box-shadow: 0 0 0 3px var(--removal), 0 0 0 8px var(--removal-soft) }
+
+@media (max-width: 760px) {
+  body { grid-template-columns: minmax(0, 1fr); grid-template-rows: 52vh minmax(0, 1fr) }
+  #map { grid-row: 1 }
+  aside { grid-row: 2; border-right: 0; border-top: 1px solid var(--line); padding-top: 0 }
+  .head { padding-top: 16px }
+}
+@media (prefers-reduced-motion: reduce) { .switch i, .switch i::after { transition: none } }
+</style>
+</head>
+<body>
+<aside>
+  <div class="head">
+    <span class="eyebrow">Permanence · experimental</span>
+    <h1>Favelas no noticiário</h1>
+    <p class="lede">Notícias sobre favelas e assentamentos informais, coletadas todo dia do GDELT e classificadas por um modelo de linguagem aberto. Os locais são aproximados.</p>
+    <div class="stats" aria-live="polite">
+      <span><b id="n-stories">–</b>assuntos</span>
+      <span class="rem"><b id="n-removals">–</b>remoções</span>
+      <span><b id="n-days">–</b>dias</span>
+    </div>
+  </div>
+  <div class="filters">
+    <div class="row">
+      <button type="button" class="switch" id="only-removals" aria-pressed="false"><i aria-hidden="true"></i>Só remoções</button>
+      <select id="stage" aria-label="Etapa da remoção" hidden>
+        <option value="">Todas as etapas</option>
+        <option value="executed">Executada</option>
+        <option value="threat">Ameaça ou anúncio</option>
+        <option value="court">Decisão judicial</option>
+        <option value="resettlement">Reassentamento</option>
+      </select>
+    </div>
+    <div class="row" id="topics" role="group" aria-label="Temas"><span class="label">Temas</span></div>
+    <div class="row">
+      <span class="label">Período</span>
+      <div class="seg" id="period" role="group" aria-label="Período">
+        <button type="button" data-days="7" aria-pressed="false">7 dias</button>
+        <button type="button" data-days="30" aria-pressed="false">30 dias</button>
+        <button type="button" data-days="0" aria-pressed="true">Tudo</button>
+      </div>
+    </div>
+    <input type="search" id="q" placeholder="Buscar por lugar, título ou fonte" aria-label="Buscar">
+  </div>
+  <div class="listhead"><span id="list-count">Carregando…</span><span>mais recentes primeiro</span></div>
+  <ol class="list" id="list"></ol>
+  <div class="foot">
+    <span id="updated">—</span>
+    <span>Classificação automática (qwen2.5:7b), conferida por amostragem. Pontos vazados: local só no nível de país ou região.</span>
+    <span><a href="../">Mapa atual</a></span>
+  </div>
+</aside>
+<div id="map" role="region" aria-label="Mapa"></div>
+
+<script>
+const TOPICS = {
+  removal: 'Remoção', disaster: 'Desastre', violence: 'Violência', housing_policy: 'Política habitacional',
+  infrastructure: 'Infraestrutura', land_conflict: 'Conflito fundiário', protest: 'Protesto e organização',
+  culture: 'Cultura e pessoas', economy: 'Economia', health_education: 'Saúde e educação', data: 'Estudos e dados', other: 'Outro'
+};
+const STAGES = { executed: 'Executada', threat: 'Ameaça ou anúncio', court: 'Decisão judicial',
+  resettlement: 'Reassentamento', unspecified: 'Etapa não identificada' };
+const PRECISION = { assentamento: 'local do assentamento', cidade: 'cidade', 'região': 'só a região', 'país': 'só o país' };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+
+const state = { events: [], onlyRemovals: false, stage: '', topics: new Set(), days: 0, q: '', latest: null };
+
+const map = L.map('map', { worldCopyJump: true, zoomControl: true }).setView([5, 10], 2);
+// Esri World Dark Gray (free, no API key); same basemap decision as the main map
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+  { maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ' }).addTo(map);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+  { maxZoom: 16 }).addTo(map);
+
+const clusters = L.markerClusterGroup({
+  showCoverageOnHover: false, maxClusterRadius: 44, spiderfyOnMaxZoom: true,
+  iconCreateFunction(c) {
+    const kids = c.getAllChildMarkers(), n = kids.length, rem = kids.some(m => m.options.removal);
+    const size = n < 10 ? 28 : n < 50 ? 34 : 40;
+    return L.divIcon({ html: `<div class="cl${rem ? ' has-rem' : ''}" style="width:${size}px;height:${size}px">${n}</div>`,
+      className: '', iconSize: [size, size] });
+  }
+}).addTo(map);
+const markers = new Map();
+
+function fmtDate(iso) { const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; }
+
+function popup(e) {
+  const box = document.createElement('div'); box.className = 'pop';
+  const when = document.createElement('span'); when.className = 'when';
+  when.textContent = `${fmtDate(e.date)} · ${e.place} (${PRECISION[e.precision] || e.precision})`;
+  const h = document.createElement('h3'); const a = document.createElement('a');
+  a.href = e.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = e.title; h.append(a);
+  box.append(when, h);
+  if (e.reason) { const p = document.createElement('p'); p.textContent = e.reason; box.append(p); }
+  box.append(tags(e));
+  const src = document.createElement('span'); src.className = 'src';
+  src.textContent = e.source + (e.versions > 1 ? ` · ${e.versions} versões` : '');
+  box.append(src);
+  return box;
+}
+
+function tags(e) {
+  const t = document.createElement('div'); t.className = 'tags';
+  if (e.removal) { const x = document.createElement('span'); x.className = 'tag rem'; x.textContent = 'Remoção · ' + (STAGES[e.removal] || e.removal); t.append(x); }
+  e.topics.filter(k => k !== 'removal').forEach(k => { const x = document.createElement('span'); x.className = 'tag'; x.textContent = TOPICS[k] || k; t.append(x); });
+  return t;
+}
+
+function markerFor(e) {
+  const vague = e.precision === 'país' || e.precision === 'região';
+  const color = e.removal ? css('--removal') : css('--point');
+  const m = L.circleMarker([e.lat, e.lon], {
+    radius: e.removal ? 9 : 6, color, weight: vague ? 2 : 1.5, fillColor: color,
+    fillOpacity: vague ? 0 : (e.removal ? .9 : .7), removal: !!e.removal
+  });
+  m.bindPopup(() => popup(e), { maxWidth: 340 });
+  return m;
+}
+
+function visible() {
+  const q = state.q.trim().toLowerCase();
+  const cutoff = state.days && state.latest ? new Date(state.latest.getTime() - (state.days - 1) * 864e5) : null;
+  return state.events.filter(e => {
+    if (state.onlyRemovals && !e.removal) return false;
+    if (state.onlyRemovals && state.stage && e.removal !== state.stage) return false;
+    if (state.topics.size && !e.topics.some(t => state.topics.has(t))) return false;
+    if (cutoff && new Date(e.date) < cutoff) return false;
+    if (q && !(`${e.title} ${e.place} ${e.source} ${e.reason}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+
+function render() {
+  const shown = visible();
+  clusters.clearLayers();
+  clusters.addLayers(shown.map(e => markers.get(e.id)));
+  const list = $('list');
+  const bounds = map.getBounds();
+  const inView = shown.filter(e => bounds.contains([e.lat, e.lon]) || bounds.contains([e.lat, e.lon + 360]) || bounds.contains([e.lat, e.lon - 360]));
+  $('list-count').textContent = `${inView.length} de ${shown.length} na área visível`;
+  list.replaceChildren(...inView.slice(0, 200).map(e => {
+    const li = document.createElement('li'); li.className = 'item'; li.tabIndex = 0;
+    if (e.removal) li.dataset.removal = '';
+    const when = document.createElement('div'); when.className = 'when';
+    const d = document.createElement('span'); d.textContent = fmtDate(e.date);
+    const p = document.createElement('span'); p.textContent = e.place;
+    when.append(d, p);
+    const h = document.createElement('h2'); h.textContent = e.title;
+    li.append(when, h, tags(e));
+    const go = () => { const m = markers.get(e.id); clusters.zoomToShowLayer(m, () => m.openPopup()); };
+    li.addEventListener('click', go);
+    li.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(); } });
+    return li;
+  }));
+  if (!inView.length) {
+    const li = document.createElement('li'); li.className = 'empty';
+    li.textContent = shown.length ? 'Nenhum assunto nesta área. Afaste o mapa para ver mais.' : 'Nenhum assunto com esses filtros.';
+    list.append(li);
+  }
+}
+
+function buildTopicChips() {
+  const counts = {};
+  state.events.forEach(e => e.topics.forEach(t => { if (t !== 'removal') counts[t] = (counts[t] || 0) + 1; }));
+  const box = $('topics');
+  Object.keys(TOPICS).filter(t => counts[t]).forEach(t => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
+    b.textContent = `${TOPICS[t]} ${counts[t]}`; b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      state.topics.has(t) ? state.topics.delete(t) : state.topics.add(t);
+      b.setAttribute('aria-pressed', String(state.topics.has(t))); render();
+    });
+    box.append(b);
+  });
+}
+
+$('only-removals').addEventListener('click', ev => {
+  state.onlyRemovals = !state.onlyRemovals;
+  ev.currentTarget.setAttribute('aria-pressed', String(state.onlyRemovals));
+  $('stage').hidden = !state.onlyRemovals; render();
+});
+$('stage').addEventListener('change', ev => { state.stage = ev.target.value; render(); });
+document.querySelectorAll('#period button').forEach(b => b.addEventListener('click', () => {
+  state.days = Number(b.dataset.days);
+  document.querySelectorAll('#period button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+}));
+let qTimer;
+$('q').addEventListener('input', ev => { clearTimeout(qTimer); qTimer = setTimeout(() => { state.q = ev.target.value; render(); }, 200); });
+map.on('moveend', () => render());
+
+fetch('events.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(data => {
+  state.events = data.events;
+  state.events.forEach(e => markers.set(e.id, markerFor(e)));
+  state.latest = data.days.length ? new Date(data.days[data.days.length - 1]) : null;
+  $('n-stories').textContent = data.events.length;
+  $('n-removals').textContent = data.events.filter(e => e.removal).length;
+  $('n-days').textContent = data.days.length;
+  const gen = new Date(data.generated_at);
+  $('updated').textContent = `Atualizado em ${gen.toLocaleDateString('pt-BR')} · dias coletados: ${data.days.map(fmtDate).join(', ')}`;
+  buildTopicChips();
+  render();
+}).catch(() => {
+  $('list-count').textContent = 'Não foi possível carregar os dados do mapa.';
+});
+</script>
+</body>
+</html>

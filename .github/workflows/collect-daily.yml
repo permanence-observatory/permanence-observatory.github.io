@@ -1,7 +1,7 @@
-# Daily GKG collection with language-model classification, saved as history in data/gkg/.
-# Runs alongside the map update and does not change the map.
-# The schedule only takes effect once this file is on main; until then it runs on
-# pushes to the prototype branch.
+# Daily GKG collection with language-model classification, saved as history in data/gkg/,
+# plus the data of the experimental map (mapa/events.json).
+# Runs alongside the main map update and does not change index.html.
+# The schedule only takes effect on main; pushes to the prototype branch also run it.
 name: Daily GKG collection
 
 on:
@@ -17,6 +17,8 @@ on:
     paths:
       - '.github/workflows/collect-daily.yml'
       - 'pipeline/**'
+      - 'prototype/classify_llm.py'
+      - 'prototype/gkg_prototype.py'
 
 concurrency:
   group: collect-daily
@@ -61,11 +63,14 @@ jobs:
           echo "DAY=$DAY" >> "$GITHUB_ENV"
           python pipeline/collect_day.py --date "$DAY" --model "$MODEL"
 
-      - name: Commit history file
+      - name: Rebuild the experimental map data
+        run: python pipeline/build_map_data.py
+
+      - name: Commit history file and map data
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/gkg
+          git add data/gkg mapa/events.json
           if git diff --staged --quiet; then
             echo "No new data"
           else

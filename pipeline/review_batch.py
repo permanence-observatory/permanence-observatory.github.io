@@ -53,6 +53,8 @@ def main():
     ap.add_argument('files', nargs='+')
     ap.add_argument('--batch', help='batch name (default: the day, or first~last)')
     ap.add_argument('--sample', type=int, default=20, help='discarded stories to sample')
+    ap.add_argument('--relevant-sample', type=int, default=20,
+                    help='relevant (non-removal) stories to sample; 0 = all. Removal and flagged stories are always all')
     ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--translations', help='JSON file {original title: Portuguese title} shown to reviewers')
     ap.add_argument('--list-untranslated', action='store_true',
@@ -88,7 +90,11 @@ def main():
         by_kind.setdefault(kind(g), []).append(sid)
     rng = random.Random(args.seed)
     discarded = sorted(by_kind.get('discarded', []))
-    picked = [(s, k) for k in ('removal', 'flagged', 'relevant', 'removal_terms') for s in by_kind.get(k, [])]
+    relevant = sorted(by_kind.get('relevant', []))
+    if args.relevant_sample and len(relevant) > args.relevant_sample:
+        relevant = rng.sample(relevant, args.relevant_sample)
+    picked = [(s, k) for k in ('removal', 'flagged', 'removal_terms') for s in by_kind.get(k, [])]
+    picked += [(s, 'relevant') for s in relevant]
     picked += [(s, 'sample') for s in rng.sample(discarded, min(args.sample, len(discarded)))]
     rng.shuffle(picked)
 
@@ -136,8 +142,10 @@ def main():
 
     counts = {k: sum(1 for _, kk in picked if kk == k)
               for k in ('removal', 'flagged', 'relevant', 'removal_terms', 'sample')}
+    # Population sizes, so sampled rates can be scaled back to the whole day
     batch_doc = {'name': batch, 'days': days, 'items': len(picked), 'counts': counts,
                  'candidates': len(records), 'stories': len(stories),
+                 'relevant_stories': len(by_kind.get('relevant', [])),
                  'discarded_stories': len(discarded)}
     with open(os.path.join(args.out, '_batch.json'), 'w', encoding='utf-8') as f:
         json.dump(batch_doc, f, ensure_ascii=False)
