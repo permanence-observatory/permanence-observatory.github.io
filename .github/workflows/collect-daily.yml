@@ -13,7 +13,7 @@ on:
         description: 'UTC day to collect (YYYY-MM-DD); empty = yesterday'
         required: false
   push:
-    branches: [gkg-prototype]
+    branches: [gkg-prototype, geo-place]
     paths:
       - '.github/workflows/collect-daily.yml'
       - 'pipeline/**'
@@ -60,6 +60,7 @@ jobs:
       - name: Collect and classify
         run: |
           DAY="${{ github.event.inputs.date }}"
+          [ -z "$DAY" ] && DAY=2026-11-10  # TEST ONLY on geo-place: compare with the day already in main
           [ -z "$DAY" ] && DAY=$(date -u -d yesterday +%Y-%m-%d)
           echo "DAY=$DAY" >> "$GITHUB_ENV"
           python pipeline/collect_day.py --date "$DAY" --model "$MODEL"
