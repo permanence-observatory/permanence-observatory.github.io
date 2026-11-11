@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Permanence · Mapa experimental</title>
-<meta name="description" content="Notícias sobre favelas e assentamentos informais coletadas diariamente do GDELT e classificadas por um modelo de linguagem aberto.">
+<title>Permanence · Experimental map</title>
+<meta name="description" content="News about informal settlements, collected daily from GDELT and classified by an open language model.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <style>
-/* Layout: a reading panel beside a dark map; removals are the one warm color on the page */
+/* Layout: a scrolling reading panel beside a dark map; removals are the one warm color on the page */
 :root {
   color-scheme: dark;
   --bg: #0e1315; --panel: #141b1e; --raise: #1b2428; --ink: #e6ecea; --muted: #94a3a0; --line: #26312f;
@@ -23,39 +23,51 @@
 }
 * { box-sizing: border-box }
 html, body { height: 100%; margin: 0 }
-body { background: var(--bg); color: var(--ink); font: 14px/1.5 var(--body); display: grid; grid-template-columns: 400px minmax(0, 1fr) }
-aside { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0;
+body { background: var(--bg); color: var(--ink); font: 14px/1.5 var(--body); display: grid; grid-template-columns: 420px minmax(0, 1fr) }
+aside { background: var(--panel); border-right: 1px solid var(--line); overflow-y: auto; min-height: 0;
   padding-top: env(safe-area-inset-top, 0px); padding-left: env(safe-area-inset-left, 0px) }
 #map { height: 100%; background: var(--bg) }
-.head { padding: 22px 20px 14px; display: grid; gap: 8px; border-bottom: 1px solid var(--line) }
+.head { padding: 18px 20px 12px; display: grid; gap: 8px }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 8px }
 .eyebrow { font: 500 .72rem var(--mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase }
-h1 { font: 600 1.7rem/1.1 var(--display); margin: 0; text-wrap: balance }
-.lede { margin: 0; color: var(--muted); font-size: .88rem }
-.stats { display: flex; gap: 18px; font: .78rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums }
-.stats b { display: block; font: 600 1.25rem var(--body); color: var(--ink) }
+h1 { font: 600 1.6rem/1.1 var(--display); margin: 0; text-wrap: balance }
+.lede { margin: 0; color: var(--muted); font-size: .85rem }
+.stats { display: flex; gap: 18px; font: .75rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums }
+.stats b { display: block; font: 600 1.2rem var(--body); color: var(--ink) }
 .stats .rem b { color: var(--removal) }
-.filters { padding: 14px 20px; display: grid; gap: 12px; border-bottom: 1px solid var(--line) }
-.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
-.label { font: 500 .72rem var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; width: 100% }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden }
+.lang button { background: none; border: 0; color: var(--muted); font: 500 .72rem var(--mono); padding: 3px 8px; cursor: pointer; letter-spacing: .04em }
+.lang button[aria-pressed="true"] { background: var(--point-soft); color: var(--ink) }
+details.filters { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line) }
+details.filters > summary { list-style: none; cursor: pointer; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
+  font: 500 .72rem var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase }
+details.filters > summary::-webkit-details-marker { display: none }
+details.filters > summary::after { content: "▾"; font-size: .9rem; transition: transform .2s }
+details.filters:not([open]) > summary::after { transform: rotate(-90deg) }
+#active { color: var(--point); text-transform: none; letter-spacing: 0 }
+.fbody { padding: 0 20px 14px; display: grid; gap: 12px }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center }
+.label { font: 500 .7rem var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; width: 100% }
 button, select, input { font: inherit; color: var(--ink) }
-button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--point); outline-offset: 2px }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--point); outline-offset: 2px }
 .switch { display: inline-flex; align-items: center; gap: 10px; background: var(--removal-soft); border: 1px solid transparent;
-  border-radius: 999px; padding: 6px 14px 6px 8px; cursor: pointer; color: var(--ink); font-weight: 600 }
+  border-radius: 999px; padding: 5px 14px 5px 7px; cursor: pointer; color: var(--ink); font-weight: 600 }
 .switch i { width: 30px; height: 18px; border-radius: 9px; background: var(--line); position: relative; transition: background .2s }
 .switch i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); transition: left .2s }
 .switch[aria-pressed="true"] { border-color: var(--removal) }
 .switch[aria-pressed="true"] i { background: var(--removal) }
 .switch[aria-pressed="true"] i::after { left: 14px }
-select, input[type=search] { background: var(--raise); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px }
+select, input[type=search] { background: var(--raise); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px }
 input[type=search] { width: 100% }
-.chip { background: var(--raise); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; cursor: pointer; font-size: .8rem; color: var(--muted) }
+.chip { background: var(--raise); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; cursor: pointer; font-size: .78rem; color: var(--muted) }
 .chip[aria-pressed="true"] { color: var(--ink); border-color: var(--point); background: var(--point-soft) }
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden }
-.seg button { background: var(--raise); border: 0; padding: 5px 12px; cursor: pointer; color: var(--muted); font-size: .82rem }
+.seg button { background: var(--raise); border: 0; padding: 4px 11px; cursor: pointer; color: var(--muted); font-size: .8rem }
 .seg button + button { border-left: 1px solid var(--line) }
 .seg button[aria-pressed="true"] { color: var(--ink); background: var(--point-soft) }
-.listhead { padding: 12px 20px 6px; font: .75rem var(--mono); color: var(--muted); display: flex; justify-content: space-between; gap: 8px }
-ol.list { list-style: none; margin: 0; padding: 0 12px 12px; overflow-y: auto; flex: 1; min-height: 0 }
+.listhead { position: sticky; top: 0; z-index: 2; background: var(--panel); padding: 10px 20px 8px; font: .74rem var(--mono); color: var(--muted);
+  display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line) }
+ol.list { list-style: none; margin: 0; padding: 4px 12px 8px }
 .item { padding: 10px 8px; border-bottom: 1px solid var(--line); cursor: pointer; display: grid; gap: 4px; border-radius: 6px }
 .item:hover, .item:focus-visible { background: var(--raise) }
 .item .when { font: .72rem var(--mono); color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap }
@@ -65,7 +77,7 @@ ol.list { list-style: none; margin: 0; padding: 0 12px 12px; overflow-y: auto; f
 .tag { font-size: .7rem; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px }
 .tag.rem { color: var(--removal); border-color: var(--removal) }
 .empty { color: var(--muted); padding: 24px 8px; text-align: center }
-.foot { padding: 12px 20px calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); font-size: .75rem; color: var(--muted); display: grid; gap: 4px }
+.foot { padding: 14px 20px calc(16px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); font-size: .74rem; color: var(--muted); display: grid; gap: 4px }
 .foot a { color: var(--point) }
 
 /* Leaflet skin */
@@ -78,6 +90,7 @@ ol.list { list-style: none; margin: 0; padding: 0 12px 12px; overflow-y: auto; f
 .pop h3 { font: 500 1.05rem/1.3 var(--display); margin: 0 }
 .pop h3 a { color: var(--ink); text-decoration-color: var(--line) }
 .pop p { margin: 0; color: var(--muted); font-size: .82rem }
+.pop p small { font: .68rem var(--mono); letter-spacing: .04em; text-transform: uppercase; display: block }
 .pop .src { font: .72rem var(--mono); color: var(--muted) }
 .leaflet-control-zoom a { background: var(--panel); color: var(--ink); border-color: var(--line) }
 .leaflet-control-attribution { background: rgba(14,19,21,.75) !important; color: var(--muted) }
@@ -86,73 +99,127 @@ ol.list { list-style: none; margin: 0; padding: 0 12px 12px; overflow-y: auto; f
 .cl.has-rem { box-shadow: 0 0 0 3px var(--removal), 0 0 0 8px var(--removal-soft) }
 
 @media (max-width: 760px) {
-  body { grid-template-columns: minmax(0, 1fr); grid-template-rows: 52vh minmax(0, 1fr) }
+  body { grid-template-columns: minmax(0, 1fr); grid-template-rows: 46vh minmax(0, 1fr) }
   #map { grid-row: 1 }
   aside { grid-row: 2; border-right: 0; border-top: 1px solid var(--line); padding-top: 0 }
-  .head { padding-top: 16px }
 }
-@media (prefers-reduced-motion: reduce) { .switch i, .switch i::after { transition: none } }
+@media (prefers-reduced-motion: reduce) { .switch i, .switch i::after, details.filters > summary::after { transition: none } }
 </style>
 </head>
 <body>
 <aside>
   <div class="head">
-    <span class="eyebrow">Permanence · experimental</span>
-    <h1>Favelas no noticiário</h1>
-    <p class="lede">Notícias sobre favelas e assentamentos informais, coletadas todo dia do GDELT e classificadas por um modelo de linguagem aberto. Os locais são aproximados.</p>
-    <div class="stats" aria-live="polite">
-      <span><b id="n-stories">–</b>assuntos</span>
-      <span class="rem"><b id="n-removals">–</b>remoções</span>
-      <span><b id="n-days">–</b>dias</span>
-    </div>
-  </div>
-  <div class="filters">
-    <div class="row">
-      <button type="button" class="switch" id="only-removals" aria-pressed="false"><i aria-hidden="true"></i>Só remoções</button>
-      <select id="stage" aria-label="Etapa da remoção" hidden>
-        <option value="">Todas as etapas</option>
-        <option value="executed">Executada</option>
-        <option value="threat">Ameaça ou anúncio</option>
-        <option value="court">Decisão judicial</option>
-        <option value="resettlement">Reassentamento</option>
-      </select>
-    </div>
-    <div class="row" id="topics" role="group" aria-label="Temas"><span class="label">Temas</span></div>
-    <div class="row">
-      <span class="label">Período</span>
-      <div class="seg" id="period" role="group" aria-label="Período">
-        <button type="button" data-days="7" aria-pressed="false">7 dias</button>
-        <button type="button" data-days="30" aria-pressed="false">30 dias</button>
-        <button type="button" data-days="0" aria-pressed="true">Tudo</button>
+    <div class="top">
+      <span class="eyebrow" data-i18n="eyebrow"></span>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
       </div>
     </div>
-    <input type="search" id="q" placeholder="Buscar por lugar, título ou fonte" aria-label="Buscar">
+    <h1 data-i18n="title"></h1>
+    <p class="lede" data-i18n="lede"></p>
+    <div class="stats" aria-live="polite">
+      <span><b id="n-stories">–</b><span data-i18n="stories"></span></span>
+      <span class="rem"><b id="n-removals">–</b><span data-i18n="removals"></span></span>
+      <span><b id="n-days">–</b><span data-i18n="days"></span></span>
+    </div>
   </div>
-  <div class="listhead"><span id="list-count">Carregando…</span><span>mais recentes primeiro</span></div>
+  <details class="filters" id="filters" open>
+    <summary><span data-i18n="filters"></span><span id="active"></span></summary>
+    <div class="fbody">
+      <div class="row">
+        <button type="button" class="switch" id="only-removals" aria-pressed="false"><i aria-hidden="true"></i><span data-i18n="onlyRemovals"></span></button>
+        <select id="stage" hidden>
+          <option value="" data-i18n="allStages"></option>
+          <option value="executed" data-i18n="st_executed"></option>
+          <option value="threat" data-i18n="st_threat"></option>
+          <option value="court" data-i18n="st_court"></option>
+          <option value="resettlement" data-i18n="st_resettlement"></option>
+        </select>
+      </div>
+      <div class="row">
+        <span class="label" data-i18n="region"></span>
+        <div class="seg" id="region" role="group">
+          <button type="button" data-region="" aria-pressed="true" data-i18n="all"></button>
+          <button type="button" data-region="south" aria-pressed="false" data-i18n="south"></button>
+          <button type="button" data-region="north" aria-pressed="false" data-i18n="north"></button>
+        </div>
+      </div>
+      <div class="row" id="topics" role="group"><span class="label" data-i18n="topics"></span></div>
+      <div class="row">
+        <span class="label" data-i18n="period"></span>
+        <div class="seg" id="period" role="group">
+          <button type="button" data-days="7" aria-pressed="false" data-i18n="d7"></button>
+          <button type="button" data-days="30" aria-pressed="false" data-i18n="d30"></button>
+          <button type="button" data-days="0" aria-pressed="true" data-i18n="all"></button>
+        </div>
+      </div>
+      <input type="search" id="q">
+    </div>
+  </details>
+  <div class="listhead"><span id="list-count"></span><span data-i18n="newest"></span></div>
   <ol class="list" id="list"></ol>
   <div class="foot">
     <span id="updated">—</span>
-    <span>Classificação automática (qwen2.5:7b), conferida por amostragem. Pontos vazados: local só no nível de país ou região.</span>
-    <span><a href="../">Mapa atual</a></span>
+    <span data-i18n="method"></span>
+    <span data-i18n="regionNote"></span>
+    <span><a href="../" data-i18n="mainMap"></a></span>
   </div>
 </aside>
-<div id="map" role="region" aria-label="Mapa"></div>
+<div id="map" role="region"></div>
 
 <script>
-const TOPICS = {
-  removal: 'Remoção', disaster: 'Desastre', violence: 'Violência', housing_policy: 'Política habitacional',
-  infrastructure: 'Infraestrutura', land_conflict: 'Conflito fundiário', protest: 'Protesto e organização',
-  culture: 'Cultura e pessoas', economy: 'Economia', health_education: 'Saúde e educação', data: 'Estudos e dados', other: 'Outro'
+const I18N = {
+  en: {
+    eyebrow: 'Permanence · experimental', title: 'Informal settlements in the news',
+    lede: 'News about favelas, slums and informal settlements, collected daily from GDELT and classified by an open language model. Locations are approximate.',
+    stories: 'stories', removals: 'evictions', days: 'days', filters: 'Filters', onlyRemovals: 'Evictions only',
+    allStages: 'All stages', st_executed: 'Carried out', st_threat: 'Threat or announcement', st_court: 'Court decision',
+    st_resettlement: 'Resettlement', st_unspecified: 'Stage not identified',
+    region: 'Region', all: 'All', south: 'Global South', north: 'Global North', topics: 'Topics', period: 'Period',
+    d7: '7 days', d30: '30 days', search: 'Search by place, title or source', newest: 'newest first',
+    inView: (a, b) => `${a} of ${b} in view`, noneHere: 'No stories in this area. Zoom out to see more.',
+    noneAtAll: 'No stories match these filters.', loading: 'Loading…', loadError: 'Could not load the map data.',
+    updated: (d, days) => `Updated ${d} · days collected: ${days}`,
+    method: 'Automatic classification (qwen2.5:7b), checked by sampling. Hollow points: location known only at country or region level.',
+    regionNote: 'Evictions: forced evictions of informal settlement residents, including demolitions, threats and notices, court decisions and resettlement. Global North: Europe, Northern America, Japan, Australia and New Zealand (UN M49 developed regions).',
+    mainMap: 'Main map', versions: n => `${n} versions`, note: 'Model note (Portuguese)', active: n => `${n} active`,
+    prec: { assentamento: 'settlement', cidade: 'city', 'região': 'region only', 'país': 'country only' },
+    removal: 'Eviction', map: 'Map', lang: 'Language',
+    t: { removal: 'Eviction', disaster: 'Disaster', violence: 'Violence', housing_policy: 'Housing policy', infrastructure: 'Infrastructure',
+      land_conflict: 'Land conflict', protest: 'Protest & organizing', culture: 'Culture & people', economy: 'Economy',
+      health_education: 'Health & education', data: 'Studies & data', other: 'Other' }
+  },
+  pt: {
+    eyebrow: 'Permanence · experimental', title: 'Favelas no noticiário',
+    lede: 'Notícias sobre favelas e assentamentos informais, coletadas todo dia do GDELT e classificadas por um modelo de linguagem aberto. Os locais são aproximados.',
+    stories: 'assuntos', removals: 'remoções', days: 'dias', filters: 'Filtros', onlyRemovals: 'Só remoções',
+    allStages: 'Todas as etapas', st_executed: 'Executada', st_threat: 'Ameaça ou anúncio', st_court: 'Decisão judicial',
+    st_resettlement: 'Reassentamento', st_unspecified: 'Etapa não identificada',
+    region: 'Região', all: 'Tudo', south: 'Sul global', north: 'Norte global', topics: 'Temas', period: 'Período',
+    d7: '7 dias', d30: '30 dias', search: 'Buscar por lugar, título ou fonte', newest: 'mais recentes primeiro',
+    inView: (a, b) => `${a} de ${b} na área visível`, noneHere: 'Nenhum assunto nesta área. Afaste o mapa para ver mais.',
+    noneAtAll: 'Nenhum assunto com esses filtros.', loading: 'Carregando…', loadError: 'Não foi possível carregar os dados do mapa.',
+    updated: (d, days) => `Atualizado em ${d} · dias coletados: ${days}`,
+    method: 'Classificação automática (qwen2.5:7b), conferida por amostragem. Pontos vazados: local só no nível de país ou região.',
+    regionNote: 'Remoções: remoções forçadas de moradores de assentamentos informais, incluindo demolições, ameaças e avisos, decisões judiciais e reassentamento. Norte global: Europa, América do Norte, Japão, Austrália e Nova Zelândia (regiões desenvolvidas da ONU, M49).',
+    mainMap: 'Mapa atual', versions: n => `${n} versões`, note: 'Resumo do modelo', active: n => n === 1 ? '1 ativo' : `${n} ativos`,
+    prec: { assentamento: 'local do assentamento', cidade: 'cidade', 'região': 'só a região', 'país': 'só o país' },
+    removal: 'Remoção', map: 'Mapa', lang: 'Idioma',
+    t: { removal: 'Remoção', disaster: 'Desastre', violence: 'Violência', housing_policy: 'Política habitacional', infrastructure: 'Infraestrutura',
+      land_conflict: 'Conflito fundiário', protest: 'Protesto e organização', culture: 'Cultura e pessoas', economy: 'Economia',
+      health_education: 'Saúde e educação', data: 'Estudos e dados', other: 'Outro' }
+  }
 };
-const STAGES = { executed: 'Executada', threat: 'Ameaça ou anúncio', court: 'Decisão judicial',
-  resettlement: 'Reassentamento', unspecified: 'Etapa não identificada' };
-const PRECISION = { assentamento: 'local do assentamento', cidade: 'cidade', 'região': 'só a região', 'país': 'só o país' };
-const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
-const state = { events: [], onlyRemovals: false, stage: '', topics: new Set(), days: 0, q: '', latest: null };
+function savedLang() { try { return localStorage.getItem('permanence-lang'); } catch (e) { return null; } }
+const state = { lang: savedLang() === 'pt' ? 'pt' : 'en', events: [], days: [], generated: null, onlyRemovals: false, stage: '',
+  region: '', topics: new Set(), period: 0, q: '', latest: null };
+const T = () => I18N[state.lang];
 
-const map = L.map('map', { worldCopyJump: true, zoomControl: true }).setView([5, 10], 2);
+const map = L.map('map', { worldCopyJump: true }).setView([5, 10], 2);
 // Esri World Dark Gray (free, no API key); same basemap decision as the main map
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
   { maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ' }).addTo(map);
@@ -170,28 +237,36 @@ const clusters = L.markerClusterGroup({
 }).addTo(map);
 const markers = new Map();
 
-function fmtDate(iso) { const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; }
+function fmtDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(state.lang === 'pt' ? 'pt-BR' : 'en-GB',
+    { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
+function stageLabel(s) { return T()['st_' + s] || s; }
+
+function tags(e) {
+  const t = document.createElement('div'); t.className = 'tags';
+  if (e.removal) { const x = document.createElement('span'); x.className = 'tag rem'; x.textContent = `${T().removal} · ${stageLabel(e.removal)}`; t.append(x); }
+  e.topics.filter(k => k !== 'removal').forEach(k => { const x = document.createElement('span'); x.className = 'tag'; x.textContent = T().t[k] || k; t.append(x); });
+  return t;
+}
 
 function popup(e) {
   const box = document.createElement('div'); box.className = 'pop';
   const when = document.createElement('span'); when.className = 'when';
-  when.textContent = `${fmtDate(e.date)} · ${e.place} (${PRECISION[e.precision] || e.precision})`;
+  when.textContent = `${fmtDate(e.date)} · ${e.place} (${T().prec[e.precision] || e.precision})`;
   const h = document.createElement('h3'); const a = document.createElement('a');
   a.href = e.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = e.title; h.append(a);
   box.append(when, h);
-  if (e.reason) { const p = document.createElement('p'); p.textContent = e.reason; box.append(p); }
+  if (e.reason) {
+    const p = document.createElement('p'); const s = document.createElement('small'); s.textContent = T().note;
+    p.append(s, document.createTextNode(e.reason)); box.append(p);
+  }
   box.append(tags(e));
   const src = document.createElement('span'); src.className = 'src';
-  src.textContent = e.source + (e.versions > 1 ? ` · ${e.versions} versões` : '');
+  src.textContent = e.source + (e.versions > 1 ? ` · ${T().versions(e.versions)}` : '');
   box.append(src);
   return box;
-}
-
-function tags(e) {
-  const t = document.createElement('div'); t.className = 'tags';
-  if (e.removal) { const x = document.createElement('span'); x.className = 'tag rem'; x.textContent = 'Remoção · ' + (STAGES[e.removal] || e.removal); t.append(x); }
-  e.topics.filter(k => k !== 'removal').forEach(k => { const x = document.createElement('span'); x.className = 'tag'; x.textContent = TOPICS[k] || k; t.append(x); });
-  return t;
 }
 
 function markerFor(e) {
@@ -207,10 +282,11 @@ function markerFor(e) {
 
 function visible() {
   const q = state.q.trim().toLowerCase();
-  const cutoff = state.days && state.latest ? new Date(state.latest.getTime() - (state.days - 1) * 864e5) : null;
+  const cutoff = state.period && state.latest ? new Date(state.latest.getTime() - (state.period - 1) * 864e5) : null;
   return state.events.filter(e => {
     if (state.onlyRemovals && !e.removal) return false;
     if (state.onlyRemovals && state.stage && e.removal !== state.stage) return false;
+    if (state.region && e.region !== state.region) return false;
     if (state.topics.size && !e.topics.some(t => state.topics.has(t))) return false;
     if (cutoff && new Date(e.date) < cutoff) return false;
     if (q && !(`${e.title} ${e.place} ${e.source} ${e.reason}`.toLowerCase().includes(q))) return false;
@@ -218,15 +294,22 @@ function visible() {
   });
 }
 
+function activeCount() {
+  return (state.onlyRemovals ? 1 : 0) + (state.region ? 1 : 0) + state.topics.size + (state.period ? 1 : 0) + (state.q.trim() ? 1 : 0);
+}
+
 function render() {
   const shown = visible();
   clusters.clearLayers();
   clusters.addLayers(shown.map(e => markers.get(e.id)));
+  const n = activeCount();
+  $('active').textContent = n ? T().active(n) : '';
+  if (!state.events.length) return;
+  const b = map.getBounds();
+  const inView = shown.filter(e => b.contains([e.lat, e.lon]) || b.contains([e.lat, e.lon + 360]) || b.contains([e.lat, e.lon - 360]));
+  $('list-count').textContent = T().inView(inView.length, shown.length);
   const list = $('list');
-  const bounds = map.getBounds();
-  const inView = shown.filter(e => bounds.contains([e.lat, e.lon]) || bounds.contains([e.lat, e.lon + 360]) || bounds.contains([e.lat, e.lon - 360]));
-  $('list-count').textContent = `${inView.length} de ${shown.length} na área visível`;
-  list.replaceChildren(...inView.slice(0, 200).map(e => {
+  list.replaceChildren(...inView.slice(0, 300).map(e => {
     const li = document.createElement('li'); li.className = 'item'; li.tabIndex = 0;
     if (e.removal) li.dataset.removal = '';
     const when = document.createElement('div'); when.className = 'when';
@@ -242,7 +325,7 @@ function render() {
   }));
   if (!inView.length) {
     const li = document.createElement('li'); li.className = 'empty';
-    li.textContent = shown.length ? 'Nenhum assunto nesta área. Afaste o mapa para ver mais.' : 'Nenhum assunto com esses filtros.';
+    li.textContent = shown.length ? T().noneHere : T().noneAtAll;
     list.append(li);
   }
 }
@@ -251,9 +334,10 @@ function buildTopicChips() {
   const counts = {};
   state.events.forEach(e => e.topics.forEach(t => { if (t !== 'removal') counts[t] = (counts[t] || 0) + 1; }));
   const box = $('topics');
-  Object.keys(TOPICS).filter(t => counts[t]).forEach(t => {
+  box.querySelectorAll('.chip').forEach(c => c.remove());
+  Object.keys(I18N.en.t).filter(t => counts[t]).forEach(t => {
     const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
-    b.textContent = `${TOPICS[t]} ${counts[t]}`; b.setAttribute('aria-pressed', 'false');
+    b.textContent = `${T().t[t]} ${counts[t]}`; b.setAttribute('aria-pressed', String(state.topics.has(t)));
     b.addEventListener('click', () => {
       state.topics.has(t) ? state.topics.delete(t) : state.topics.add(t);
       b.setAttribute('aria-pressed', String(state.topics.has(t))); render();
@@ -262,35 +346,71 @@ function buildTopicChips() {
   });
 }
 
+function regionCounts() {
+  const c = { '': state.events.length, south: 0, north: 0 };
+  state.events.forEach(e => { c[e.region] = (c[e.region] || 0) + 1; });
+  document.querySelectorAll('#region button').forEach(b => {
+    const key = b.dataset.region;
+    b.textContent = `${T()[key || 'all']} ${state.events.length ? c[key] : ''}`.trim();
+  });
+}
+
+function applyLang() {
+  const t = T();
+  document.documentElement.lang = state.lang === 'pt' ? 'pt-BR' : 'en';
+  document.title = state.lang === 'pt' ? 'Permanence · Mapa experimental' : 'Permanence · Experimental map';
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = t[el.dataset.i18n]; if (typeof v === 'string') el.textContent = v; });
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
+  $('q').placeholder = t.search; $('q').setAttribute('aria-label', t.search);
+  $('stage').setAttribute('aria-label', t.allStages);
+  $('map').setAttribute('aria-label', t.map);
+  document.querySelector('.lang').setAttribute('aria-label', t.lang);
+  if (!state.events.length) $('list-count').textContent = t.loading;
+  if (state.generated) $('updated').textContent = t.updated(fmtDate(state.generated), state.days.map(fmtDate).join(', '));
+  buildTopicChips(); regionCounts();
+  map.closePopup();
+  render();
+}
+
+document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
+  state.lang = b.dataset.lang;
+  try { localStorage.setItem('permanence-lang', state.lang); } catch (e) { /* storage unavailable */ }
+  applyLang();
+}));
 $('only-removals').addEventListener('click', ev => {
   state.onlyRemovals = !state.onlyRemovals;
   ev.currentTarget.setAttribute('aria-pressed', String(state.onlyRemovals));
   $('stage').hidden = !state.onlyRemovals; render();
 });
 $('stage').addEventListener('change', ev => { state.stage = ev.target.value; render(); });
+document.querySelectorAll('#region button').forEach(b => b.addEventListener('click', () => {
+  state.region = b.dataset.region;
+  document.querySelectorAll('#region button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+}));
 document.querySelectorAll('#period button').forEach(b => b.addEventListener('click', () => {
-  state.days = Number(b.dataset.days);
+  state.period = Number(b.dataset.days);
   document.querySelectorAll('#period button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   render();
 }));
 let qTimer;
 $('q').addEventListener('input', ev => { clearTimeout(qTimer); qTimer = setTimeout(() => { state.q = ev.target.value; render(); }, 200); });
 map.on('moveend', () => render());
+// On short screens start with the filters folded, so the story list is visible
+if (window.innerHeight < 760) $('filters').open = false;
 
+applyLang();
 fetch('events.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(data => {
   state.events = data.events;
+  state.days = data.days;
+  state.generated = data.generated_at.slice(0, 10);
   state.events.forEach(e => markers.set(e.id, markerFor(e)));
   state.latest = data.days.length ? new Date(data.days[data.days.length - 1]) : null;
   $('n-stories').textContent = data.events.length;
   $('n-removals').textContent = data.events.filter(e => e.removal).length;
   $('n-days').textContent = data.days.length;
-  const gen = new Date(data.generated_at);
-  $('updated').textContent = `Atualizado em ${gen.toLocaleDateString('pt-BR')} · dias coletados: ${data.days.map(fmtDate).join(', ')}`;
-  buildTopicChips();
-  render();
-}).catch(() => {
-  $('list-count').textContent = 'Não foi possível carregar os dados do mapa.';
-});
+  applyLang();
+}).catch(() => { $('list-count').textContent = T().loadError; });
 </script>
 </body>
 </html>

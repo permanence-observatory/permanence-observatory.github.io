@@ -10,7 +10,8 @@ mapa/events.json. A story's place is chosen from, in order:
      mostly stores city coordinates);
   3. the first city GKG found in the text (city);
   4. the first state/province (region), then the first country (country).
-Stories with no usable place are counted but not drawn.
+Stories with no usable place are counted but not drawn. Each point is also tagged
+Global North or South by its country (UN M49 developed regions = North).
 
 Usage:
   python pipeline/build_map_data.py            # writes mapa/events.json
@@ -35,6 +36,26 @@ OLD_TYPE_TOPICS = {
     'housing_policy': 'housing_policy', 'land_conflict': 'land_conflict', 'protest': 'protest',
     'health': 'health_education', 'other': 'other',
 }
+# Global North = the UN M49 "developed regions" (Europe, Northern America, Japan,
+# Australia and New Zealand); every other country counts as Global South.
+GLOBAL_NORTH = {fold(c) for c in (
+    'United States', 'Canada', 'Greenland', 'Bermuda', 'Japan', 'Australia', 'New Zealand',
+    'Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bosnia-Herzegovina',
+    'Bulgaria', 'Croatia', 'Czech Republic', 'Czechia', 'Denmark', 'Estonia', 'Faroe Islands', 'Finland',
+    'France', 'Germany', 'Gibraltar', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Isle of Man', 'Italy',
+    'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macedonia', 'North Macedonia', 'Malta',
+    'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia',
+    'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Ukraine',
+    'United Kingdom', 'Vatican City', 'Jersey', 'Guernsey',
+)}
+
+
+def world_region(place_name):
+    """'north' or 'south' from the country, the last part of the place name."""
+    country = fold(place_name.split(',')[-1].strip())
+    return 'north' if country in GLOBAL_NORTH else 'south'
+
+
 CITY_TYPES = {'world_city', 'us_city'}
 REGION_TYPES = {'world_adm1', 'us_state'}
 
@@ -105,6 +126,7 @@ def main():
                 'lang': face['language'], 'reason': face.get('reason') or '',
                 'topics': topics, 'removal': removal,
                 'lat': round(lat, 4), 'lon': round(lon, 4), 'place': place_name, 'precision': precision,
+                'region': world_region(place_name),
                 'versions': len(g), 'prompt': face.get('prompt_version'),
             })
 
