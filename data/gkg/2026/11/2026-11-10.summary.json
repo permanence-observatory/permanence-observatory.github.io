@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-10",
+  "candidates": 645,
+  "relevant": {
+    "no": 577,
+    "yes": 67,
+    "uncertain": 1
+  },
+  "stories_relevant": 46,
+  "stories_removal": 3,
+  "flagged_for_review": 0,
+  "topics_by_story": {
+    "culture": 17,
+    "housing_policy": 7,
+    "infrastructure": 5,
+    "health_education": 5,
+    "protest": 5,
+    "disaster": 4,
+    "removal": 3,
+    "violence": 3,
+    "data": 2,
+    "land_conflict": 1,
+    "economy": 1
+  },
+  "removal_stories": [
+    {
+      "story_id": "2026-11-10-0039",
+      "stage": "unspecified",
+      "title": "They lost their homes as Delhi developed. A pavement became a shelter for disabled like them"
+    },
+    {
+      "story_id": "2026-11-10-0138",
+      "stage": "threat",
+      "title": "Mumbai redevelopment turf war: BMC, SRA clash over who can clear projects on non-slum plots"
+    },
+    {
+      "story_id": "2026-11-10-0245",
+      "stage": "unspecified",
+      "title": "A New York Homeowner Changed the Locks on a Squatter and Got Arrested. The Law Changed After That — But Landlords Aren't Out of the Woods. » Live Insurance News"
+    }
+  ],
+  "languages_relevant": {
+    "eng": 22,
+    "por": 22,
+    "spa": 17,
+    "hin": 2,
+    "glg": 1,
+    "mar": 1,
+    "ben": 1,
+    "ita": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-10-0004",
+      "records": 13,
+      "title": "\"Seek to paint bleak picture of India\": JNU Professor on Chinese vloggers falsely portraying Dhaka slums as Delhi"
+    },
+    {
+      "story_id": "2026-11-10-0219",
+      "records": 4,
+      "title": "CEP chega a 101 favelas e comunidades do Rio Grande do Norte e beneficia 175 mil pessoas"
+    },
+    {
+      "story_id": "2026-11-10-0096",
+      "records": 2,
+      "title": "South Africa: 'I Fear My Home Will Fall Into a Sinkhole' Says Cape Town Resident"
+    },
+    {
+      "story_id": "2026-11-10-0060",
+      "records": 2,
+      "title": "Defensoría denuncia que a tres meses del terremoto de magnitud 7.4, persisten barreras y dificultades en atención y recuperación de comunidades afectadas – Radio Santa Fe 1070 a.m. Noticias de Colombia"
+    },
+    {
+      "story_id": "2026-11-10-0200",
+      "records": 2,
+      "title": "Polícia Civil prende homem que fornecia fuzis a traficantes da Rocinha"
+    },
+    {
+      "story_id": "2026-11-10-0194",
+      "records": 2,
+      "title": "Desmantelan banda 'Illimani' en Bogotá: seis capturados por microtráfico y homicidios"
+    },
+    {
+      "story_id": "2026-11-10-0261",
+      "records": 2,
+      "title": "Chagas en Valledupar: Salud refuerza prevención en comunidades rurales e indígenas"
+    },
+    {
+      "story_id": "2026-11-10-0367",
+      "records": 2,
+      "title": "Falta de saneamento influencia no desempenho de estudantes no Enem"
+    },
+    {
+      "story_id": "2026-11-10-0007",
+      "records": 1,
+      "title": "Comunidade Católica Shalom realizará ação no Dia Mundial dos Pobres - O que é notícia em Sergipe"
+    },
+    {
+      "story_id": "2026-11-10-0010",
+      "records": 1,
+      "title": "Gobierno nacional entregó soluciones de purificación de agua a comunidades Wayúu de La Guajira"
+    }
+  ],
+  "collected_at": "2026-11-11T15:29:49Z",
+  "pipeline_version": "2026-11-10.1",
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-10.1",
+  "every": 1,
+  "files_ok": 192,
+  "files_missing": 0,
+  "seconds_total": 8216
+}
