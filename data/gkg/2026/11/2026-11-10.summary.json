@@ -1,112 +1,198 @@
 {
   "date": "2026-11-10",
-  "candidates": 645,
+  "candidates": 678,
   "relevant": {
-    "no": 577,
-    "yes": 67,
-    "uncertain": 1
+    "yes": 102,
+    "no": 568,
+    "uncertain": 8
   },
-  "stories_relevant": 46,
-  "stories_removal": 3,
-  "flagged_for_review": 0,
+  "stories_relevant": 76,
+  "stories_removal": 20,
+  "flagged_for_review": 8,
   "topics_by_story": {
-    "culture": 17,
-    "housing_policy": 7,
-    "infrastructure": 5,
-    "health_education": 5,
-    "protest": 5,
-    "disaster": 4,
-    "removal": 3,
+    "culture": 22,
+    "removal": 20,
+    "housing_policy": 10,
+    "disaster": 8,
+    "protest": 7,
+    "infrastructure": 6,
+    "health_education": 6,
     "violence": 3,
-    "data": 2,
-    "land_conflict": 1,
-    "economy": 1
+    "data": 3
   },
   "removal_stories": [
     {
+      "story_id": "2026-11-10-0005",
+      "stage": "threat",
+      "title": "Residents struggle to save damaged garages from fines, demolition"
+    },
+    {
+      "story_id": "2026-11-10-0010",
+      "stage": "threat",
+      "title": "Familias de un municipio de Caldas denuncian inminente desalojo de sus viviendas"
+    },
+    {
       "story_id": "2026-11-10-0039",
+      "stage": "threat",
+      "title": "Atlanta board approves application to demolish 'Hardwick House'"
+    },
+    {
+      "story_id": "2026-11-10-0042",
       "stage": "unspecified",
       "title": "They lost their homes as Delhi developed. A pavement became a shelter for disabled like them"
     },
     {
-      "story_id": "2026-11-10-0138",
+      "story_id": "2026-11-10-0057",
+      "stage": "threat",
+      "title": "Harare demolitions leave families homeless after years of building"
+    },
+    {
+      "story_id": "2026-11-10-0095",
+      "stage": "threat",
+      "title": "El 'escudo social' del Gobierno frena el desalojo de las 30 familias okupas que aún siguen en Son Parc"
+    },
+    {
+      "story_id": "2026-11-10-0107",
+      "stage": "unspecified",
+      "title": "Desalojados en Colinas del Norte hallan refugio en Juárez"
+    },
+    {
+      "story_id": "2026-11-10-0115",
+      "stage": "threat",
+      "title": "Farmstead near Workington could be demolished for 13 homes"
+    },
+    {
+      "story_id": "2026-11-10-0142",
+      "stage": "threat",
+      "title": "അസമില്‍ മുസ്ലീംകുടുംബങ്ങളെ ലക്ഷ്യമിട്ടുള്ള ബുള്‍ഡോസര്‍ രാജ് : ദീപാവലി ആഘോഷത്തിന് മുമ്പുള്ള വീടുവൃത്തിയാക്കലെന്ന് ഹിമന്ദ വിശ്വ ശര്‍മ്മ"
+    },
+    {
+      "story_id": "2026-11-10-0145",
+      "stage": "threat",
+      "title": "El PP acusa a Collboni de \"apagar la Navidad\" en plaza Catalunya para no desalojar la acampada por la vivienda"
+    },
+    {
+      "story_id": "2026-11-10-0148",
       "stage": "threat",
       "title": "Mumbai redevelopment turf war: BMC, SRA clash over who can clear projects on non-slum plots"
     },
     {
-      "story_id": "2026-11-10-0245",
+      "story_id": "2026-11-10-0152",
       "stage": "unspecified",
-      "title": "A New York Homeowner Changed the Locks on a Squatter and Got Arrested. The Law Changed After That — But Landlords Aren't Out of the Woods. » Live Insurance News"
-    }
-  ],
-  "languages_relevant": {
-    "eng": 22,
-    "por": 22,
-    "spa": 17,
-    "hin": 2,
-    "glg": 1,
-    "mar": 1,
-    "ben": 1,
-    "ita": 1
-  },
-  "top_stories": [
+      "title": "Casa Hogar Mi Esperanza refugia a familia desalojada en Juárez"
+    },
     {
-      "story_id": "2026-11-10-0004",
-      "records": 13,
-      "title": "\"Seek to paint bleak picture of India\": JNU Professor on Chinese vloggers falsely portraying Dhaka slums as Delhi"
+      "story_id": "2026-11-10-0155",
+      "stage": "threat",
+      "title": "El desmantelamiento del campamento del puerto de Ceuta acelera los retornos de inmigrantes a Marruecos"
     },
     {
       "story_id": "2026-11-10-0219",
-      "records": 4,
+      "stage": "threat",
+      "title": "Zimbabwe: Ruwa Residents Urged to Report Corrupt Officials Amid Demolitions Row"
+    },
+    {
+      "story_id": "2026-11-10-0224",
+      "stage": "threat",
+      "title": "El Gobierno da por vaciado Poniente y reconoce ya expulsiones de migrantes"
+    },
+    {
+      "story_id": "2026-11-10-0056",
+      "stage": "executed",
+      "title": "ബിസ്മില്ലാ ഖാന്റെ തറവാട്ടു വീട് പൊളിച്ചതിൽ വാക്‌പോര്: ബി.ജെ.പിക്കെതിരെ അഖിലേഷ് യാദവ്; വാദം തള്ളി കുടുംബം | Akhilesh Yadav slams BJP govt over demolition of Bismillah Khan's Varanasi home, family says it gave consent"
+    },
+    {
+      "story_id": "2026-11-10-0287",
+      "stage": "threat",
+      "title": "Excavadoras y camiones de basura para desalojar un campamento de tiendas y furgonetas junto a una playa de Australia tras cientos de quejas vecinales"
+    },
+    {
+      "story_id": "2026-11-10-0335",
+      "stage": "unspecified",
+      "title": "Badalona prolonga el alojamiento a las familias desalojadas de la calle Covadonga"
+    },
+    {
+      "story_id": "2026-11-10-0361",
+      "stage": "threat",
+      "title": "Las once familias desalojadas del edificio de la explosión en Oviedo pasarán la noche en casas de allegados y un hotel"
+    },
+    {
+      "story_id": "2026-11-10-0390",
+      "stage": "executed",
+      "title": "NHRC Takes Cognisance Of Tribal Families' House Demolition In MP's Budhni, Seeks Detailed Report From Sehore Collector Within Seven Days"
+    }
+  ],
+  "languages_relevant": {
+    "eng": 34,
+    "spa": 33,
+    "por": 25,
+    "mal": 2,
+    "hin": 2,
+    "pan": 1,
+    "vie": 1,
+    "glg": 1,
+    "mar": 1,
+    "deu": 1,
+    "ben": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-10-0003",
+      "records": 12,
+      "title": "\"Seek to paint bleak picture of India\": JNU Professor on Chinese vloggers falsely portraying Dhaka slums as Delhi"
+    },
+    {
+      "story_id": "2026-11-10-0234",
+      "records": 6,
       "title": "CEP chega a 101 favelas e comunidades do Rio Grande do Norte e beneficia 175 mil pessoas"
     },
     {
-      "story_id": "2026-11-10-0096",
-      "records": 2,
-      "title": "South Africa: 'I Fear My Home Will Fall Into a Sinkhole' Says Cape Town Resident"
+      "story_id": "2026-11-10-0194",
+      "records": 3,
+      "title": "'Paquito' é preso na Bahia por fornecer fuzis a criminosos da Rocinha | Rio de Janeiro"
     },
     {
-      "story_id": "2026-11-10-0060",
+      "story_id": "2026-11-10-0010",
+      "records": 2,
+      "title": "Familias de un municipio de Caldas denuncian inminente desalojo de sus viviendas"
+    },
+    {
+      "story_id": "2026-11-10-0039",
+      "records": 2,
+      "title": "Atlanta board approves application to demolish 'Hardwick House'"
+    },
+    {
+      "story_id": "2026-11-10-0057",
+      "records": 2,
+      "title": "Harare demolitions leave families homeless after years of building"
+    },
+    {
+      "story_id": "2026-11-10-0115",
+      "records": 2,
+      "title": "Farmstead near Workington could be demolished for 13 homes"
+    },
+    {
+      "story_id": "2026-11-10-0145",
+      "records": 2,
+      "title": "El PP acusa a Collboni de \"apagar la Navidad\" en plaza Catalunya para no desalojar la acampada por la vivienda"
+    },
+    {
+      "story_id": "2026-11-10-0063",
       "records": 2,
       "title": "Defensoría denuncia que a tres meses del terremoto de magnitud 7.4, persisten barreras y dificultades en atención y recuperación de comunidades afectadas – Radio Santa Fe 1070 a.m. Noticias de Colombia"
-    },
-    {
-      "story_id": "2026-11-10-0200",
-      "records": 2,
-      "title": "Polícia Civil prende homem que fornecia fuzis a traficantes da Rocinha"
-    },
-    {
-      "story_id": "2026-11-10-0194",
-      "records": 2,
-      "title": "Desmantelan banda 'Illimani' en Bogotá: seis capturados por microtráfico y homicidios"
     },
     {
       "story_id": "2026-11-10-0261",
       "records": 2,
       "title": "Chagas en Valledupar: Salud refuerza prevención en comunidades rurales e indígenas"
-    },
-    {
-      "story_id": "2026-11-10-0367",
-      "records": 2,
-      "title": "Falta de saneamento influencia no desempenho de estudantes no Enem"
-    },
-    {
-      "story_id": "2026-11-10-0007",
-      "records": 1,
-      "title": "Comunidade Católica Shalom realizará ação no Dia Mundial dos Pobres - O que é notícia em Sergipe"
-    },
-    {
-      "story_id": "2026-11-10-0010",
-      "records": 1,
-      "title": "Gobierno nacional entregó soluciones de purificación de agua a comunidades Wayúu de La Guajira"
     }
   ],
-  "collected_at": "2026-11-11T15:29:49Z",
-  "pipeline_version": "2026-11-10.1",
+  "collected_at": "2026-11-11T18:45:39Z",
+  "pipeline_version": "2026-11-11.2",
   "model": "qwen2.5:7b",
-  "prompt_version": "2026-11-10.1",
+  "prompt_version": "2026-11-11.1",
   "every": 1,
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 8216
+  "seconds_total": 4799
 }
