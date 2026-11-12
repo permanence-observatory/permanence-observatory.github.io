@@ -1,85 +1,173 @@
 {
   "date": "2026-11-08",
-  "candidates": 565,
+  "candidates": 599,
   "relevant": {
-    "no": 549,
-    "yes": 15,
-    "uncertain": 1
+    "no": 511,
+    "yes": 69,
+    "uncertain": 14,
+    "None": 5
   },
-  "stories_relevant": 15,
-  "flagged_for_review": 1,
-  "event_types_by_story": {
-    "upgrading_infrastructure": 8,
-    "protest": 5,
-    "demolition": 1,
-    "housing_policy": 1
+  "stories_relevant": 46,
+  "stories_removal": 15,
+  "flagged_for_review": 10,
+  "topics_by_story": {
+    "culture": 16,
+    "removal": 15,
+    "housing_policy": 5,
+    "violence": 4,
+    "protest": 4,
+    "disaster": 4,
+    "health_education": 3,
+    "infrastructure": 2
   },
+  "removal_stories": [
+    {
+      "story_id": "2026-11-08-0014",
+      "stage": "threat",
+      "title": "Chembur Hutment Dwellers Move Bombay HC Against Proposed Demolition; Seek Survey And Rehabilitation For 3,500 Residents"
+    },
+    {
+      "story_id": "2026-11-08-0021",
+      "stage": "threat",
+      "title": "ഷെ​ഹ്നാ​യി വി​ദ്വാ​ൻ ബിസ്മില്ലാ ഖാന്റെ വീട് പൊളിച്ചതിൽ വിവാദം | Row over demolition of Bismillah Khan's house"
+    },
+    {
+      "story_id": "2026-11-08-0038",
+      "stage": "threat",
+      "title": "Çubukluda rant endişesi: 509 hane şimdi nereye gidecek?"
+    },
+    {
+      "story_id": "2026-11-08-0066",
+      "stage": "threat",
+      "title": "Ruwa residents urged to report corrupt officials amid demolitions row"
+    },
+    {
+      "story_id": "2026-11-08-0090",
+      "stage": "threat",
+      "title": "ഉസ്താദ് ബിസ്മില്ലഖാന്റെ കുടുംബവീടിന്റെ ഭാഗം പൊളിച്ചുമാറ്റിയ യുപി സര്‍ക്കാരിന്റെ നടപടയില്‍ പ്രതിഷേധം ശക്തമാകുന്നു"
+    },
+    {
+      "story_id": "2026-11-08-0094",
+      "stage": "threat",
+      "title": "Comienza a desmantelarse el campamento de migrantes del Puerto de Ceuta"
+    },
+    {
+      "story_id": "2026-11-08-0104",
+      "stage": "threat",
+      "title": "Una mujer de 86 años lleva meses sin poder usar su casa pese a una sentencia de desalojo: el recurso mantiene la vivienda ocupada"
+    },
+    {
+      "story_id": "2026-11-08-0137",
+      "stage": "executed",
+      "title": "Tyneside council update on demolition 50 year old Hebburn tower block as residents are relocated"
+    },
+    {
+      "story_id": "2026-11-08-0147",
+      "stage": "executed",
+      "title": "Israel's govt demolished their homes, Bedouins responded by voting against it"
+    },
+    {
+      "story_id": "2026-11-08-0196",
+      "stage": "threat",
+      "title": "El Gobierno desmantela las 50 carpas de la AECID en el muelle de Poniente y prepara nuevos traslados"
+    },
+    {
+      "story_id": "2026-11-08-0215",
+      "stage": "unspecified",
+      "title": "Bombay High Court: मुबंईच्या झोपडपट्टीतील कचऱ्याची  दखल  उच्च न्यायालयाने घेतली; राज्य सरकारला धाडले निर्देश,एका आठवड्यात नोटिसा पाठवणार"
+    },
+    {
+      "story_id": "2026-11-08-0203",
+      "stage": "unspecified",
+      "title": "Família desalojada no Santo da Serra ficou em casa de familiares"
+    },
+    {
+      "story_id": "2026-11-08-0251",
+      "stage": "executed",
+      "title": "La Policía desaloja un bloque ocupado en Manresa y la movilización consigue que las familias vuelvan a entrar horas después"
+    },
+    {
+      "story_id": "2026-11-08-0256",
+      "stage": "unspecified",
+      "title": "Squatters de Ti-Rodrig —  La lumière au bout du tunnel… ?"
+    },
+    {
+      "story_id": "2026-11-08-0286",
+      "stage": "executed",
+      "title": "Somalia: At Least Three Civilians Killed in Clashes Over Home Demolitions in Mogadishu"
+    }
+  ],
   "languages_relevant": {
-    "por": 5,
-    "eng": 4,
-    "spa": 3,
-    "hin": 1,
-    "mar": 1,
+    "spa": 27,
+    "por": 13,
+    "eng": 13,
+    "ind": 4,
+    "tur": 4,
+    "mar": 2,
+    "mal": 2,
+    "vie": 1,
+    "hrv": 1,
+    "glg": 1,
     "fra": 1
   },
   "top_stories": [
+    {
+      "story_id": "2026-11-08-0094",
+      "records": 13,
+      "title": "Comienza a desmantelarse el campamento de migrantes del Puerto de Ceuta"
+    },
+    {
+      "story_id": "2026-11-08-0003",
+      "records": 6,
+      "title": "Fuerte discurso del papa León XIV en Casavalle: \"No dejemos que la droga les robe los sueños\""
+    },
+    {
+      "story_id": "2026-11-08-0038",
+      "records": 4,
+      "title": "Çubukluda rant endişesi: 509 hane şimdi nereye gidecek?"
+    },
+    {
+      "story_id": "2026-11-08-0011",
+      "records": 3,
+      "title": "Dukung Kualitas Hidup Masyarakat, PAM JAYA Sediakan Water Purifier di Ring Tinju Kampung Melayu Jakarta Timur"
+    },
+    {
+      "story_id": "2026-11-08-0162",
+      "records": 2,
+      "title": "'Cidade de Deus' chega à segunda temporada com milícia - 08/11/2026 - Ilustrada"
+    },
     {
       "story_id": "2026-11-08-0014",
       "records": 1,
       "title": "Chembur Hutment Dwellers Move Bombay HC Against Proposed Demolition; Seek Survey And Rehabilitation For 3,500 Residents"
     },
     {
-      "story_id": "2026-11-08-0024",
+      "story_id": "2026-11-08-0025",
       "records": 1,
       "title": "Expo Favela reúne 150 empreendedores e recebe mais de 15 mil visitantes no RS"
     },
     {
-      "story_id": "2026-11-08-0004",
+      "story_id": "2026-11-08-0026",
       "records": 1,
-      "title": "El asombro del mundo: medios hablan de \"histórica\" visita del papa a Uruguay y resaltan pobreza extrema de Casavalle"
+      "title": "शिवडी बीडीडीच्या पुनर्विकासाचे द्वार खुले! मुंबई पोर्ट प्राधिकरणाची जागा हस्तांतरणाची तयारी, 960 कुटुंबांच्या आशा पल्लवित"
     },
     {
-      "story_id": "2026-11-08-0097",
+      "story_id": "2026-11-08-0021",
       "records": 1,
-      "title": "Armed gangs backing squatters - Jamaica Observer"
+      "title": "ഷെ​ഹ്നാ​യി വി​ദ്വാ​ൻ ബിസ്മില്ലാ ഖാന്റെ വീട് പൊളിച്ചതിൽ വിവാദം | Row over demolition of Bismillah Khan's house"
     },
     {
-      "story_id": "2026-11-08-0099",
+      "story_id": "2026-11-08-0040",
       "records": 1,
-      "title": "Frame Policy To Prevent Garbage Dumping In Slum Areas, Bombay HC Tells Maharashtra Government"
-    },
-    {
-      "story_id": "2026-11-08-0131",
-      "records": 1,
-      "title": "Comunidade se mobiliza para garantir permanência da Feira da Ponta Norte"
-    },
-    {
-      "story_id": "2026-11-08-0173",
-      "records": 1,
-      "title": "Além da foto na laje: conheça cinco passeios diferentes que moradores da Rocinha estão preparando para turistas"
-    },
-    {
-      "story_id": "2026-11-08-0190",
-      "records": 1,
-      "title": ""
-    },
-    {
-      "story_id": "2026-11-08-0205",
-      "records": 1,
-      "title": "Bombay High Court: मुबंईच्या झोपडपट्टीतील कचऱ्याची  दखल  उच्च न्यायालयाने घेतली; राज्य सरकारला धाडले निर्देश,एका आठवड्यात नोटिसा पाठवणार"
-    },
-    {
-      "story_id": "2026-11-08-0227",
-      "records": 1,
-      "title": "PM cancela show de Natanzinho em Paraisópolis e comunidade se revolta"
+      "title": "Người đàn ông SN 1990 giã từ khu ổ chuột, 4 năm kiếm hơn 33 nghìn tỷ"
     }
   ],
-  "collected_at": "2026-11-09T13:34:07Z",
-  "pipeline_version": "2026-11-09.1",
+  "collected_at": "2026-11-12T22:18:45Z",
+  "pipeline_version": "2026-11-11.2",
   "model": "qwen2.5:7b",
-  "prompt_version": "2026-11-02.1",
+  "prompt_version": "2026-11-11.1",
   "every": 1,
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 3939
+  "seconds_total": 4753
 }
