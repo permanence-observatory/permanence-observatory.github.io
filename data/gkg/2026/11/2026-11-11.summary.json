@@ -1,0 +1,191 @@
+{
+  "date": "2026-11-11",
+  "candidates": 639,
+  "relevant": {
+    "yes": 121,
+    "uncertain": 8,
+    "no": 508,
+    "None": 2
+  },
+  "stories_relevant": 81,
+  "stories_removal": 18,
+  "flagged_for_review": 8,
+  "topics_by_story": {
+    "disaster": 24,
+    "culture": 19,
+    "removal": 18,
+    "violence": 11,
+    "housing_policy": 8,
+    "protest": 5,
+    "infrastructure": 5,
+    "health_education": 2,
+    "land_conflict": 1,
+    "other": 1
+  },
+  "removal_stories": [
+    {
+      "story_id": "2026-11-11-0001",
+      "stage": "unspecified",
+      "title": "Meth Found In Sea Cliff Squatter House; Woman Charged With Animal Neglect, Gun Possession"
+    },
+    {
+      "story_id": "2026-11-11-0006",
+      "stage": "threat",
+      "title": "El juez apremia a Donostia a aclarar si tiene vivienda para la familia del desalojo del piso de Egia"
+    },
+    {
+      "story_id": "2026-11-11-0144",
+      "stage": "unspecified",
+      "title": "CIDH denunció ataques armados, detenciones y despojo territorial contra comunidades de la Costa Caribe de Nicaragua"
+    },
+    {
+      "story_id": "2026-11-11-0174",
+      "stage": "threat",
+      "title": "Desalojo de toma Las Etnias ya suma 46 familias que salieron de forma voluntaria"
+    },
+    {
+      "story_id": "2026-11-11-0233",
+      "stage": "executed",
+      "title": "Bulldozer Action: ममता बनर्जी की TMC के पूर्व विधायक के घर पर बुलडोजर एक्शन, बंगाल चुनाव में कहा था- पुष्पा कभी झुकेगा नहीं"
+    },
+    {
+      "story_id": "2026-11-11-0240",
+      "stage": "executed",
+      "title": "Demolition begins at ex-TMC MLA Jahangir Khan's house in Falta | Kolkata News"
+    },
+    {
+      "story_id": "2026-11-11-0267",
+      "stage": "unspecified",
+      "title": "Mumbai: Civil Court Sets Aside Eviction Order Against Professor Asked To Pay ₹37.22 Lakh In Government Housing Dues"
+    },
+    {
+      "story_id": "2026-11-11-0270",
+      "stage": "threat",
+      "title": "Woman Attempts Suicide Fearing Eviction As Demolition Threat Looms Over 600 Janta Quarters Homes In Bhopal"
+    },
+    {
+      "story_id": "2026-11-11-0297",
+      "stage": "threat",
+      "title": "Autoridades adelantan operativo de desalojo a una vivienda en el barrio Latino, de Cúcuta"
+    },
+    {
+      "story_id": "2026-11-11-0319",
+      "stage": "unspecified",
+      "title": "Illinois Finally Gave Police the Power to Remove Squatters. It Took a State Rep Having One Move In Next Door » Live Insurance News"
+    },
+    {
+      "story_id": "2026-11-11-0328",
+      "stage": "threat",
+      "title": "Damnificados esperan saber si sus casas serán demolidas"
+    },
+    {
+      "story_id": "2026-11-11-0343",
+      "stage": "unspecified",
+      "title": "Familia cafetera recibió nueva casa tras perder su vivienda por el terremoto del 10 de agosto"
+    },
+    {
+      "story_id": "2026-11-11-0346",
+      "stage": "threat",
+      "title": "Démolition à Tivaouane Peulh : Le bras de fer judiciaire à 30 milliards F CFA entre la SIPRES, Anna Dia et 886 occupants"
+    },
+    {
+      "story_id": "2026-11-11-0348",
+      "stage": "threat",
+      "title": "સુરતના નાસીરનગર 'ભૂતિયા' ડિમોલિશન વિવાદ: અસરગ્રસ્ત પરિવારોને નહીં મળે વૈકલ્પિક આવાસ, સ્ટેન્ડિંગ કમિટીનો નિર્ણય"
+    },
+    {
+      "story_id": "2026-11-11-0369",
+      "stage": "threat",
+      "title": "If the current home demolitions occurred under colonial rule, today's leaders would call them atrocities"
+    },
+    {
+      "story_id": "2026-11-11-0370",
+      "stage": "threat",
+      "title": "Rengo notifica desalojo a ocupantes de campamento en sector 4 Esquinas"
+    },
+    {
+      "story_id": "2026-11-11-0406",
+      "stage": "unspecified",
+      "title": "ДАН - Basti određeno zadržavanje, osumnjičen da je nezakonitim donacijama izvlačio novac iz „Beogradskih elektrana\""
+    },
+    {
+      "story_id": "2026-11-11-0411",
+      "stage": "threat",
+      "title": "18 residents given eviction notices at Parkers Place Village"
+    }
+  ],
+  "languages_relevant": {
+    "spa": 31,
+    "tur": 30,
+    "eng": 24,
+    "por": 22,
+    "hin": 6,
+    "kor": 2,
+    "urd": 1,
+    "ita": 1,
+    "ron": 1,
+    "fra": 1,
+    "guj": 1,
+    "bos": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-11-0043",
+      "records": 27,
+      "title": "Eyüpsultan'da gecekonduda çıkan yangında çatı çöktü: 1 ölü - İSTANBUL | Mersin Haber"
+    },
+    {
+      "story_id": "2026-11-11-0001",
+      "records": 4,
+      "title": "Meth Found In Sea Cliff Squatter House; Woman Charged With Animal Neglect, Gun Possession"
+    },
+    {
+      "story_id": "2026-11-11-0022",
+      "records": 3,
+      "title": "Mais de 2,1 milhões de moradores de favelas do RJ ganham CEPs  | Rio de Janeiro"
+    },
+    {
+      "story_id": "2026-11-11-0021",
+      "records": 3,
+      "title": "'It can kill us': Kenyans fear impact of El Niño with floods predicted"
+    },
+    {
+      "story_id": "2026-11-11-0174",
+      "records": 3,
+      "title": "Desalojo de toma Las Etnias ya suma 46 familias que salieron de forma voluntaria"
+    },
+    {
+      "story_id": "2026-11-11-0012",
+      "records": 2,
+      "title": "Fire breaks out again at Guryong Village in Gangnam; no injuries reported"
+    },
+    {
+      "story_id": "2026-11-11-0016",
+      "records": 2,
+      "title": "Revelan el balance de casas reparadas en Antioquia tras 3 meses del terremoto"
+    },
+    {
+      "story_id": "2026-11-11-0058",
+      "records": 2,
+      "title": "Los barrios de Bogotá que tendrán cortes de agua el 11 y 12 de noviembre de 2026 por obras del Acueducto: fechas, horarios y recomendaciones"
+    },
+    {
+      "story_id": "2026-11-11-0053",
+      "records": 2,
+      "title": "Chinese Streamers Film Dhaka Slums, Pass Them Off As Delhi; MEA Calls Out 'False Narratives', Seeks Action"
+    },
+    {
+      "story_id": "2026-11-11-0307",
+      "records": 2,
+      "title": "Um novo destino para o coco verde: EXTRA Favelas mostra iniciativas de reciclagem e reaproveitamento nas comunidades"
+    }
+  ],
+  "collected_at": "2026-11-12T17:07:20Z",
+  "pipeline_version": "2026-11-11.2",
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-11.1",
+  "every": 1,
+  "files_ok": 192,
+  "files_missing": 0,
+  "seconds_total": 7554
+}
