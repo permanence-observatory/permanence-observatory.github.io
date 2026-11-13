@@ -1,0 +1,200 @@
+{
+  "date": "2026-11-05",
+  "candidates": 727,
+  "relevant": {
+    "no": 575,
+    "uncertain": 19,
+    "yes": 133
+  },
+  "stories_relevant": 72,
+  "stories_removal": 20,
+  "flagged_for_review": 20,
+  "topics_by_story": {
+    "removal": 20,
+    "housing_policy": 17,
+    "culture": 14,
+    "disaster": 11,
+    "violence": 10,
+    "protest": 5,
+    "other": 3,
+    "infrastructure": 2,
+    "data": 1,
+    "land_conflict": 1,
+    "health_education": 1
+  },
+  "removal_stories": [
+    {
+      "story_id": "2026-11-05-0007",
+      "stage": "executed",
+      "title": "Lagos demolitions displaced 50,000 – Amnesty International"
+    },
+    {
+      "story_id": "2026-11-05-0042",
+      "stage": "threat",
+      "title": "Denuncian ofertas pírricas por sus propiedades a familias serán desalojadas de Las Lilas SDE"
+    },
+    {
+      "story_id": "2026-11-05-0062",
+      "stage": "court",
+      "title": "Supreme Court bars Kenya Railways from evicting Nubian residents of Kibos Settlement"
+    },
+    {
+      "story_id": "2026-11-05-0066",
+      "stage": "executed",
+      "title": "Mujer resultó herida de gravedad luego de que su hija incendiara su casa durante desalojo"
+    },
+    {
+      "story_id": "2026-11-05-0068",
+      "stage": "threat",
+      "title": "Demolition of villagers' homes sparks outcry in Al-Jazira state"
+    },
+    {
+      "story_id": "2026-11-05-0110",
+      "stage": "threat",
+      "title": "Bidadi township: In 3 months, 22% of landowners in 7 villages get compensation"
+    },
+    {
+      "story_id": "2026-11-05-0115",
+      "stage": "executed",
+      "title": "Manuela Carmena, sobre el problema de la vivienda en España: «Franco construyó muchas casas y respetó mucho los alquileres. Liberalizar los arrendamientos fue un error»"
+    },
+    {
+      "story_id": "2026-11-05-0033",
+      "stage": "executed",
+      "title": "Após protestos, obra de eletroposto no Aterro do Flamengo é demolida, mas prefeitura planeja nova concessão da área; entenda"
+    },
+    {
+      "story_id": "2026-11-05-0142",
+      "stage": "executed",
+      "title": "UPDATE 2: Israeli forces demolish homes, residential building in Jerusalem"
+    },
+    {
+      "story_id": "2026-11-05-0144",
+      "stage": "threat",
+      "title": "Desalojado un bloque de pisos con 20 viviendas en Badalona al detectarse daños estructurales"
+    },
+    {
+      "story_id": "2026-11-05-0178",
+      "stage": "threat",
+      "title": "Maharashtra Assembly Speaker Rahul Narwekar Denies Role In Alleged Eviction Of 20 Katkari Families In Raigad, Says 'Dispute Was Settled'"
+    },
+    {
+      "story_id": "2026-11-05-0213",
+      "stage": "threat",
+      "title": "Zimbabwe: ZHRC Urges Humane Approach As Demolitions Leave Families Facing Displacement"
+    },
+    {
+      "story_id": "2026-11-05-0214",
+      "stage": "threat",
+      "title": "Pay regularisation fee to council or face demolition, Harare warns illegal settlers"
+    },
+    {
+      "story_id": "2026-11-05-0222",
+      "stage": "executed",
+      "title": "Parede desaba durante demolição de casa e mata trabalhador de 43 anos em cidade da região"
+    },
+    {
+      "story_id": "2026-11-05-0236",
+      "stage": "executed",
+      "title": "Israeli forces begin demolishing Palestinian home in Salfit"
+    },
+    {
+      "story_id": "2026-11-05-0240",
+      "stage": "threat",
+      "title": "La Fédération Histoire Québec ne contestera pas la démolition de la Maison Desbiens"
+    },
+    {
+      "story_id": "2026-11-05-0241",
+      "stage": "unspecified",
+      "title": "Tensión en Timba, Buenos Aires, por enfrentamientos en medio de las comunidades campesinas"
+    },
+    {
+      "story_id": "2026-11-05-0261",
+      "stage": "threat",
+      "title": "Ratifican la orden de demolición de un vivienda construida en suelo rústico en Barreiros"
+    },
+    {
+      "story_id": "2026-11-05-0316",
+      "stage": "executed",
+      "title": "Provoca fuga de gas en pipa desalojo de 50 personas en Ecatepec"
+    },
+    {
+      "story_id": "2026-11-05-0353",
+      "stage": "threat",
+      "title": "Arab News | Israel begins demolishing Palestinian Bedouin community ahead of E1 settlement project, rights groups warn"
+    }
+  ],
+  "languages_relevant": {
+    "spa": 44,
+    "vie": 29,
+    "eng": 24,
+    "por": 21,
+    "hin": 5,
+    "tur": 4,
+    "fra": 2,
+    "tel": 1,
+    "ben": 1,
+    "guj": 1,
+    "srp": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-05-0087",
+      "records": 28,
+      "title": "Hà Nội: Cháy khu phòng học ở Trường THCS Kim Liên"
+    },
+    {
+      "story_id": "2026-11-05-0115",
+      "records": 11,
+      "title": "Manuela Carmena, sobre el problema de la vivienda en España: «Franco construyó muchas casas y respetó mucho los alquileres. Liberalizar los arrendamientos fue un error»"
+    },
+    {
+      "story_id": "2026-11-05-0003",
+      "records": 10,
+      "title": "Lloviznas en Lima Sur provocan aniegos en Villa María del Triunfo y Villa El Salvador"
+    },
+    {
+      "story_id": "2026-11-05-0199",
+      "records": 5,
+      "title": "La Junta abre la consulta pública sobre el reglamento de la Ley de Vivienda de Andalucía"
+    },
+    {
+      "story_id": "2026-11-05-0002",
+      "records": 4,
+      "title": "Hatay'ın Dörtyol ilçesinde sağanak nedeniyle bazı ev ve iş yerlerini su bastı"
+    },
+    {
+      "story_id": "2026-11-05-0207",
+      "records": 4,
+      "title": "Diwali bonanza: Delhi government announces new slum rehabilitation policy, 5 lakh families to get permanent homes"
+    },
+    {
+      "story_id": "2026-11-05-0005",
+      "records": 2,
+      "title": "Mais de 12 mil favelas passam a ter CEP no Brasil"
+    },
+    {
+      "story_id": "2026-11-05-0018",
+      "records": 2,
+      "title": "South African municipal elections under way as millions head to polls"
+    },
+    {
+      "story_id": "2026-11-05-0028",
+      "records": 2,
+      "title": "Tarde de protestas en sedes de la U. Distrital termina en enfrentamientos con la UNDMO"
+    },
+    {
+      "story_id": "2026-11-05-0142",
+      "records": 2,
+      "title": "UPDATE 2: Israeli forces demolish homes, residential building in Jerusalem"
+    }
+  ],
+  "collected_at": "2026-11-13T01:15:39Z",
+  "pipeline_version": "2026-11-11.2",
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-11.1",
+  "every": 1,
+  "files_ok": 192,
+  "files_missing": 0,
+  "seconds_total": 10472
+}
