@@ -1,0 +1,10 @@
+[
+  {"from_day": "2026-11-02", "pipeline_version": null, "prompt_version": "2026-11-02.1", "change": "Classifier model qwen2.5:7b chosen over gemma3:4b (first instructions, strict relevance: settlement as the central subject)."},
+  {"from_day": "2026-11-06", "pipeline_version": "2026-11-06.1", "prompt_version": "2026-11-02.1", "change": "Daily collector from raw GKG 2.1 files starts: pre-filter, model classification, one history file per day."},
+  {"from_day": "2026-11-09", "pipeline_version": "2026-11-09.1", "prompt_version": "2026-11-02.1", "change": "Reprints grouped into stories (story_id) and removal-word review flag tightened."},
+  {"from_day": "2026-11-10", "pipeline_version": "2026-11-10.1", "prompt_version": "2026-11-10.1", "change": "Broad relevance, multiple topics and a separate removal question with stage."},
+  {"from_day": "2026-11-11", "pipeline_version": "2026-11-11.1", "prompt_version": "2026-11-10.1", "change": "Removal entry gate (G4): removal word plus housing word lets a headline into the funnel without the SLUMS theme, name or keyword."},
+  {"from_day": "2026-11-11", "pipeline_version": "2026-11-11.2", "prompt_version": "2026-11-11.1", "change": "Model also returns the most specific place in the headline (place field)."},
+  {"from_day": "2026-11-11", "pipeline_version": "2026-11-11.2", "prompt_version": "2026-11-11.1", "change": "Experimental map geocodes the model's place offline with GeoNames (map-side change, not recorded per history line)."},
+  {"from_day": "2026-11-13", "pipeline_version": "2026-11-13.1", "prompt_version": "2026-11-11.1", "change": "Daily denominator: summary records gkg_articles, every GKG article read (total, by feed, language and country)."}
+]

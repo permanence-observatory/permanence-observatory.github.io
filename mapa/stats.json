@@ -1,0 +1,270 @@
+{
+ "generated_at": "2026-11-13T13:33:21Z",
+ "days": [
+  {
+   "date": "2026-11-05",
+   "candidates": 727,
+   "relevant_articles": 133,
+   "stories": 72,
+   "by_topic": {
+    "removal": 20,
+    "housing_policy": 17,
+    "culture": 14,
+    "disaster": 11,
+    "violence": 10,
+    "protest": 5,
+    "other": 3,
+    "infrastructure": 2,
+    "data": 1,
+    "land_conflict": 1,
+    "health_education": 1
+   },
+   "removal_by_stage": {
+    "threat": 10,
+    "executed": 8,
+    "court": 1,
+    "unspecified": 1
+   },
+   "by_region": {
+    "south": 61,
+    "north": 11
+   },
+   "by_country": {
+    "Brazil": 19,
+    "India": 12,
+    "Spain": 7,
+    "South Africa": 4,
+    "Argentina": 4,
+    "Colombia": 3,
+    "Mexico": 3,
+    "Vietnam": 2,
+    "Turkey": 2,
+    "Zimbabwe": 2,
+    "Palestinian Territory": 2,
+    "Nigeria": 1,
+    "Dominican Republic": 1,
+    "Kenya": 1,
+    "Sudan": 1,
+    "Bangladesh": 1,
+    "Peru": 1,
+    "Israel": 1,
+    "Portugal": 1,
+    "Philippines": 1,
+    "Serbia": 1,
+    "Canada": 1,
+    "Japan": 1
+   },
+   "gkg_articles": null
+  },
+  {
+   "date": "2026-11-08",
+   "candidates": 599,
+   "relevant_articles": 73,
+   "stories": 46,
+   "by_topic": {
+    "culture": 16,
+    "removal": 15,
+    "housing_policy": 5,
+    "violence": 4,
+    "disaster": 4,
+    "protest": 4,
+    "health_education": 3,
+    "infrastructure": 2
+   },
+   "removal_by_stage": {
+    "threat": 8,
+    "executed": 4,
+    "unspecified": 3
+   },
+   "by_region": {
+    "south": 32,
+    "north": 9,
+    "no_place": 5
+   },
+   "by_country": {
+    "Brazil": 8,
+    "India": 6,
+    "Spain": 4,
+    "Argentina": 3,
+    "Indonesia": 2,
+    "Colombia": 2,
+    "Nigeria": 2,
+    "Portugal": 2,
+    "Uruguay": 1,
+    "Turkey": 1,
+    "Zimbabwe": 1,
+    "United States": 1,
+    "Sweden": 1,
+    "Jamaica": 1,
+    "United Kingdom": 1,
+    "Israel": 1,
+    "Peru": 1,
+    "Mauritius": 1,
+    "Somalia": 1,
+    "Mexico": 1
+   },
+   "gkg_articles": null
+  },
+  {
+   "date": "2026-11-09",
+   "candidates": 561,
+   "relevant_articles": 99,
+   "stories": 59,
+   "by_topic": {
+    "culture": 18,
+    "removal": 18,
+    "disaster": 14,
+    "housing_policy": 7,
+    "protest": 5,
+    "economy": 4,
+    "data": 2,
+    "violence": 2,
+    "infrastructure": 1
+   },
+   "removal_by_stage": {
+    "unspecified": 7,
+    "threat": 7,
+    "executed": 4
+   },
+   "by_region": {
+    "south": 47,
+    "north": 10,
+    "no_place": 2
+   },
+   "by_country": {
+    "India": 11,
+    "Brazil": 8,
+    "Spain": 6,
+    "Bangladesh": 5,
+    "South Africa": 3,
+    "Mexico": 3,
+    "Kenya": 2,
+    "Nigeria": 1,
+    "Argentina": 1,
+    "Colombia": 1,
+    "Vietnam": 1,
+    "Liberia": 1,
+    "Italy": 1,
+    "Turkey": 1,
+    "Guatemala": 1,
+    "Indonesia": 1,
+    "Mozambique": 1,
+    "Palestinian Territory": 1,
+    "United States": 1,
+    "Israel": 1,
+    "United Kingdom": 1,
+    "Panama": 1,
+    "Portugal": 1,
+    "Philippines": 1,
+    "Gabon": 1,
+    "El Salvador": 1
+   },
+   "gkg_articles": null
+  },
+  {
+   "date": "2026-11-10",
+   "candidates": 678,
+   "relevant_articles": 102,
+   "stories": 76,
+   "by_topic": {
+    "culture": 22,
+    "removal": 20,
+    "housing_policy": 10,
+    "disaster": 8,
+    "protest": 7,
+    "infrastructure": 6,
+    "health_education": 6,
+    "violence": 3,
+    "data": 3
+   },
+   "removal_by_stage": {
+    "threat": 14,
+    "unspecified": 4,
+    "executed": 2
+   },
+   "by_region": {
+    "south": 61,
+    "north": 15
+   },
+   "by_country": {
+    "Brazil": 16,
+    "India": 13,
+    "Mexico": 8,
+    "Spain": 7,
+    "Colombia": 6,
+    "South Africa": 4,
+    "United States": 3,
+    "Bangladesh": 2,
+    "Ecuador": 2,
+    "Israel": 2,
+    "Zimbabwe": 2,
+    "Portugal": 2,
+    "Namibia": 1,
+    "Canada": 1,
+    "Venezuela": 1,
+    "United Kingdom": 1,
+    "Vietnam": 1,
+    "Morocco": 1,
+    "Austria": 1,
+    "Pakistan": 1,
+    "Argentina": 1
+   },
+   "gkg_articles": null
+  },
+  {
+   "date": "2026-11-11",
+   "candidates": 639,
+   "relevant_articles": 121,
+   "stories": 81,
+   "by_topic": {
+    "disaster": 24,
+    "culture": 19,
+    "removal": 18,
+    "violence": 11,
+    "housing_policy": 8,
+    "protest": 5,
+    "infrastructure": 5,
+    "health_education": 2,
+    "land_conflict": 1,
+    "other": 1
+   },
+   "removal_by_stage": {
+    "threat": 10,
+    "unspecified": 6,
+    "executed": 2
+   },
+   "by_region": {
+    "south": 67,
+    "north": 12,
+    "no_place": 2
+   },
+   "by_country": {
+    "Brazil": 18,
+    "India": 10,
+    "Colombia": 8,
+    "Spain": 5,
+    "South Africa": 4,
+    "Mexico": 4,
+    "Kenya": 4,
+    "South Korea": 3,
+    "United States": 3,
+    "Turkey": 3,
+    "Bangladesh": 2,
+    "Argentina": 2,
+    "Portugal": 2,
+    "Pakistan": 1,
+    "Sweden": 1,
+    "Uruguay": 1,
+    "Panama": 1,
+    "Ecuador": 1,
+    "Venezuela": 1,
+    "Cape Verde": 1,
+    "Zimbabwe": 1,
+    "Chile": 1,
+    "Cuba": 1,
+    "Serbia": 1
+   },
+   "gkg_articles": null
+  }
+ ]
+}
