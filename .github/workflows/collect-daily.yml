@@ -87,7 +87,7 @@ jobs:
           # so it is rebuilt from the full history only after catching up.
           git pull --rebase origin "${GITHUB_REF_NAME}"
           python pipeline/build_map_data.py
-          git add mapa/events.json
+          git add mapa/events.json mapa/stats.json
           git commit --amend --no-edit
           git push origin "HEAD:${GITHUB_REF_NAME}"
 

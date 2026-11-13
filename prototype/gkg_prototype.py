@@ -169,6 +169,34 @@ SETTLEMENT_WORD_RE = re.compile(
     r'logements? (?:sociaux|insalubres?)|bidonvilles?|quartiers? precaires?)\b')
 
 
+class GkgCounter:
+    """Counts every GKG row seen (the denominator for the candidates): total, by feed,
+    by source language and by country. The English feed counts as 'eng'; in the
+    translation feed the language is the srclc code of the translation field. The
+    country is the first country code among the V2 locations ('none' when absent;
+    GKG uses FIPS codes, e.g. BR, IN, US)."""
+
+    def __init__(self):
+        self.total = 0
+        self.by_feed, self.by_language, self.by_country = Counter(), Counter(), Counter()
+
+    def add(self, feed, row):
+        self.total += 1
+        self.by_feed[feed] += 1
+        if feed == 'en':
+            lang = 'eng'
+        else:
+            lang = row[C_TRANSLATION].split(';')[0].replace('srclc:', '') or 'unknown'
+        self.by_language[lang] += 1
+        first = row[C_LOCATIONS].split(';', 1)[0].split('#')
+        self.by_country[first[2] if len(first) > 2 and first[2] else 'none'] += 1
+
+    def result(self):
+        ordered = lambda c: dict(c.most_common())  # noqa: E731
+        return {'total': self.total, 'by_feed': ordered(self.by_feed),
+                'by_language': ordered(self.by_language), 'by_country': ordered(self.by_country)}
+
+
 def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None, near_miss=False):
     """Download one UTC day of GKG files and return (matches, stats, counters, all_urls).
     With near_miss=True, counters['near_miss'] also lists records that did NOT pass the
@@ -184,6 +212,7 @@ def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None, n
     print(f"{len(jobs)} files to fetch ({day}, 1 in {every} slots, feeds={list(feeds)})")
 
     stats = Counter()
+    gkg_counter = GkgCounter()
     term_hits, co_themes, langs, loc_types = Counter(), Counter(), Counter(), Counter()
     all_urls, matches, near = set(), {}, {}
     t0 = time.perf_counter()
@@ -207,6 +236,7 @@ def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None, n
                 if len(row) < 27:
                     continue
                 stats[f'records_{feed}'] += 1
+                gkg_counter.add(feed, row)
                 url = row[C_URL]
                 all_urls.add(url)
                 if url in matches:
@@ -259,7 +289,8 @@ def collect(day, every=1, feeds=('en', 'translation'), workers=4, mapper=None, n
 
     stats['seconds_total'] = time.perf_counter() - t0
     stats['seconds_parsing'] = parse_time
-    counters = {'term_hits': term_hits, 'co_themes': co_themes, 'langs': langs, 'loc_types': loc_types,
+    gkg_articles = {**gkg_counter.result(), 'unique_urls': len(all_urls)}
+    counters = {'gkg_articles': gkg_articles, 'term_hits': term_hits, 'co_themes': co_themes, 'langs': langs, 'loc_types': loc_types,
                 'near_miss': [r for u, r in near.items() if u not in matches]}
     return list(matches.values()), stats, counters, all_urls
 

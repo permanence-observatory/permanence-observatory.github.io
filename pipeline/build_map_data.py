@@ -17,7 +17,13 @@ Stories with no usable place are counted but not drawn. Each point is also tagge
 Global North or South by its country (UN M49 developed regions = North).
 
 Usage:
-  python pipeline/build_map_data.py            # writes mapa/events.json
+  python pipeline/build_map_data.py            # writes mapa/events.json and mapa/stats.json
+
+mapa/stats.json is small: one entry per day with the candidates, relevant articles
+and stories, stories by topic, removal stage, Global North/South and country (the
+last part of the point's place name), and the GKG denominator (`gkg_articles` from
+the day's summary file, null when the day has none). A story counts as relevant by
+the same rule as the map: the model said "yes" or marked a removal.
 """
 
 import argparse
@@ -120,6 +126,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--data', default=os.path.join(ROOT, 'data', 'gkg'))
     ap.add_argument('--out', default=os.path.join(ROOT, 'mapa', 'events.json'))
+    ap.add_argument('--stats-out', default=os.path.join(ROOT, 'mapa', 'stats.json'))
     args = ap.parse_args()
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8')
@@ -131,23 +138,23 @@ def main():
         print(f'GeoNames unavailable ({e}); using GDELT locations only')
         geocoder = None
     files = sorted(f for f in glob.glob(os.path.join(args.data, '*', '*', '*.jsonl')))
-    events, skipped, days = [], Counter(), []
+    events, skipped, days, day_stats = [], Counter(), [], []
     for path in files:
-        days.append(os.path.basename(path)[:10])
-        stories = {}
+        day = os.path.basename(path)[:10]
+        days.append(day)
+        stories, candidates = {}, 0
         with open(path, encoding='utf-8') as f:
             for line in f:
                 r = json.loads(line)
+                candidates += 1
                 if r.get('relevant') == 'yes' or r.get('removal'):
                     stories.setdefault(r.get('story_id') or r['url'], []).append(r)
+        st = {'date': day, 'candidates': candidates, 'relevant_articles': sum(len(g) for g in stories.values()),
+              'stories': len(stories), 'by_topic': Counter(), 'removal_by_stage': Counter(),
+              'by_region': Counter(), 'by_country': Counter()}
         for sid, g in stories.items():
             # The record with the most information represents the story
             face = next((r for r in g if r.get('removal')), g[0])
-            place = place_for(g, db, geocoder)
-            if not place:
-                skipped['no_place'] += 1
-                continue
-            lat, lon, place_name, precision, geo_source = place
             topics = sorted({t for r in g for t in (r.get('topics') or [])})
             removal = face.get('removal')
             if not topics and 'event_type' in face:
@@ -155,6 +162,17 @@ def main():
                 topics = [OLD_TYPE_TOPICS.get(face['event_type'], 'other')]
                 if topics == ['removal']:
                     removal = 'unspecified'
+            st['by_topic'].update(topics)
+            if removal:
+                st['removal_by_stage'][removal] += 1
+            place = place_for(g, db, geocoder)
+            if not place:
+                skipped['no_place'] += 1
+                st['by_region']['no_place'] += 1
+                continue
+            lat, lon, place_name, precision, geo_source = place
+            st['by_region'][world_region(place_name)] += 1
+            st['by_country'][place_name.split(',')[-1].strip()] += 1
             d = face['gkg_date']
             events.append({
                 'id': sid, 'date': f'{d[:4]}-{d[4:6]}-{d[6:8]}',
@@ -165,6 +183,13 @@ def main():
                 'region': world_region(place_name), 'geo': geo_source,
                 'versions': len(g), 'prompt': face.get('prompt_version'),
             })
+        summary_path = path[:-len('.jsonl')] + '.summary.json'
+        gkg = None
+        if os.path.exists(summary_path):
+            with open(summary_path, encoding='utf-8') as f:
+                gkg = json.load(f).get('gkg_articles')
+        day_stats.append({**{k: (dict(v.most_common()) if isinstance(v, Counter) else v) for k, v in st.items()},
+                          'gkg_articles': gkg})
 
     events.sort(key=lambda e: (e['date'], e['id']), reverse=True)
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
@@ -175,6 +200,9 @@ def main():
     }
     with open(args.out, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
+    os.makedirs(os.path.dirname(args.stats_out), exist_ok=True)
+    with open(args.stats_out, 'w', encoding='utf-8') as f:
+        json.dump({'generated_at': out['generated_at'], 'days': day_stats}, f, ensure_ascii=False, indent=1)
     print(f"{len(events)} stories from {len(days)} days -> {args.out} "
           f"({sum(skipped.values())} without a place; precision {dict(Counter(e['precision'] for e in events))})")
 

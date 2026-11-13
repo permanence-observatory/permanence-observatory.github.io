@@ -14,7 +14,9 @@ UTC day it:
      removal word (eviction, desalojo, despejo, déguerpissement...) and the model
      did not call it a removal, the record is flagged for review (and a "no"
      becomes "uncertain");
-  4. writes every candidate, relevant or not, to data/gkg/YYYY/MM/YYYY-MM-DD.jsonl,
+  4. counts every GKG row it read (total, by feed, language and country) as the
+     denominator for the candidates, saved as gkg_articles in the daily summary;
+  5. writes every candidate, relevant or not, to data/gkg/YYYY/MM/YYYY-MM-DD.jsonl,
      with the model name and prompt version, so the history can be re-checked or
      re-classified later.
 
@@ -39,7 +41,7 @@ from classify_llm import (DEFAULT_ENDPOINT, PROMPT_VERSION, call_model,  # noqa:
 from gkg_prototype import (AMBIGUOUS_NAMES, STRONG_REMOVAL_RE, WEAK_REMOVAL_RE,  # noqa: E402
                            collect, fold, url_text)
 
-PIPELINE_VERSION = '2026-11-11.2'
+PIPELINE_VERSION = '2026-11-13.1'
 UNCLASSIFIED = {'relevant': None, 'topics': [], 'removal': None, 'place': '', 'reason': None}
 
 # Settlement names that are whole districts or municipalities: seeing one in a
@@ -182,7 +184,7 @@ def main():
     day = args.date or (datetime.now(timezone.utc) - timedelta(days=1)).strftime('%Y-%m-%d')
     t_start = time.perf_counter()
 
-    records, stats, _, _ = collect(day, args.every)
+    records, stats, counters, _ = collect(day, args.every)
     if args.no_llm:
         for r in records:
             r.update({**UNCLASSIFIED, 'topics': []})
@@ -217,7 +219,7 @@ def main():
             f.write(json.dumps({**{k: r[k] for k in keep}, **meta}, ensure_ascii=False) + '\n')
 
     summary = summarize(records, day)
-    summary.update(meta, files_ok=stats['files_ok'], files_missing=stats['files_missing'],
+    summary.update(meta, gkg_articles=counters['gkg_articles'], files_ok=stats['files_ok'], files_missing=stats['files_missing'],
                    seconds_total=round(time.perf_counter() - t_start))
     with open(os.path.join(folder, f'{day}.summary.json'), 'w', encoding='utf-8') as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
