@@ -1,0 +1,232 @@
+{
+  "date": "2026-11-12",
+  "candidates": 515,
+  "relevant": {
+    "yes": 88,
+    "no": 404,
+    "uncertain": 23
+  },
+  "stories_relevant": 61,
+  "stories_removal": 27,
+  "flagged_for_review": 23,
+  "topics_by_story": {
+    "removal": 27,
+    "culture": 12,
+    "violence": 9,
+    "disaster": 6,
+    "protest": 4,
+    "other": 4,
+    "infrastructure": 3,
+    "housing_policy": 2,
+    "data": 1,
+    "health_education": 1
+  },
+  "removal_stories": [
+    {
+      "story_id": "2026-11-12-0034",
+      "stage": "threat",
+      "title": "Agentes encubiertos y drones permitieron desmantelar a los 'Illimani' en Ciudad Bolívar – Radio Santa Fe 1070 a.m. Noticias de Colombia"
+    },
+    {
+      "story_id": "2026-11-12-0055",
+      "stage": "executed",
+      "title": "Diario HOY | Triste final al legado de Artemio Bracho: su casa museo es desalojada tras conflicto familiar"
+    },
+    {
+      "story_id": "2026-11-12-0067",
+      "stage": "threat",
+      "title": "ममता बनर्जी के भतीजे अभिषेक के घर पर गरजा बुलडोजर, सुबह-सुबह कार्रवाई से बंगाल में हलचल"
+    },
+    {
+      "story_id": "2026-11-12-0081",
+      "stage": "unspecified",
+      "title": "Ativistas denunciam deslocamento de comunidades indígenas na Venezuela devido à violência"
+    },
+    {
+      "story_id": "2026-11-12-0076",
+      "stage": "executed",
+      "title": "Bulldozer reaches outside Abhishek Banerjee's house: Tin shade, boundary gate removed"
+    },
+    {
+      "story_id": "2026-11-12-0099",
+      "stage": "executed",
+      "title": "Police demolish three homes and sheep pen in Kfar Tarfon"
+    },
+    {
+      "story_id": "2026-11-12-0109",
+      "stage": "executed",
+      "title": "Desalojada la acampada por el derecho a la vivienda de las Setas en Sevilla"
+    },
+    {
+      "story_id": "2026-11-12-0121",
+      "stage": "threat",
+      "title": "कोलकाता में अभिषेक बनर्जी के घर के बाहर चला बुलडोजर: KMC ने फुटपाथ से हटाया बांस का अस्थायी ढांचा, TMC और प्रशासन के बीच बढ़ा सियासी तनाव"
+    },
+    {
+      "story_id": "2026-11-12-0132",
+      "stage": "unspecified",
+      "title": "Gauhati High Court Directs Assam Government to Ensure Rehabilitation and Compensation for Evicted Families"
+    },
+    {
+      "story_id": "2026-11-12-0133",
+      "stage": "executed",
+      "title": "Ndirande residents protest as Blantyre City Council demolishes roadside shops"
+    },
+    {
+      "story_id": "2026-11-12-0143",
+      "stage": "threat",
+      "title": "SPARE HIS NAME: Government Halts Home Demolitions After Kazembe Warns Councils Are Soiling Mnangagwa's Image"
+    },
+    {
+      "story_id": "2026-11-12-0173",
+      "stage": "threat",
+      "title": "What City Village demolition means for Bradford residents | Bradford Telegraph and Argus"
+    },
+    {
+      "story_id": "2026-11-12-0182",
+      "stage": "unspecified",
+      "title": "Los vecinos de Piedralaves, Ávila, vuelven a sus casas"
+    },
+    {
+      "story_id": "2026-11-12-0183",
+      "stage": "unspecified",
+      "title": "Los últimos acampados por la vivienda de Granada cumplen el trato y desalojan"
+    },
+    {
+      "story_id": "2026-11-12-0088",
+      "stage": "threat",
+      "title": "Eschau. « Nous sommes scandalisés » : un permis de démolir une maison alsacienne qui fait des vagues"
+    },
+    {
+      "story_id": "2026-11-12-0195",
+      "stage": "executed",
+      "title": "लखनऊ ट्रिपल मर्डर केस के आरोपी ऋषभ शुक्ला के घर पर चला बुलडोजर, मिट्टी में मिल गया मकान"
+    },
+    {
+      "story_id": "2026-11-12-0198",
+      "stage": "threat",
+      "title": "District Six eviction battle postponed as families push for mediation"
+    },
+    {
+      "story_id": "2026-11-12-0210",
+      "stage": "executed",
+      "title": "Un héroe beduino que rescató a 30 israelíes el 7 de octubre expresó su frustración luego de que Israel demoliera viviendas de su familia"
+    },
+    {
+      "story_id": "2026-11-12-0220",
+      "stage": "executed",
+      "title": "Encapuchados protagonizan toma en la casa central de la U. de Chile: los desalojaron tras 45 minutos"
+    },
+    {
+      "story_id": "2026-11-12-0069",
+      "stage": "threat",
+      "title": "Summerside mobile home park residents win fight against eviction, for now"
+    },
+    {
+      "story_id": "2026-11-12-0263",
+      "stage": "threat",
+      "title": "Letter to the Editor: SQUATTERS REMAIN ON JETT ESTATE DESPITE COURT DEFAULT"
+    },
+    {
+      "story_id": "2026-11-12-0271",
+      "stage": "executed",
+      "title": "ट्रिपल मर्डर मामले में बड़ी कार्रवाई, आरोपियों के तीन मकानों को एलडीए ने बुलडोजर से गिरवाया"
+    },
+    {
+      "story_id": "2026-11-12-0279",
+      "stage": "threat",
+      "title": "Câmara de Loures garante que vai continuar a derrubar barracas no Talude Militar"
+    },
+    {
+      "story_id": "2026-11-12-0302",
+      "stage": "threat",
+      "title": "Quilombola do Curiaú: protesto fecha AP-70 contra despejo de bar"
+    },
+    {
+      "story_id": "2026-11-12-0304",
+      "stage": "executed",
+      "title": "NMC demolishes dilapidated house in Itwari, seizes two truckloads of encroachment material"
+    },
+    {
+      "story_id": "2026-11-12-0320",
+      "stage": "executed",
+      "title": "മുണ്ടക്കൈ ടൗൺഷിപ്പിൽ 13 വീടുകള്‍ വെട്ടിക്കുറച്ചു"
+    },
+    {
+      "story_id": "2026-11-12-0323",
+      "stage": "threat",
+      "title": "Mumbai Police Initiate First-Ever Eviction Proceedings Under Maharashtra Rent Control Act, DCP Orders Occupants To Vacate Flat"
+    }
+  ],
+  "languages_relevant": {
+    "spa": 34,
+    "eng": 28,
+    "por": 14,
+    "hin": 5,
+    "fra": 3,
+    "ita": 1,
+    "mar": 1,
+    "cat": 1,
+    "mal": 1
+  },
+  "top_stories": [
+    {
+      "story_id": "2026-11-12-0109",
+      "records": 19,
+      "title": "Desalojada la acampada por el derecho a la vivienda de las Setas en Sevilla"
+    },
+    {
+      "story_id": "2026-11-12-0076",
+      "records": 5,
+      "title": "Bulldozer reaches outside Abhishek Banerjee's house: Tin shade, boundary gate removed"
+    },
+    {
+      "story_id": "2026-11-12-0070",
+      "records": 4,
+      "title": "Cathcart families left with full pit toilets for a year"
+    },
+    {
+      "story_id": "2026-11-12-0055",
+      "records": 2,
+      "title": "Diario HOY | Triste final al legado de Artemio Bracho: su casa museo es desalojada tras conflicto familiar"
+    },
+    {
+      "story_id": "2026-11-12-0099",
+      "records": 2,
+      "title": "Police demolish three homes and sheep pen in Kfar Tarfon"
+    },
+    {
+      "story_id": "2026-11-12-0001",
+      "records": 1,
+      "title": "Squatters likely caused fire at Ogdensburg's old American Legion building, officials say"
+    },
+    {
+      "story_id": "2026-11-12-0010",
+      "records": 1,
+      "title": "Messina, dalla baraccopoli di Camaro alla casa di Spartà: «Un cambio radicale di vita, lì era una comunità»"
+    },
+    {
+      "story_id": "2026-11-12-0034",
+      "records": 1,
+      "title": "Agentes encubiertos y drones permitieron desmantelar a los 'Illimani' en Ciudad Bolívar – Radio Santa Fe 1070 a.m. Noticias de Colombia"
+    },
+    {
+      "story_id": "2026-11-12-0047",
+      "records": 1,
+      "title": "Comunidade denuncia encerramento da EJA em escola da Zona Norte | Rio de Janeiro"
+    },
+    {
+      "story_id": "2026-11-12-0050",
+      "records": 1,
+      "title": "Pidieron 18 años de prisión para Pity Álvarez por el crimen de Villa Lugano"
+    }
+  ],
+  "collected_at": "2026-11-13T16:43:23Z",
+  "pipeline_version": "2026-11-11.2",
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-11.1",
+  "every": 1,
+  "files_ok": 192,
+  "files_missing": 0,
+  "seconds_total": 8107
+}
