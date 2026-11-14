@@ -6,7 +6,9 @@ One item per story (repeated reprints count once):
   - every story the model marked relevant or as a removal,
   - every story flagged by the removal rule, and every story with a removal word
     even if discarded (removals are rare, so all of them are checked),
-  - a random sample of stories the model discarded (to estimate what it misses).
+  - a random sample of stories the model discarded (to estimate what it misses),
+  - pairs of articles to check the story grouping (--pairs): half joined in one story
+    by the collector, half kept apart although the model read the same place.
 Items are shuffled and carry the model's answer, which the review page shows
 only after the reviewer answers. Writes one JSON file per item plus the batch
 document into --out, ready to load into the review page's database.
@@ -48,6 +50,44 @@ def load(path):
     return records
 
 
+def grouping_pairs(stories, n, rng):
+    """Article pairs for checking the story grouping, as (type, record_a, record_b):
+    'joined' = two different titles the collector put in one story (stories on the map
+    first); 'separated' = two
+    relevant articles of the same day in different stories whose model-read place is the
+    same (the likeliest missed merges). Half of each when possible."""
+    if n <= 0:
+        return []
+    joined, joined_other = [], []
+    for sid in sorted(stories):
+        g = [r for r in stories[sid] if r['title']]
+        titles = {}
+        for r in g:
+            titles.setdefault(r['title'].strip().lower(), r)
+        if len(titles) >= 2:
+            a, b = rng.sample(sorted(titles.values(), key=lambda r: r['url']), 2)
+            # Stories on the map first; others only fill the quota
+            counts = any(r['relevant'] == 'yes' or r['removal'] for r in g)
+            (joined if counts else joined_other).append(('joined', a, b))
+    by_place = {}
+    for sid in sorted(stories):
+        for r in stories[sid]:
+            if r['title'] and (r['relevant'] == 'yes' or r['removal']) and r.get('place'):
+                by_place.setdefault((sid[:10], r['place'].strip().lower()), {}).setdefault(sid, r)
+    separated = []
+    for key in sorted(by_place):
+        faces = sorted(by_place[key].values(), key=lambda r: r['story_id'])
+        for i in range(len(faces)):
+            for j in range(i + 1, len(faces)):
+                separated.append(('separated', faces[i], faces[j]))
+    half = n // 2
+    take_j = min(len(joined) + len(joined_other), max(half, n - len(separated)))
+    take_s = min(len(separated), n - take_j)
+    first = rng.sample(joined, min(take_j, len(joined)))
+    rest = rng.sample(joined_other, take_j - len(first))
+    return first + rest + rng.sample(separated, take_s)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('files', nargs='+')
@@ -55,6 +95,8 @@ def main():
     ap.add_argument('--sample', type=int, default=20, help='discarded stories to sample')
     ap.add_argument('--relevant-sample', type=int, default=20,
                     help='relevant (non-removal) stories to sample; 0 = all. Removal and flagged stories are always all')
+    ap.add_argument('--pairs', type=int, default=10,
+                    help='article pairs to check the story grouping (half joined, half kept apart); 0 = none')
     ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--translations', help='JSON file {original title: Portuguese title} shown to reviewers')
     ap.add_argument('--list-untranslated', action='store_true',
@@ -96,6 +138,7 @@ def main():
     picked = [(s, k) for k in ('removal', 'flagged', 'removal_terms') for s in by_kind.get(k, [])]
     picked += [(s, 'relevant') for s in relevant]
     picked += [(s, 'sample') for s in rng.sample(discarded, min(args.sample, len(discarded)))]
+    picked += [(p, 'pair') for p in grouping_pairs(stories, args.pairs, rng)]
     rng.shuffle(picked)
 
     def face_of(group):
@@ -107,9 +150,12 @@ def main():
                 return hit
         return group[0]
 
+    def shown_records(sid, k):
+        return list(sid[1:]) if k == 'pair' else [face_of(stories[sid])]
+
     if args.list_untranslated:
-        titles = sorted({face_of(stories[s])['title'] for s, _ in picked
-                         if face_of(stories[s])['language'] not in READABLE and face_of(stories[s])['title']})
+        titles = sorted({r['title'] for s, k in picked for r in shown_records(s, k)
+                         if r['language'] not in READABLE and r['title']})
         print(json.dumps({t: '' for t in titles}, ensure_ascii=False, indent=1))
         return
     translations = {}
@@ -120,6 +166,19 @@ def main():
     os.makedirs(args.out, exist_ok=True)
     manifest = []
     for order, (sid, k) in enumerate(picked, 1):
+        doc_id = f"{batch}~{order:03d}".replace('~', '_')
+        if k == 'pair':
+            pair_type, ra, rb = sid
+            side = lambda r: {'title': r['title'] or '(sem título)', 'title_pt': translations.get(r['title']) or None,  # noqa: E731
+                              'url': r['url'], 'source': r['source'], 'language': r['language']}
+            doc = {'batch': batch, 'order': order, 'kind': 'pair', 'pair_type': pair_type,
+                   'story_ids': [ra['story_id'], rb['story_id']], 'a': side(ra), 'b': side(rb),
+                   'title': ra['title'], 'url': ra['url'],
+                   'model': {'same_story': ra['story_id'] == rb['story_id']}}
+            with open(os.path.join(args.out, f'{doc_id}.json'), 'w', encoding='utf-8') as f:
+                json.dump(doc, f, ensure_ascii=False)
+            manifest.append(doc_id)
+            continue
         g = stories[sid]
         face = face_of(g)
         others = []
@@ -135,13 +194,12 @@ def main():
             'model': {'relevant': face['relevant'], 'topics': face['topics'], 'removal': face['removal'],
                       'event_type': face.get('event_type'), 'reason': face.get('reason') or ''},
         }
-        doc_id = f"{batch}~{order:03d}".replace('~', '_')
         with open(os.path.join(args.out, f'{doc_id}.json'), 'w', encoding='utf-8') as f:
             json.dump(doc, f, ensure_ascii=False)
         manifest.append(doc_id)
 
     counts = {k: sum(1 for _, kk in picked if kk == k)
-              for k in ('removal', 'flagged', 'relevant', 'removal_terms', 'sample')}
+              for k in ('removal', 'flagged', 'relevant', 'removal_terms', 'sample', 'pair')}
     # Population sizes, so sampled rates can be scaled back to the whole day
     batch_doc = {'name': batch, 'days': days, 'items': len(picked), 'counts': counts,
                  'candidates': len(records), 'stories': len(stories),
