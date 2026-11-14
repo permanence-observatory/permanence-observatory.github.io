@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <style>
 /* Layout: a scrolling reading panel beside a dark map; removals are the one warm color on the page */
 :root {
@@ -97,11 +98,23 @@ ol.list { list-style: none; margin: 0; padding: 4px 12px 8px }
 .leaflet-control-attribution a { color: var(--muted) }
 .cl { display: grid; place-items: center; border-radius: 50%; font: 600 12px var(--body); color: var(--bg); background: var(--point); box-shadow: 0 0 0 5px var(--point-soft) }
 .cl.has-rem { box-shadow: 0 0 0 3px var(--removal), 0 0 0 8px var(--removal-soft) }
+.mode { margin: 0 !important; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; display: inline-flex; overflow: hidden }
+.mode button { background: none; border: 0; color: var(--muted); padding: 6px 12px; cursor: pointer; font-size: .8rem }
+.mode button + button { border-left: 1px solid var(--line) }
+.mode button[aria-pressed="true"] { color: var(--ink); background: var(--point-soft) }
+.heatnote { margin: 0 0 6px 6px !important; background: rgba(20,27,30,.92); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  max-width: 290px; font-size: .75rem; color: var(--muted); display: grid; gap: 6px }
+.heatnote b { color: var(--ink); font-weight: 600 }
+.heatnote .ramp { height: 8px; border-radius: 4px }
+.heatnote .ends { display: flex; justify-content: space-between; font: .68rem var(--mono) }
+.trends { color: var(--point); font-size: .82rem; text-decoration: none; justify-self: start }
+.trends:hover { text-decoration: underline }
 
 @media (max-width: 760px) {
   body { grid-template-columns: minmax(0, 1fr); grid-template-rows: 46vh minmax(0, 1fr) }
   #map { grid-row: 1 }
   aside { grid-row: 2; border-right: 0; border-top: 1px solid var(--line); padding-top: 0 }
+  .heatnote { max-width: 210px; padding: 7px 9px; gap: 4px; font-size: .66rem; line-height: 1.35 }
 }
 @media (prefers-reduced-motion: reduce) { .switch i, .switch i::after, details.filters > summary::after { transition: none } }
 </style>
@@ -123,6 +136,7 @@ ol.list { list-style: none; margin: 0; padding: 4px 12px 8px }
       <span class="rem"><b id="n-removals">–</b><span data-i18n="removals"></span></span>
       <span><b id="n-days">–</b><span data-i18n="days"></span></span>
     </div>
+    <a class="trends" href="painel.html" data-i18n="trends"></a>
   </div>
   <details class="filters" id="filters" open>
     <summary><span data-i18n="filters"></span><span id="active"></span></summary>
@@ -186,6 +200,10 @@ const I18N = {
     mainMap: 'Main map', versions: n => `${n} versions`, note: 'Model note (Portuguese)', active: n => `${n} active`,
     prec: { assentamento: 'settlement', cidade: 'city', 'região': 'region only', 'país': 'country only' },
     removal: 'Eviction', map: 'Map', lang: 'Language',
+    trends: 'Daily trends dashboard →', points: 'Points', density: 'Density', mapMode: 'Map display',
+    heatTitle: 'Density of stories',
+    heatNote: (n, x) => `${n} stories with a city- or settlement-level place. ${x} known only at country or region level are left out. Density shows press coverage, not how often events happen.`,
+    low: 'fewer', high: 'more',
     t: { removal: 'Eviction', disaster: 'Disaster', violence: 'Violence', housing_policy: 'Housing policy', infrastructure: 'Infrastructure',
       land_conflict: 'Land conflict', protest: 'Protest & organizing', culture: 'Culture & people', economy: 'Economy',
       health_education: 'Health & education', data: 'Studies & data', other: 'Other' }
@@ -206,6 +224,10 @@ const I18N = {
     mainMap: 'Mapa atual', versions: n => `${n} versões`, note: 'Resumo do modelo', active: n => n === 1 ? '1 ativo' : `${n} ativos`,
     prec: { assentamento: 'local do assentamento', cidade: 'cidade', 'região': 'só a região', 'país': 'só o país' },
     removal: 'Remoção', map: 'Mapa', lang: 'Idioma',
+    trends: 'Painel de tendências diárias →', points: 'Pontos', density: 'Densidade', mapMode: 'Exibição do mapa',
+    heatTitle: 'Densidade de assuntos',
+    heatNote: (n, x) => `${n} assuntos com local no nível de cidade ou assentamento. Ficam de fora ${x} com local só no nível de país ou região. A densidade mostra a cobertura da imprensa, não a frequência dos acontecimentos.`,
+    low: 'menos', high: 'mais',
     t: { removal: 'Remoção', disaster: 'Desastre', violence: 'Violência', housing_policy: 'Política habitacional', infrastructure: 'Infraestrutura',
       land_conflict: 'Conflito fundiário', protest: 'Protesto e organização', culture: 'Cultura e pessoas', economy: 'Economia',
       health_education: 'Saúde e educação', data: 'Estudos e dados', other: 'Outro' }
@@ -216,7 +238,7 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 
 function savedLang() { try { return localStorage.getItem('permanence-lang'); } catch (e) { return null; } }
 const state = { lang: savedLang() === 'pt' ? 'pt' : 'en', events: [], days: [], generated: null, onlyRemovals: false, stage: '',
-  region: '', topics: new Set(), period: 0, q: '', latest: null };
+  region: '', topics: new Set(), period: 0, q: '', latest: null, mode: 'points' };
 const T = () => I18N[state.lang];
 
 const map = L.map('map', { worldCopyJump: true }).setView([5, 10], 2);
@@ -236,6 +258,67 @@ const clusters = L.markerClusterGroup({
   }
 }).addTo(map);
 const markers = new Map();
+
+// Density view: one hue, dim to bright on the dark basemap; evictions-only switches to the eviction hue.
+// Places known only at country or region level are left out: they would pile up on centroids.
+const HEAT = {
+  point: { 0.2: '#12474d', 0.45: '#2b8790', 0.7: '#7fd1d9', 1: '#e3fbfd' },
+  removal: { 0.2: '#5a2316', 0.45: '#b4472c', 0.7: '#ff7452', 1: '#ffe0d6' }
+};
+// maxZoom sets how fast intensity fades when zoomed out; 5 keeps the busiest cities bright at world view without saturating the rest
+const heat = L.heatLayer([], { radius: 18, blur: 16, maxZoom: 5, max: 1, minOpacity: 0.25, gradient: HEAT.point });
+const precise = e => e.precision !== 'país' && e.precision !== 'região';
+
+const ModeControl = L.Control.extend({
+  options: { position: 'topright' },
+  onAdd() {
+    const box = L.DomUtil.create('div', 'mode leaflet-control');
+    box.setAttribute('role', 'group');
+    ['points', 'density'].forEach(m => {
+      const b = L.DomUtil.create('button', '', box); b.type = 'button'; b.dataset.mode = m;
+      b.addEventListener('click', () => setMode(m));
+    });
+    L.DomEvent.disableClickPropagation(box);
+    return box;
+  }
+});
+const NoteControl = L.Control.extend({
+  options: { position: 'bottomleft' },
+  onAdd() { const d = L.DomUtil.create('div', 'heatnote leaflet-control'); d.hidden = true; return d; }
+});
+const modeCtl = new ModeControl().addTo(map);
+const noteCtl = new NoteControl().addTo(map);
+
+function setMode(m) {
+  state.mode = m;
+  if (m === 'density') { map.removeLayer(clusters); heat.addTo(map); map.closePopup(); }
+  else { map.removeLayer(heat); clusters.addTo(map); }
+  modeLabels();
+  render();
+}
+function modeLabels() {
+  const box = modeCtl.getContainer();
+  box.setAttribute('aria-label', T().mapMode);
+  box.querySelectorAll('button').forEach(b => { b.textContent = T()[b.dataset.mode]; b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode)); });
+}
+function renderHeat(shown) {
+  const pts = shown.filter(precise);
+  const ramp = state.onlyRemovals ? HEAT.removal : HEAT.point;
+  heat.setOptions({ gradient: ramp });
+  heat.setLatLngs(pts.map(e => [e.lat, e.lon, 0.6]));
+  const note = noteCtl.getContainer();
+  note.hidden = state.mode !== 'density';
+  if (note.hidden) return;
+  const stops = Object.entries(ramp).sort((x, y) => x[0] - y[0]).map(([k, c]) => `${c} ${k * 100}%`).join(', ');
+  note.replaceChildren();
+  const b = document.createElement('b'); b.textContent = T().heatTitle;
+  const bar = document.createElement('div'); bar.className = 'ramp'; bar.style.background = `linear-gradient(90deg, ${stops})`;
+  const ends = document.createElement('div'); ends.className = 'ends';
+  const lo = document.createElement('span'); lo.textContent = T().low; const hi = document.createElement('span'); hi.textContent = T().high;
+  ends.append(lo, hi);
+  const p = document.createElement('span'); p.textContent = T().heatNote(pts.length, shown.length - pts.length);
+  note.append(b, bar, ends, p);
+}
 
 function fmtDate(iso) {
   const [y, m, d] = iso.split('-').map(Number);
@@ -301,7 +384,8 @@ function activeCount() {
 function render() {
   const shown = visible();
   clusters.clearLayers();
-  clusters.addLayers(shown.map(e => markers.get(e.id)));
+  if (state.mode === 'points') clusters.addLayers(shown.map(e => markers.get(e.id)));
+  renderHeat(shown);
   const n = activeCount();
   $('active').textContent = n ? T().active(n) : '';
   if (!state.events.length) return;
@@ -318,7 +402,10 @@ function render() {
     when.append(d, p);
     const h = document.createElement('h2'); h.textContent = e.title;
     li.append(when, h, tags(e));
-    const go = () => { const m = markers.get(e.id); clusters.zoomToShowLayer(m, () => m.openPopup()); };
+    const go = () => {
+      if (state.mode !== 'points') setMode('points');
+      const m = markers.get(e.id); clusters.zoomToShowLayer(m, () => m.openPopup());
+    };
     li.addEventListener('click', go);
     li.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(); } });
     return li;
@@ -367,7 +454,7 @@ function applyLang() {
   document.querySelector('.lang').setAttribute('aria-label', t.lang);
   if (!state.events.length) $('list-count').textContent = t.loading;
   if (state.generated) $('updated').textContent = t.updated(fmtDate(state.generated), state.days.map(fmtDate).join(', '));
-  buildTopicChips(); regionCounts();
+  buildTopicChips(); regionCounts(); modeLabels();
   map.closePopup();
   render();
 }

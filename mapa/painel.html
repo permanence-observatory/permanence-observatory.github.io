@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Permanence · Daily trends</title>
+<meta name="description" content="Daily counts of news stories about informal settlements, from the experimental collector.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Same dark identity as the experimental map. Chart colors: the reference data-viz palette, dark steps. */
+:root {
+  color-scheme: dark;
+  --bg: #0e1315; --panel: #141b1e; --raise: #1b2428; --ink: #e6ecea; --muted: #94a3a0; --line: #26312f;
+  --grid: #222c2b; --axis: #34403e;
+  --point: #7fd1d9; --point-soft: rgba(127,209,217,.14); --removal: #ff7452;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --other: #6b7573;
+  --weekend: rgba(148,163,160,.07);
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--body) }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 20px }
+header { display: grid; gap: 8px }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.eyebrow { font: 500 .72rem var(--mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase }
+.eyebrow a { color: var(--point); text-decoration: none }
+h1 { font: 600 1.9rem/1.1 var(--display); margin: 0 }
+.lede { margin: 0; color: var(--muted); max-width: 70ch }
+.caveat { margin: 0; font-size: .85rem; color: var(--ink); border-left: 3px solid var(--point); padding: 6px 12px; background: var(--panel); border-radius: 0 6px 6px 0; max-width: 80ch }
+.lang, .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden }
+.lang button, .seg button { background: var(--raise); border: 0; color: var(--muted); font: inherit; font-size: .8rem; padding: 5px 11px; cursor: pointer }
+.lang button { font: 500 .72rem var(--mono); padding: 4px 9px; background: none }
+.seg button + button { border-left: 1px solid var(--line) }
+.lang button[aria-pressed="true"], .seg button[aria-pressed="true"] { color: var(--ink); background: var(--point-soft) }
+button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--point); outline-offset: 2px }
+.filters { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; font-size: .8rem; color: var(--muted) }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px }
+.tile { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px }
+.tile .v { font: 600 1.5rem var(--body) }
+.tile .l { font-size: .78rem; color: var(--muted) }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0 }
+.card h2 { font: 500 1.15rem/1.3 var(--display); margin: 0 }
+.card .sub { margin: 0; font-size: .8rem; color: var(--muted) }
+.cardhead { display: flex; justify-content: space-between; align-items: start; gap: 12px; flex-wrap: wrap }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px }
+.chart { position: relative; width: 100% }
+.chart svg { display: block; width: 100%; overflow: visible }
+.chart text { fill: var(--muted); font: 11px var(--mono) }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .78rem; color: var(--muted) }
+.legend span { display: inline-flex; align-items: center; gap: 6px }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block }
+.legend i.ln { height: 2px; width: 14px; border-radius: 1px }
+.multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px 18px }
+.mini h3 { margin: 0 0 2px; font: 500 .8rem var(--body); color: var(--ink); display: flex; justify-content: space-between }
+.mini h3 span { color: var(--muted); font: .74rem var(--mono) }
+.bars { display: grid; gap: 6px }
+.bar { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 3em; gap: 10px; align-items: center; font-size: .8rem }
+.bar .name { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.bar .track { height: 12px }
+.bar .fill { height: 12px; background: var(--s1); border-radius: 0 4px 4px 0; min-width: 2px }
+.bar .n { font: .78rem var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums }
+.tip { position: absolute; pointer-events: none; background: var(--raise); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  font-size: .78rem; box-shadow: 0 8px 24px rgba(0,0,0,.45); z-index: 5; min-width: 140px; display: grid; gap: 3px }
+.tip .d { font: .72rem var(--mono); color: var(--muted) }
+.tip .r { display: flex; align-items: center; gap: 8px }
+.tip .r b { font-weight: 600; color: var(--ink); min-width: 3ch; font-variant-numeric: tabular-nums }
+.tip .r i { width: 12px; height: 2px; border-radius: 1px; display: inline-block }
+.tip .r span { color: var(--muted) }
+details.data summary { cursor: pointer; font-size: .82rem; color: var(--point) }
+.tablewrap { overflow-x: auto; margin-top: 10px }
+table { border-collapse: collapse; width: 100%; font-size: .78rem; font-variant-numeric: tabular-nums }
+th, td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap }
+th:first-child, td:first-child { text-align: left }
+th { color: var(--muted); font-weight: 500 }
+.foot { font-size: .75rem; color: var(--muted); display: grid; gap: 4px }
+.foot a { color: var(--point) }
+.status { color: var(--muted) }
+@media (max-width: 760px) { .grid2 { grid-template-columns: minmax(0, 1fr) } h1 { font-size: 1.6rem } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="top">
+      <span class="eyebrow"><a href="./" data-i18n="back"></a></span>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+      </div>
+    </div>
+    <h1 data-i18n="title"></h1>
+    <p class="lede" data-i18n="lede"></p>
+    <p class="caveat" id="caveat"></p>
+  </header>
+
+  <div class="filters">
+    <span data-i18n="period"></span>
+    <div class="seg" id="period" role="group">
+      <button type="button" data-days="7" aria-pressed="false" data-i18n="d7"></button>
+      <button type="button" data-days="30" aria-pressed="false" data-i18n="d30"></button>
+      <button type="button" data-days="0" aria-pressed="true" data-i18n="all"></button>
+    </div>
+    <span class="status" id="status"></span>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section class="card">
+    <div class="cardhead">
+      <div><h2 data-i18n="f1"></h2><p class="sub" id="f1sub"></p></div>
+      <div class="seg" id="norm" role="group">
+        <button type="button" data-norm="0" aria-pressed="true" data-i18n="raw"></button>
+        <button type="button" data-norm="1" aria-pressed="false" data-i18n="per100k"></button>
+      </div>
+    </div>
+    <div class="chart" id="c-stories"></div>
+    <div class="legend" id="l-stories"></div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="f2"></h2>
+    <p class="sub" data-i18n="f2sub"></p>
+    <div class="multiples" id="c-topics"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2 data-i18n="f3"></h2>
+      <p class="sub" data-i18n="f3sub"></p>
+      <div class="chart" id="c-removal"></div>
+      <div class="legend" id="l-removal"></div>
+    </section>
+    <section class="card">
+      <h2 data-i18n="f4"></h2>
+      <p class="sub" data-i18n="f4sub"></p>
+      <div class="chart" id="c-region"></div>
+      <div class="legend" id="l-region"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2 data-i18n="f5"></h2>
+    <p class="sub" data-i18n="f5sub"></p>
+    <div class="bars" id="c-country"></div>
+  </section>
+
+  <section class="card">
+    <details class="data">
+      <summary data-i18n="table"></summary>
+      <div class="tablewrap"><table id="t-days"></table></div>
+    </details>
+  </section>
+
+  <div class="foot">
+    <span id="updated"></span>
+    <span data-i18n="method"></span>
+    <span><a href="./" data-i18n="backMap"></a></span>
+  </div>
+</div>
+
+<script>
+const I18N = {
+  en: {
+    back: '← Experimental map', backMap: 'Back to the experimental map', title: 'Daily trends',
+    lede: 'Daily counts from the experimental collector: relevant stories (reprints of the same news counted once), their topics, evictions and where they happened.',
+    caveat: (n, a, b) => `Short series: ${n} days (${a} to ${b}). It shows the weekly cycle of news volume (compare counts with the rate per 100,000 articles), but not trends yet; those need several weeks.`,
+    period: 'Period', d7: 'Last 7 days', d30: 'Last 30 days', all: 'All',
+    tStories: 'relevant stories', tNoPlace: n => `${n} without a place are not on the map`, tRemovals: 'stories about evictions', tRate: 'stories per 100,000 GKG articles (period)', tArticles: 'GKG articles read',
+    f1: 'Figure 1. Relevant stories per day', raw: 'Stories', per100k: 'Per 100,000 articles',
+    f1raw: 'Stories per day. Shaded columns are weekends.',
+    f1norm: 'Stories per 100,000 articles read from GDELT that day, which removes changes in news volume. Shaded columns are weekends.',
+    f2: 'Figure 2. Stories per day by topic', f2sub: 'Small multiples on a shared scale. A story can have several topics, so the panels do not add up to Figure 1.',
+    f3: 'Figure 3. Eviction stories by stage', f3sub: 'Each eviction story has one stage.',
+    f4: 'Figure 4. Global South and North', f4sub: 'Stories with a known place. Global North: UN M49 developed regions.',
+    f5: 'Table 1. Countries with most stories in the period', f5sub: 'Stories with a known place; the country is the last part of the place read by the model.',
+    table: 'Data table by day', date: 'Day', articles: 'GKG articles', candidates: 'Candidates', relArticles: 'Relevant articles',
+    stories: 'Stories', rate: 'Per 100k', removals: 'Evictions', weekend: 'Weekend',
+    st: { executed: 'Carried out', threat: 'Threat or announcement', court: 'Court decision', resettlement: 'Resettlement', unspecified: 'Stage not identified' },
+    rg: { south: 'Global South', north: 'Global North' },
+    t: { removal: 'Eviction', disaster: 'Disaster', violence: 'Violence', housing_policy: 'Housing policy', infrastructure: 'Infrastructure',
+      land_conflict: 'Land conflict', protest: 'Protest & organizing', culture: 'Culture & people', economy: 'Economy',
+      health_education: 'Health & education', data: 'Studies & data', other: 'Other' },
+    updated: d => `Updated ${d}.`, loadError: 'Could not load the data.', noDenom: 'no count',
+    method: 'Source: mapa/stats.json, rebuilt by the daily collector. Relevant = the model answered yes or marked an eviction. Classification by qwen2.5:7b, checked by blind human review.'
+  },
+  pt: {
+    back: '← Mapa experimental', backMap: 'Voltar ao mapa experimental', title: 'Tendências diárias',
+    lede: 'Contagens diárias do coletor experimental: assuntos relevantes (reimpressões da mesma notícia contam uma vez), seus temas, remoções e onde aconteceram.',
+    caveat: (n, a, b) => `Série curta: ${n} dias (${a} a ${b}). Mostra o ciclo semanal do volume de notícias (compare as contagens com a taxa por 100 mil artigos), mas ainda não tendências; para isso são precisas algumas semanas.`,
+    period: 'Período', d7: 'Últimos 7 dias', d30: 'Últimos 30 dias', all: 'Tudo',
+    tStories: 'assuntos relevantes', tNoPlace: n => `${n} sem local não aparecem no mapa`, tRemovals: 'assuntos sobre remoções', tRate: 'assuntos por 100 mil artigos do GKG (período)', tArticles: 'artigos do GKG lidos',
+    f1: 'Figura 1. Assuntos relevantes por dia', raw: 'Assuntos', per100k: 'Por 100 mil artigos',
+    f1raw: 'Assuntos por dia. Colunas sombreadas são fins de semana.',
+    f1norm: 'Assuntos por 100 mil artigos lidos do GDELT no dia, o que tira o efeito da variação no volume de notícias. Colunas sombreadas são fins de semana.',
+    f2: 'Figura 2. Assuntos por dia, por tema', f2sub: 'Pequenos gráficos na mesma escala. Um assunto pode ter vários temas, então os painéis não somam a Figura 1.',
+    f3: 'Figura 3. Assuntos sobre remoções, por etapa', f3sub: 'Cada assunto de remoção tem uma etapa.',
+    f4: 'Figura 4. Sul e Norte global', f4sub: 'Assuntos com local conhecido. Norte global: regiões desenvolvidas da ONU (M49).',
+    f5: 'Tabela 1. Países com mais assuntos no período', f5sub: 'Assuntos com local conhecido; o país é a última parte do local lido pelo modelo.',
+    table: 'Tabela de dados por dia', date: 'Dia', articles: 'Artigos GKG', candidates: 'Candidatas', relArticles: 'Notícias relevantes',
+    stories: 'Assuntos', rate: 'Por 100 mil', removals: 'Remoções', weekend: 'Fim de semana',
+    st: { executed: 'Executada', threat: 'Ameaça ou anúncio', court: 'Decisão judicial', resettlement: 'Reassentamento', unspecified: 'Etapa não identificada' },
+    rg: { south: 'Sul global', north: 'Norte global' },
+    t: { removal: 'Remoção', disaster: 'Desastre', violence: 'Violência', housing_policy: 'Política habitacional', infrastructure: 'Infraestrutura',
+      land_conflict: 'Conflito fundiário', protest: 'Protesto e organização', culture: 'Cultura e pessoas', economy: 'Economia',
+      health_education: 'Saúde e educação', data: 'Estudos e dados', other: 'Outro' },
+    updated: d => `Atualizado em ${d}.`, loadError: 'Não foi possível carregar os dados.', noDenom: 'sem contagem',
+    method: 'Fonte: mapa/stats.json, refeito pelo coletor diário. Relevante = o modelo respondeu sim ou marcou remoção. Classificação pelo qwen2.5:7b, conferida por revisão humana às cegas.'
+  }
+};
+const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function savedLang() { try { return localStorage.getItem('permanence-lang'); } catch (e) { return null; } }
+const state = { lang: savedLang() === 'pt' ? 'pt' : 'en', all: [], period: 0, norm: false, generated: null };
+const T = () => I18N[state.lang];
+const loc = () => (state.lang === 'pt' ? 'pt-BR' : 'en-GB');
+const num = v => (v == null ? '–' : Number(v).toLocaleString(loc(), { maximumFractionDigits: 1 }));
+function dayDate(iso) { const [y, m, d] = iso.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)); }
+const short = iso => dayDate(iso).toLocaleDateString(loc(), { day: 'numeric', month: 'short', timeZone: 'UTC' });
+const long = iso => dayDate(iso).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const isWeekend = iso => [0, 6].includes(dayDate(iso).getUTCDay());
+const rate = d => (d.gkg_articles && d.gkg_articles.total ? d.stories / d.gkg_articles.total * 1e5 : null);
+
+function days() {
+  if (!state.period) return state.all;
+  return state.all.slice(-state.period);
+}
+
+// ---------- tooltip ----------
+function showTip(host, x, title, rows) {
+  let tip = host.querySelector('.tip');
+  if (!tip) { tip = document.createElement('div'); tip.className = 'tip'; host.append(tip); }
+  tip.replaceChildren();
+  const d = document.createElement('span'); d.className = 'd'; d.textContent = title; tip.append(d);
+  rows.forEach(([label, value, color]) => {
+    const r = document.createElement('span'); r.className = 'r';
+    const i = document.createElement('i'); i.style.background = color;
+    const b = document.createElement('b'); b.textContent = value;
+    const s = document.createElement('span'); s.textContent = label;
+    r.append(i, b, s); tip.append(r);
+  });
+  tip.hidden = false;
+  const w = host.clientWidth, tw = tip.offsetWidth;
+  tip.style.left = `${Math.min(Math.max(0, x + 12), w - tw)}px`;
+  tip.style.top = '4px';
+}
+function hideTip(host) { const t = host.querySelector('.tip'); if (t) t.hidden = true; }
+
+// ---------- generic daily chart: columns (stacked) or one line ----------
+const SVGNS = 'http://www.w3.org/2000/svg';
+function el(name, attrs, parent) {
+  const n = document.createElementNS(SVGNS, name);
+  Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
+  if (parent) parent.append(n);
+  return n;
+}
+function niceMax(v) {
+  if (v <= 0) return 1;
+  const p = 10 ** Math.floor(Math.log10(v)), f = v / p;
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+}
+function topRounded(x, y, w, h, r) {
+  r = Math.min(r, w / 2, h);
+  return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
+}
+// series: [{label, color, values:[...] }], type 'columns' | 'line'
+function dailyChart(host, ds, series, { type = 'columns', height = 220, fmt = num, max = null, compact = false } = {}) {
+  host.replaceChildren();
+  const W = Math.max(260, host.clientWidth), H = height;
+  const m = { t: 8, r: 8, b: compact ? 18 : 26, l: compact ? 26 : 40 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, n = ds.length;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, height: H, role: 'img' }, host);
+  const totals = ds.map((_, i) => type === 'columns' ? series.reduce((s, se) => s + (se.values[i] || 0), 0)
+    : Math.max(...series.map(se => se.values[i] || 0)));
+  const ymax = max != null ? max : niceMax(Math.max(...totals, 0));
+  const band = iw / Math.max(n, 1), x0 = i => m.l + i * band;
+  const y = v => m.t + ih - (v / ymax) * ih;
+  // weekends
+  ds.forEach((d, i) => { if (isWeekend(d)) el('rect', { x: x0(i), y: m.t, width: band, height: ih, fill: css('--weekend') }, svg); });
+  // grid + y ticks
+  // Whole-number steps when the maximum allows (counts), quarters otherwise
+  const parts = compact ? 1 : ([4, 5, 2].find(k => Number.isInteger(ymax / k)) || 4);
+  const ticks = Array.from({ length: parts + 1 }, (_, i) => ymax * i / parts);
+  ticks.forEach(t => {
+    el('line', { x1: m.l, x2: m.l + iw, y1: y(t), y2: y(t), stroke: t === 0 ? css('--axis') : css('--grid'), 'stroke-width': 1 }, svg);
+    const tx = el('text', { x: m.l - 6, y: y(t) + 4, 'text-anchor': 'end' }, svg); tx.textContent = num(t);
+  });
+  // x labels
+  const every = Math.ceil(n / (compact ? 4 : Math.max(1, Math.floor(iw / 56))));
+  ds.forEach((d, i) => {
+    if (i % every && i !== n - 1) return;
+    const tx = el('text', { x: x0(i) + band / 2, y: H - (compact ? 4 : 8), 'text-anchor': 'middle' }, svg); tx.textContent = short(d);
+  });
+  if (type === 'columns') {
+    const bw = Math.min(24, band * 0.62);
+    ds.forEach((d, i) => {
+      let acc = 0;
+      const vis = series.map((se, k) => [k, se.values[i] || 0]).filter(([, v]) => v > 0);
+      vis.forEach(([k, v], j) => {
+        const se = series[k];
+        const yTop = y(acc + v), yBot = y(acc);
+        const gap = j > 0 ? 2 : 0; // surface gap between stacked segments
+        const h = Math.max(0, yBot - yTop - gap);
+        const x = x0(i) + (band - bw) / 2;
+        if (j === vis.length - 1) el('path', { d: topRounded(x, yTop, bw, h, 4), fill: se.color }, svg);
+        else el('rect', { x, y: yTop, width: bw, height: h, fill: se.color }, svg);
+        acc += v;
+      });
+    });
+  } else {
+    series.forEach(se => {
+      const pts = ds.map((_, i) => se.values[i] == null ? null : [x0(i) + band / 2, y(se.values[i])]);
+      let dstr = '', pen = false;
+      pts.forEach(p => { if (!p) { pen = false; return; } dstr += `${pen ? 'L' : 'M'}${p[0]},${p[1]}`; pen = true; });
+      el('path', { d: dstr, fill: 'none', stroke: se.color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
+      pts.forEach(p => { if (p) el('circle', { cx: p[0], cy: p[1], r: 4, fill: se.color, stroke: css('--panel'), 'stroke-width': 2 }, svg); });
+    });
+  }
+  // hover: one band per day, tooltip lists every series
+  const cross = el('line', { y1: m.t, y2: m.t + ih, stroke: css('--axis'), 'stroke-width': 1, visibility: 'hidden' }, svg);
+  ds.forEach((d, i) => {
+    const hit = el('rect', { x: x0(i), y: m.t, width: band, height: ih, fill: 'transparent', tabindex: 0 }, svg);
+    const show = () => {
+      const cx = x0(i) + band / 2;
+      if (type === 'line') { cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('visibility', 'visible'); }
+      const rows = series.map(se => [se.label, se.values[i] == null ? T().noDenom : fmt(se.values[i]), se.color]);
+      showTip(host, cx, long(d) + (isWeekend(d) ? ` · ${T().weekend}` : ''), rows);
+    };
+    const hide = () => { cross.setAttribute('visibility', 'hidden'); hideTip(host); };
+    hit.addEventListener('pointerenter', show); hit.addEventListener('focus', show);
+    hit.addEventListener('pointerleave', hide); hit.addEventListener('blur', hide);
+  });
+  return ymax;
+}
+function legend(host, items, line = false) {
+  host.replaceChildren(...items.map(([label, color]) => {
+    const s = document.createElement('span'); const i = document.createElement('i');
+    if (line) i.className = 'ln'; i.style.background = color; s.append(i, document.createTextNode(label)); return s;
+  }));
+}
+
+// ---------- sections ----------
+function tiles(ds) {
+  const sum = f => ds.reduce((s, d) => s + (f(d) || 0), 0);
+  const stories = sum(d => d.stories), rem = sum(d => Object.values(d.removal_by_stage || {}).reduce((a, b) => a + b, 0));
+  const withDen = ds.filter(d => d.gkg_articles && d.gkg_articles.total);
+  const art = withDen.reduce((s, d) => s + d.gkg_articles.total, 0);
+  const rt = art ? withDen.reduce((s, d) => s + d.stories, 0) / art * 1e5 : null;
+  const noPlace = sum(d => (d.by_region || {}).no_place);
+  const items = [[num(stories), T().tStories + (noPlace ? ` (${T().tNoPlace(noPlace)})` : '')], [num(rem), T().tRemovals],
+    [num(rt), T().tRate], [num(art), T().tArticles]];
+  $('tiles').replaceChildren(...items.map(([v, l]) => {
+    const d = document.createElement('div'); d.className = 'tile';
+    const a = document.createElement('span'); a.className = 'v'; a.textContent = v;
+    const b = document.createElement('span'); b.className = 'l'; b.textContent = l;
+    d.append(a, b); return d;
+  }));
+}
+
+function figStories(ds) {
+  const ids = ds.map(d => d.date);
+  $('f1sub').textContent = state.norm ? T().f1norm : T().f1raw;
+  const values = ds.map(d => state.norm ? rate(d) : d.stories);
+  dailyChart($('c-stories'), ids, [{ label: state.norm ? T().per100k : T().stories, color: css('--point'), values }],
+    { type: 'line', height: 240 });
+  $('l-stories').replaceChildren();
+}
+
+function figTopics(ds) {
+  const ids = ds.map(d => d.date);
+  const totals = {};
+  ds.forEach(d => Object.entries(d.by_topic || {}).forEach(([k, v]) => { totals[k] = (totals[k] || 0) + v; }));
+  const keys = Object.keys(totals).sort((a, b) => totals[b] - totals[a]);
+  const max = niceMax(Math.max(1, ...ds.flatMap(d => keys.map(k => (d.by_topic || {})[k] || 0))));
+  const host = $('c-topics'); host.replaceChildren();
+  keys.forEach(k => {
+    const box = document.createElement('div'); box.className = 'mini';
+    const h = document.createElement('h3'); h.textContent = T().t[k] || k;
+    const c = document.createElement('span'); c.textContent = num(totals[k]); h.append(c);
+    const ch = document.createElement('div'); ch.className = 'chart';
+    box.append(h, ch); host.append(box);
+    const color = k === 'removal' ? css('--removal') : css('--s1');
+    dailyChart(ch, ids, [{ label: T().t[k] || k, color, values: ds.map(d => (d.by_topic || {})[k] || 0) }], { height: 110, max, compact: true });
+  });
+}
+
+function figRemoval(ds) {
+  const ids = ds.map(d => d.date);
+  const order = [['executed', '--s1'], ['threat', '--s2'], ['court', '--s3'], ['resettlement', '--s4'], ['unspecified', '--other']];
+  const present = order.filter(([k]) => ds.some(d => (d.removal_by_stage || {})[k]));
+  const series = present.map(([k, c]) => ({ label: T().st[k], color: css(c), values: ds.map(d => (d.removal_by_stage || {})[k] || 0) }));
+  dailyChart($('c-removal'), ids, series, { height: 220 });
+  legend($('l-removal'), series.map(s => [s.label, s.color]));
+}
+
+function figRegion(ds) {
+  const ids = ds.map(d => d.date);
+  const series = [['south', '--s1'], ['north', '--s3']].map(([k, c]) => ({ label: T().rg[k], color: css(c), values: ds.map(d => (d.by_region || {})[k] || 0) }));
+  dailyChart($('c-region'), ids, series, { height: 220 });
+  legend($('l-region'), series.map(s => [s.label, s.color]));
+}
+
+function figCountry(ds) {
+  const tot = {};
+  ds.forEach(d => Object.entries(d.by_country || {}).forEach(([k, v]) => { tot[k] = (tot[k] || 0) + v; }));
+  const rows = Object.entries(tot).sort((a, b) => b[1] - a[1]).slice(0, 12);
+  const max = rows.length ? rows[0][1] : 1;
+  $('c-country').replaceChildren(...rows.map(([k, v]) => {
+    const r = document.createElement('div'); r.className = 'bar';
+    const a = document.createElement('span'); a.className = 'name'; a.textContent = k; a.title = k;
+    const tr = document.createElement('div'); tr.className = 'track';
+    const f = document.createElement('div'); f.className = 'fill'; f.style.width = `${(v / max) * 100}%`; tr.append(f);
+    const n = document.createElement('span'); n.className = 'n'; n.textContent = num(v);
+    r.append(a, tr, n); return r;
+  }));
+}
+
+function table(ds) {
+  const t = T();
+  const head = [t.date, t.articles, t.candidates, t.relArticles, t.stories, t.rate, t.removals];
+  const tb = $('t-days'); tb.replaceChildren();
+  const thead = document.createElement('thead'); const hr = document.createElement('tr');
+  head.forEach(h => { const th = document.createElement('th'); th.textContent = h; hr.append(th); });
+  thead.append(hr); tb.append(thead);
+  const body = document.createElement('tbody');
+  ds.forEach(d => {
+    const tr = document.createElement('tr');
+    const rem = Object.values(d.removal_by_stage || {}).reduce((a, b) => a + b, 0);
+    [long(d.date), num(d.gkg_articles && d.gkg_articles.total), num(d.candidates), num(d.relevant_articles), num(d.stories), num(rate(d)), num(rem)]
+      .forEach(v => { const td = document.createElement('td'); td.textContent = v; tr.append(td); });
+    body.append(tr);
+  });
+  tb.append(body);
+}
+
+function render() {
+  if (!state.all.length) return;
+  const ds = days();
+  const first = state.all[0].date, last = state.all[state.all.length - 1].date;
+  $('caveat').textContent = T().caveat(state.all.length, short(first), short(last));
+  tiles(ds); figStories(ds); figTopics(ds); figRemoval(ds); figRegion(ds); figCountry(ds); table(ds);
+}
+
+function applyLang() {
+  const t = T();
+  document.documentElement.lang = state.lang === 'pt' ? 'pt-BR' : 'en';
+  document.title = state.lang === 'pt' ? 'Permanence · Tendências diárias' : 'Permanence · Daily trends';
+  document.querySelectorAll('[data-i18n]').forEach(e => { const v = t[e.dataset.i18n]; if (typeof v === 'string') e.textContent = v; });
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
+  if (state.generated) $('updated').textContent = t.updated(long(state.generated));
+  render();
+}
+
+document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
+  state.lang = b.dataset.lang;
+  try { localStorage.setItem('permanence-lang', state.lang); } catch (e) { /* storage unavailable */ }
+  applyLang();
+}));
+document.querySelectorAll('#period button').forEach(b => b.addEventListener('click', () => {
+  state.period = Number(b.dataset.days);
+  document.querySelectorAll('#period button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+}));
+document.querySelectorAll('#norm button').forEach(b => b.addEventListener('click', () => {
+  state.norm = b.dataset.norm === '1';
+  document.querySelectorAll('#norm button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+}));
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(render, 150); });
+
+applyLang();
+fetch('stats.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(data => {
+  state.all = data.days.slice().sort((a, b) => (a.date < b.date ? -1 : 1));
+  state.generated = (data.generated_at || '').slice(0, 10) || null;
+  applyLang();
+}).catch(() => { $('status').textContent = T().loadError; });
+</script>
+</body>
+</html>
