@@ -1,155 +1,83 @@
-# The Permanence Observatory
-
-![Permanence Observatory Banner](banner_po.jpg)
-
 <p align="center">
-  <img src="po_logo.avif" alt="Permanence Observatory Logo" width="200">
+  <img src="banner_po.jpg" alt="The Permanence Observatory">
 </p>
 
-## About the Observatory
-
-The **Permanence Observatory (PO)** is a global initiative that uses geospatial analysis and field documentation to protect informal settlement communities from unlawful evictions. By combining satellite imagery, remote sensing, and legal advocacy, PO provides irrefutable evidence of territorial occupation, helping communities secure their right to remain. 
-
-Funded by human rights and technology grants, PO collaborates with global practitioners to present its findings in courts, advocacy forums, and international bodies.
-Find out more: [www.permanenceobservatory.org/](https://www.permanenceobservatory.org/)
-
----
-
-## Who We Are
-
-We are global mappers investigating informal settlements. Our team includes experts in:
-- Remote sensing technology
-- Field documentation
-- Urban planning
-- Legal advocacy
-- Human rights
-
-We employ advanced tools including satellite imagery, geospatial data, and on-the-ground testimonies to create comprehensive documentation crucial in defending communities against forced evictions. We are an interdisciplinary organization working at the intersection of technology, law, and human rights.
-
----
-
-## What We Do
-
-We use **geospatial analysis** and **field surveys** to provide scientific proof of communities' land occupation. Our work helps prevent evictions by supporting legal recognition and protection. Through advocacy and evidence, we empower communities to claim their housing rights.
-
-### The News Tracker
-
-This repository hosts the **Slum News Tracker** - an automated, daily-updating interactive map that monitors global news coverage of informal settlements. The tracker:
-
-- 🗺️ **Maps global news** about informal settlements in real-time
-- 📊 **Categorizes events** (evictions, fires, violence, health crises, etc.)
-- 🔍 **Provides interactive filtering** by event type and location
-- 📈 **Visualizes trends** through bar charts and geographic clustering
-- 🌐 **Aggregates data** from 200+ locations across Africa, Asia, and Latin America
-- 🤖 **Updates automatically** every day using GDELT data
-
-**Live Map:** [https://permanence-observatory.github.io](https://permanence-observatory.github.io)
-
----
-
-## How We Choose Our Projects
-
-We partner with communities at risk of eviction to provide legal and spatial documentation. Our focus is on cases where our methods can make a decisive impact. We aim to influence policies and legal decisions that secure housing rights.
-
----
-
-## How We Are Funded
-
-Our funding comes from:
-- Human rights and technology grants
-- Academic partnerships
-- Project-specific support
-
-All income is reinvested to advance our mission.
-
----
-
-## Where Our Work Is Presented
-
-We share our findings with:
-- **Courts** - Legal cases defending community rights
-- **Policymakers** - Influencing housing and urban policy
-- **Advocacy groups** - Supporting grassroots movements
-- **International bodies** - UN, European Court of Human Rights
-- **Citizen tribunals** - Public forums amplifying marginalized voices
-
-Our evidence is used in legal cases and public forums. We strive to amplify marginalized voices in decision-making spaces.
-
----
-
-## Legal Admissibility
-
-It is our intention that our documentation can be used as **legal evidence in courts worldwide**, including the UN and the European Court of Human Rights. Its scientific rigor strengthens community claims against forced displacement.
-
----
-
-## Research Network
-
-### Research Team
-- **Jota Samper** - University of Colorado Boulder (Professor)
-- **Julio Pedrassoli** - University of São Paulo & Western Michigan University (Professor)
-- **M. Kuffer (Monika)** - University of Twente (Professor)
-- **Malena Jaramillo Espinosa** - Associate Researcher (Permanence Observatory)
-- **Juan Manuel D'Attoli** - Associate Researcher (Permanence Observatory)
-- **Angela Abascal** - Public University of Navarra (Postdoctoral Researcher)
-- **R. Vargas Maretto (Raian)** - University of Twente (Professor)
-- **Andrew Maki** - Justice and Empowerment Initiatives - JEI (Co-director)
-- **Anthony Boanada-Fuchs** - Institute for Housing and Urban Development Studies - IHS (Head of Projects and Partnerships)
-
-### PhD Candidates
-- **F. Campomanes MSc (Enzo)** - PhD Candidate at University of Twente
-- **L. Trento Oliveira MSc (Lorraine)** - PhD Candidate at University of Twente
-
----
-
-## Institutional Partners
-
 <p align="center">
-  <img src="university_of_twente_logo.jpg" alt="University of Twente" height="80" style="margin: 20px;">
-  <img src="cu_boulder_logo.avif" alt="University of Colorado Boulder" height="80" style="margin: 20px;">
-  <img src="WMU primary-digital.png" alt="Western Michigan University" height="80" style="margin: 20px;">
-  <img src="usp_logo.png" alt="University of São Paulo" height="80" style="margin: 20px;">
+  Geospatial evidence and field documentation to defend informal settlement communities against forced eviction.
 </p>
 
----
+<p align="center">
+  <a href="https://permanence-observatory.github.io"><b>Slum News Tracker</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://www.permanenceobservatory.org/">permanenceobservatory.org</a>
+</p>
 
-## Technical Information
+<br>
 
-### News Tracker Technology
-- **Data Source:** GDELT Project (Global Database of Events, Language, and Tone)
-- **Coverage:** 200+ informal settlement locations globally
-- **Update Frequency:** Daily (automated via GitHub Actions)
-- **Technology Stack:** Python, Leaflet.js, GitHub Pages
-- **Multilingual Support:** Keywords in English, Spanish, Portuguese, French, Hindi, and more
+## About
 
-### Contact
-For technical details about the news tracker, contact:
+The **Permanence Observatory** is an interdisciplinary research initiative working at the intersection of technology, law and human rights. It combines satellite imagery, remote sensing, field surveys and residents' testimonies to document how long communities have occupied their land, and offers that documentation as evidence for their right to remain.
 
-**Julio Pedrassoli**  
-📧 jpedrassoli@usp.br
+The Observatory works with communities at risk of eviction, choosing cases where spatial and legal documentation can make a decisive difference. Its findings are presented to courts, policymakers, advocacy groups, citizen tribunals and international bodies such as the United Nations and the European Court of Human Rights, and it aims for documentation rigorous enough to be admissible as legal evidence. It is funded by human rights and technology grants, academic partnerships and project-specific support, and all income is reinvested in its mission.
 
----
+## Slum News Tracker
 
-## Repository Structure
+This repository hosts the **[Slum News Tracker](https://permanence-observatory.github.io)**, a daily map of news about informal settlements worldwide, built from the [GDELT Project](https://www.gdeltproject.org/).
+
+A new version is being built and will replace the current one once its quality has been measured. Until then both run side by side, and the new version can be previewed at [/mapa/](https://permanence-observatory.github.io/mapa/).
+
+| | Current version | New version (in development) |
+|---|---|---|
+| **Source** | GDELT DOC API: searches for 225 settlement names and keywords in four languages | Raw GDELT GKG 2.1 files: every article of the day, in English and 65 translated languages |
+| **Selection** | Keywords and event categories | Pre-filter, then an open language model (qwen2.5:7b, run locally) reads each candidate |
+| **Output** | Points by event type, with charts and filters | One point per story, with topics, removal stage and a daily history kept in `data/gkg/` |
+| **Status** | In production | Under evaluation through blind human review |
+
+Both run every day on GitHub Actions at no cost. The new collector keeps every candidate article, relevant or not, together with the model, prompt and pipeline version that classified it, so results can be audited and the history reclassified when the method changes. Method changes are listed in [`data/gkg/method_changes.json`](data/gkg/method_changes.json); [`ARCHITECTURE.md`](ARCHITECTURE.md) documents the design decisions.
+
+### Repository structure
 
 ```
-permanence.github.io/
-├── index.html              # Live news map (auto-generated daily)
-├── gdelt_version_v21.py    # Main news tracker script
-├── .github/
-│   └── workflows/
-│       └── update-map.yml  # Automation workflow
-└── README.md               # This file
+├── index.html            Current map (regenerated daily)
+├── gdelt_version_v21.py  Current map script
+├── mapa/                 New version of the map and its data
+├── pipeline/             New collector and review tools
+├── prototype/            Tests behind the pipeline's choices
+├── data/gkg/             Daily history and summaries
+├── .github/workflows/    Daily runs and manual experiments
+└── ARCHITECTURE.md       Design notes
 ```
 
----
+## Team
 
-## License & Usage
+| Researcher | Affiliation |
+|---|---|
+| Jota Samper | University of Colorado Boulder |
+| Julio Pedrassoli | University of São Paulo · Western Michigan University |
+| Monika Kuffer | University of Twente |
+| Raian Vargas Maretto | University of Twente |
+| Angela Abascal | Public University of Navarra |
+| Andrew Maki | Justice and Empowerment Initiatives (JEI) |
+| Anthony Boanada-Fuchs | Institute for Housing and Urban Development Studies (IHS) |
+| Malena Jaramillo Espinosa | Permanence Observatory |
+| Juan Manuel D'Attoli | Permanence Observatory |
 
-This project is part of the Permanence Observatory's mission to support informal settlement communities. The code and data are provided for research, advocacy, and educational purposes.
+**PhD candidates, University of Twente:** Enzo Campomanes · Lorraine Trento Oliveira
 
-For collaboration inquiries or to support our mission, please contact us through our institutional partners.
+## Partners
 
----
+<p align="center">
+  <img src="university_of_twente_logo.jpg" alt="University of Twente" height="64">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="cu_boulder_logo.avif" alt="University of Colorado Boulder" height="64">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="WMU primary-digital.png" alt="Western Michigan University" height="48">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="usp_logo.png" alt="University of São Paulo" height="44">
+</p>
 
-*Last updated: February 2026*
+## Contact and use
+
+Questions about the Slum News Tracker: **Julio Pedrassoli**, jpedrassoli@usp.br.
+
+The code and data are provided for research, advocacy and educational purposes. For collaboration or support, please get in touch through the contact above or the [Observatory's website](https://www.permanenceobservatory.org/).
