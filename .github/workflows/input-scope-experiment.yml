@@ -1,0 +1,58 @@
+# Input-scope experiment, arm B (prototype/input_scope_experiment.py): the reviewed stories in
+# prototype/data/input_scope/ classified with the production input (arm A) and with the extra
+# GKG metadata (arm B). Manual only; commits nothing. The result is kept as a run artifact.
+name: Input-scope experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'Ollama model'
+        required: false
+        default: 'qwen2.5:7b'
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install requests
+
+      - name: Install and start Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          if ! curl -sf http://localhost:11434/api/version; then
+            nohup ollama serve > ollama.log 2>&1 &
+          fi
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:11434/api/version && break
+            sleep 2
+          done
+
+      - name: Download model
+        run: ollama pull "${{ github.event.inputs.model }}"
+
+      - name: Run arms A and B
+        run: |
+          mkdir -p result
+          cp prototype/data/input_scope/gkg_metadata.json result/
+          python prototype/input_scope_experiment.py \
+            --reviewed prototype/data/input_scope/reviewed.json \
+            --out result --model "${{ github.event.inputs.model }}"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: input-scope-result
+          path: |
+            result/input_scope_result.json
+            result/input_scope_items.csv

@@ -95,13 +95,17 @@ def normalize_answer(a):
             'reason': a.get('reason') or ''}
 
 
-def call_model(endpoint, model, items, max_retries=4):
-    user = json.dumps([{k: it[k] for k in ('id', 'title', 'url', 'language', 'gdelt_locations')}
-                       for it in items], ensure_ascii=False)
+MODEL_FIELDS = ('id', 'title', 'url', 'language', 'gdelt_locations')
+
+
+def call_model(endpoint, model, items, max_retries=4, system_prompt=SYSTEM_PROMPT, fields=MODEL_FIELDS):
+    """Classify a batch. The defaults are what the collector uses; experiments may pass another
+    system prompt, or fields=None to send each item exactly as given."""
+    user = json.dumps([{k: it[k] for k in fields} if fields else it for it in items], ensure_ascii=False)
     body = {
         'model': model, 'temperature': 0,
         'response_format': {'type': 'json_object'},
-        'messages': [{'role': 'system', 'content': SYSTEM_PROMPT}, {'role': 'user', 'content': user}],
+        'messages': [{'role': 'system', 'content': system_prompt}, {'role': 'user', 'content': user}],
     }
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
     if os.environ.get('LLM_API_KEY'):
