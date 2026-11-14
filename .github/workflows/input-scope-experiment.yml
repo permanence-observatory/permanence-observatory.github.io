@@ -25,7 +25,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install requests
+        run: pip install requests pandas  # gkg_prototype imports gdelt_version_v21, which needs pandas
 
       - name: Install and start Ollama
         run: |
