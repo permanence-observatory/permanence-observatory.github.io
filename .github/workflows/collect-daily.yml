@@ -1,7 +1,7 @@
 # Daily GKG collection with language-model classification, saved as history in data/gkg/,
 # plus the data of the experimental map (mapa/events.json).
 # Runs alongside the main map update and does not change index.html.
-# The schedule only takes effect on main; pushes to the prototype branch also run it.
+# Runs on main by schedule, or by hand (workflow_dispatch) for a chosen day.
 name: Daily GKG collection
 
 on:
@@ -12,13 +12,6 @@ on:
       date:
         description: 'UTC day to collect (YYYY-MM-DD); empty = yesterday'
         required: false
-  push:
-    branches: [gkg-prototype]
-    paths:
-      - '.github/workflows/collect-daily.yml'
-      - 'pipeline/**'
-      - 'prototype/classify_llm.py'
-      - 'prototype/gkg_prototype.py'
 
 concurrency:
   group: collect-daily
