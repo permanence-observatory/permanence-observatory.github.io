@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """
-Input-scope experiment, arm B: does the model classify better when it also sees the
-GKG metadata that GDELT extracted from the full article text?
+Input-scope experiment: does the model classify better with more input than production?
 
   arm A  (production): title, URL, language and the first 3 GKG locations
-  arm B  (this test):  the same, plus all GKG locations, the GKG themes, and the
+  arm B  (tested):     the same, plus all GKG locations, the GKG themes, and the
                        persons and organizations GDELT found in the article
+  arm C  (this test):  arm A plus the first paragraphs of the article itself
 
-Both arms run now, with the same model, batches and order, on stories a person has
+The chosen arms run now, with the same model, batches and order, on stories a person has
 already reviewed (blind) on the review page. The daily collector is not touched.
 
 Steps:
   1. read the reviewed items and the reviewer's verdicts;
   2. download the GKG files of each item's day and keep the metadata of those URLs
      only (cached in --out, so a rerun skips the download);
-  3. classify every item with both arms;
+  2b. (arm C) fetch each article in memory; only outcome and length are recorded;
+  3. classify every item with each chosen arm;
   4. compare each arm with the human answer, and the arms with each other.
 
 Usage:
@@ -23,6 +24,10 @@ Usage:
       --items <dir ...> --verdicts <2026-11-08.json> --out <dir> [--model qwen2.5:7b]
   python prototype/input_scope_experiment.py --reviewed <out>/reviewed.json --out <out>
   --metadata-only   stop after step 2 (no model needed)
+  --arms AC         which arms to run (default AB; e.g. AC or ABC). Arm C = arm A plus the
+                    opening of the article itself, fetched with trafilatura. The article text
+                    is kept in memory only and is never written to --out.
+  --fetch-only      fetch the articles and report outcome and length per story, no model
 
 The model needs about 6 GB of free memory; on a smaller machine run it in GitHub Actions
 (.github/workflows/input-scope-experiment.yml), which reads prototype/data/input_scope/.
@@ -35,8 +40,10 @@ import io
 import json
 import os
 import sys
+import statistics
 import time
 import zipfile
+from urllib.parse import urlparse
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
@@ -54,6 +61,17 @@ ARM_B_NOTE = """
 Some items also carry gdelt_themes, gdelt_persons and gdelt_organizations, and a longer
 gdelt_locations list. GDELT extracted them automatically from the full article text, so they
 tell what the article is about beyond its headline; use them as extra clues, but they are noisy."""
+
+ARM_C_NOTE = """
+
+Some items also carry article_start: the opening paragraphs of the article, extracted
+automatically from the web page. It may be missing, truncated or contain page noise (menus,
+cookie notices, ads); use it as an extra clue about what the article is about."""
+
+ARTICLE_CHARS = 1200
+FETCH_TIMEOUT = 20
+FETCH_MAX_BYTES = 2_000_000
+FETCH_UA = 'Mozilla/5.0 (compatible; research-fetch/1.0)'
 
 HUMAN = {'sim': 'yes', 'nao': 'no', 'incerto': 'uncertain'}
 
@@ -116,11 +134,71 @@ def fetch_metadata(day, urls, workers=4):
     return found, missing
 
 
-def model_input(item, meta, arm):
+def fetch_article(url):
+    """Opening of the article at url. Returns (outcome, full_extracted_length, text).
+    outcome: ok | http_<status> | timeout | empty | error. The text exists only in memory."""
+    import requests
+    import trafilatura
+    if urlparse(url).scheme not in ('http', 'https'):
+        return 'error', 0, ''
+    try:
+        with requests.get(url, timeout=FETCH_TIMEOUT, stream=True,
+                          headers={'User-Agent': FETCH_UA, 'Accept-Language': 'pt-BR,pt;q=0.9,en;q=0.5'}) as r:
+            if r.status_code >= 400:
+                return f'http_{r.status_code}', 0, ''
+            raw = r.raw.read(FETCH_MAX_BYTES + 1, decode_content=True)[:FETCH_MAX_BYTES]
+            enc = r.encoding or r.apparent_encoding or 'utf-8'
+    except requests.Timeout:
+        return 'timeout', 0, ''
+    except Exception:  # noqa: BLE001 - any network/TLS failure is just "error"
+        return 'error', 0, ''
+    try:
+        html = raw.decode(enc, 'replace')
+        text = trafilatura.extract(html, include_comments=False, include_tables=False) or ''
+    except Exception:  # noqa: BLE001
+        return 'error', 0, ''
+    text = text.strip()
+    if not text:
+        return 'empty', 0, ''
+    out = ''
+    for para in (q.strip() for q in text.split('\n')):
+        if not para:
+            continue
+        out += (' ' if out else '') + para
+        if len(out) >= ARTICLE_CHARS:
+            break
+    return 'ok', len(text), out[:ARTICLE_CHARS]
+
+
+def fetch_articles(items, workers=6):
+    """{item id: (outcome, length, text)}, text in memory only."""
+    with ThreadPoolExecutor(workers) as pool:
+        got = list(pool.map(lambda it: fetch_article(it['url']), items))
+    return {it['id']: r for it, r in zip(items, got)}
+
+
+def fetch_report(items, fetched):
+    """Outcome counts, failures by site and the median length; no article text."""
+    host = lambda u: (urlparse(u).hostname or '').removeprefix('www.')  # noqa: E731
+    outcomes = Counter(r[0] for r in fetched.values())
+    lengths = [r[1] for r in fetched.values() if r[0] == 'ok']
+    failures = Counter(f'{host(i["url"])} [{fetched[i["id"]][0]}]' for i in items if fetched[i['id']][0] != 'ok')
+    return {
+        'stories': len(items), 'outcomes': dict(outcomes),
+        'success_rate': round(outcomes['ok'] / len(items), 3) if items else None,
+        'median_extracted_chars': int(statistics.median(lengths)) if lengths else 0,
+        'short_extractions_under_300_chars': sum(n < 300 for n in lengths),
+        'failures_by_site': dict(failures.most_common()),
+    }
+
+
+def model_input(item, meta, arm, article=''):
     locs = meta['locations'] if meta else []
     x = {'id': item['id'], 'title': item['title'], 'url': item['url'], 'language': item['language']}
-    if arm == 'A':
+    if arm in ('A', 'C'):
         x['gdelt_locations'] = '; '.join(locs[:3])  # exactly what the collector sends
+        if arm == 'C' and article:
+            x['article_start'] = article
     else:
         x['gdelt_locations'] = '; '.join(unique(locs, MAX_LOCATIONS))
         x['gdelt_themes'] = (meta or {}).get('themes', [])[:MAX_THEMES]
@@ -129,12 +207,13 @@ def model_input(item, meta, arm):
     return x
 
 
-def classify(items, metadata, arm, model, endpoint, batch):
-    prompt = SYSTEM_PROMPT + (ARM_B_NOTE if arm == 'B' else '')
+def classify(items, metadata, arm, model, endpoint, batch, articles=None):
+    prompt = SYSTEM_PROMPT + {'B': ARM_B_NOTE, 'C': ARM_C_NOTE}.get(arm, '')
     answers, tokens, t0 = {}, Counter(), time.perf_counter()
     for i in range(0, len(items), batch):
         group = items[i:i + batch]
-        inputs = [model_input(it, metadata.get(it['url']), arm) for it in group]
+        inputs = [model_input(it, metadata.get(it['url']), arm, (articles or {}).get(it['id'], ('', 0, ''))[2])
+                  for it in group]
         got, usage = call_model(endpoint, model, inputs, system_prompt=prompt, fields=None)
         tokens.update({k: v for k, v in usage.items() if isinstance(v, int)})
         by_id = {str(a.get('id')): a for a in got if isinstance(a, dict)}
@@ -182,7 +261,12 @@ def main():
     ap.add_argument('--batch', type=int, default=5)
     ap.add_argument('--limit', type=int)
     ap.add_argument('--metadata-only', action='store_true')
+    ap.add_argument('--arms', default='AB', help='arms to run, e.g. AB (default), AC, ABC')
+    ap.add_argument('--fetch-only', action='store_true', help='only fetch articles (arm C input) and report')
     args = ap.parse_args()
+    args.arms = ''.join(dict.fromkeys(args.arms.upper()))
+    if not args.arms or set(args.arms) - set('ABC'):
+        sys.exit('--arms takes the letters A, B, C')
     if args.reviewed:
         if args.items or args.verdicts:
             sys.exit('give --reviewed or --items/--verdicts, not both')
@@ -226,40 +310,76 @@ def main():
     if args.metadata_only:
         return
 
-    runs = {arm: classify(items, metadata, arm, args.model, args.endpoint, args.batch) for arm in 'AB'}
-    ans = {arm: r[0] for arm, r in runs.items()}
+    articles, fetch_stats = None, None
+    if 'C' in args.arms or args.fetch_only:
+        print(f'Fetching {len(items)} articles (text kept in memory only)...', flush=True)
+        articles = fetch_articles(items)
+        fetch_stats = fetch_report(items, articles)
+        print(json.dumps(fetch_stats, ensure_ascii=False, indent=2))
+        per_story = [{'id': i['id'], 'outcome': articles[i['id']][0], 'chars': articles[i['id']][1]} for i in items]
+        with open(os.path.join(args.out, 'fetch_outcomes.json'), 'w', encoding='utf-8') as f:
+            json.dump({'summary': fetch_stats, 'stories': per_story}, f, ensure_ascii=False, indent=1)
+    if args.fetch_only:
+        return
 
-    a_ok = lambda arm, i: kept(ans[arm][i['id']]) == (i['human_relevant'] == 'yes')  # noqa: E731
+    runs = {arm: classify(items, metadata, arm, args.model, args.endpoint, args.batch, articles)
+            for arm in args.arms}
+    ans = {arm: runs[arm][0] for arm in args.arms}
+
+    ok = lambda arm, i: kept(ans[arm][i['id']]) == (i['human_relevant'] == 'yes')  # noqa: E731
     result = {
         'model': args.model, 'prompt_version': PROMPT_VERSION, 'batch': args.batch,
         'run_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+        'arms_run': args.arms,
         'items_without_metadata': no_meta,
         'arms': {arm: {**scores(items, ans[arm]), 'seconds': round(runs[arm][2]),
                        'tokens': runs[arm][1],
-                       'unanswered': sum(not a['answered'] for a in ans[arm].values())} for arm in 'AB'},
-        'arms_agree_relevance': sum(ans['A'][i['id']]['relevant'] == ans['B'][i['id']]['relevant'] for i in items),
-        'arms_agree_removal': sum((ans['A'][i['id']]['removal'] is None) == (ans['B'][i['id']]['removal'] is None)
-                                  for i in items),
-        # Paired (McNemar) discordant counts on the kept/not-kept decision against the human answer
-        'only_A_right': sum(a_ok('A', i) and not a_ok('B', i) for i in items),
-        'only_B_right': sum(a_ok('B', i) and not a_ok('A', i) for i in items),
-        'arm_A_reproduces_stored': sum(ans['A'][i['id']]['relevant'] == i['stored_model_relevant']
-                                       for i in items if i['stored_model_relevant']),
+                       'unanswered': sum(not a['answered'] for a in ans[arm].values())} for arm in args.arms},
     }
+    if fetch_stats:
+        result['article_fetch'] = fetch_stats  # outcomes and lengths only, never article text
+    base = 'A' if 'A' in args.arms else args.arms[0]
+    # Paired (McNemar) discordant counts on the kept/not-kept decision against the human answer
+    result['paired_vs_' + base] = {
+        arm: {'agree_relevance': sum(ans[base][i['id']]['relevant'] == ans[arm][i['id']]['relevant'] for i in items),
+              'agree_removal': sum((ans[base][i['id']]['removal'] is None) == (ans[arm][i['id']]['removal'] is None)
+                                   for i in items),
+              f'only_{base}_right': sum(ok(base, i) and not ok(arm, i) for i in items),
+              f'only_{arm}_right': sum(ok(arm, i) and not ok(base, i) for i in items)}
+        for arm in args.arms if arm != base}
+    if 'C' in args.arms and base != 'C':
+        got = [i for i in items if articles[i['id']][0] == 'ok']
+        result['arm_C_only_stories_with_article'] = {
+            'items': len(got),
+            f'only_{base}_right': sum(ok(base, i) and not ok('C', i) for i in got),
+            'only_C_right': sum(ok('C', i) and not ok(base, i) for i in got)}
+    if 'A' in args.arms:
+        result['arm_A_reproduces_stored'] = sum(ans['A'][i['id']]['relevant'] == i['stored_model_relevant']
+                                                for i in items if i['stored_model_relevant'])
     with open(os.path.join(args.out, 'input_scope_result.json'), 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
     with open(os.path.join(args.out, 'input_scope_items.csv'), 'w', encoding='utf-8-sig', newline='') as f:
         w = csv.writer(f)
-        w.writerow(['id', 'kind', 'language', 'title', 'url', 'human_relevant', 'human_removal',
-                    'A_relevant', 'A_removal', 'A_reason', 'B_relevant', 'B_removal', 'B_reason',
-                    'gdelt_themes', 'gdelt_persons', 'gdelt_organizations'])
+        head = ['id', 'kind', 'language', 'title', 'url', 'human_relevant', 'human_removal']
+        for arm in args.arms:
+            head += [f'{arm}_relevant', f'{arm}_removal', f'{arm}_reason']
+        if 'C' in args.arms:
+            head += ['C_fetch_outcome', 'C_article_chars']
+        if 'B' in args.arms:
+            head += ['gdelt_themes', 'gdelt_persons', 'gdelt_organizations']
+        w.writerow(head)
         for i in items:
-            m, a, b = metadata.get(i['url'], {}), ans['A'][i['id']], ans['B'][i['id']]
-            w.writerow([i['id'], i['kind'], i['language'], i['title'], i['url'], i['human_relevant'],
-                        i['human_removal'], a['relevant'], a['removal'] or '', a['reason'],
-                        b['relevant'], b['removal'] or '', b['reason'],
-                        '; '.join(m.get('themes', [])[:MAX_THEMES]), '; '.join(m.get('persons', [])[:MAX_NAMES]),
-                        '; '.join(m.get('organizations', [])[:MAX_NAMES])])
+            m = metadata.get(i['url'], {})
+            row = [i['id'], i['kind'], i['language'], i['title'], i['url'], i['human_relevant'], i['human_removal']]
+            for arm in args.arms:
+                a = ans[arm][i['id']]
+                row += [a['relevant'], a['removal'] or '', a['reason']]
+            if 'C' in args.arms:
+                row += [articles[i['id']][0], articles[i['id']][1]]
+            if 'B' in args.arms:
+                row += ['; '.join(m.get('themes', [])[:MAX_THEMES]), '; '.join(m.get('persons', [])[:MAX_NAMES]),
+                        '; '.join(m.get('organizations', [])[:MAX_NAMES])]
+            w.writerow(row)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

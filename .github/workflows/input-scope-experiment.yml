@@ -1,4 +1,4 @@
-# Input-scope experiment, arm B (prototype/input_scope_experiment.py): the reviewed stories in
+# Input-scope experiment, arms A/B/C (prototype/input_scope_experiment.py): the reviewed stories in
 # prototype/data/input_scope/ classified with the production input (arm A) and with the extra
 # GKG metadata (arm B). Manual only; commits nothing. The result is kept as a run artifact.
 name: Input-scope experiment
@@ -10,6 +10,10 @@ on:
         description: 'Ollama model'
         required: false
         default: 'qwen2.5:7b'
+      arms:
+        description: 'Arms: A production, B +GKG metadata, C +article opening (e.g. AC)'
+        required: false
+        default: 'AC'
 
 jobs:
   experiment:
@@ -25,7 +29,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install requests pandas  # gkg_prototype imports gdelt_version_v21, which needs pandas
+        run: pip install requests pandas trafilatura  # gkg_prototype imports gdelt_version_v21, which needs pandas
 
       - name: Install and start Ollama
         run: |
@@ -41,13 +45,14 @@ jobs:
       - name: Download model
         run: ollama pull "${{ github.event.inputs.model }}"
 
-      - name: Run arms A and B
+      - name: Run the chosen arms
         run: |
           mkdir -p result
           cp prototype/data/input_scope/gkg_metadata.json result/
           python prototype/input_scope_experiment.py \
             --reviewed prototype/data/input_scope/reviewed.json \
-            --out result --model "${{ github.event.inputs.model }}"
+            --out result --model "${{ github.event.inputs.model }}" \
+            --arms "${{ github.event.inputs.arms || 'AC' }}"
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -56,3 +61,4 @@ jobs:
           path: |
             result/input_scope_result.json
             result/input_scope_items.csv
+            result/fetch_outcomes.json
