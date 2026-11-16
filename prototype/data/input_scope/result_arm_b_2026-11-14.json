@@ -1,0 +1,68 @@
+{
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-11.1",
+  "batch": 5,
+  "run_at": "2026-11-14T20:51:40Z",
+  "items_without_metadata": [],
+  "arms": {
+    "A": {
+      "items": 77,
+      "relevance_exact_agreement": 0.753,
+      "kept_precision": 0.679,
+      "kept_recall": 0.826,
+      "kept": 28,
+      "human_yes": 23,
+      "removal_precision": 0.2,
+      "removal_recall": 0.5,
+      "removal_predicted": 5,
+      "removal_human": 2,
+      "confusion_human_to_model": {
+        "no->no": 39,
+        "no->yes": 3,
+        "uncertain->no": 6,
+        "uncertain->yes": 6,
+        "yes->no": 4,
+        "yes->yes": 19
+      },
+      "seconds": 1210,
+      "tokens": {
+        "prompt_tokens": 19048,
+        "completion_tokens": 4703,
+        "total_tokens": 23751
+      },
+      "unanswered": 0
+    },
+    "B": {
+      "items": 77,
+      "relevance_exact_agreement": 0.753,
+      "kept_precision": 0.667,
+      "kept_recall": 0.87,
+      "kept": 30,
+      "human_yes": 23,
+      "removal_precision": 0.2,
+      "removal_recall": 1.0,
+      "removal_predicted": 10,
+      "removal_human": 2,
+      "confusion_human_to_model": {
+        "no->no": 38,
+        "no->yes": 4,
+        "uncertain->no": 6,
+        "uncertain->yes": 6,
+        "yes->no": 3,
+        "yes->yes": 20
+      },
+      "seconds": 2361,
+      "tokens": {
+        "prompt_tokens": 41470,
+        "completion_tokens": 4929,
+        "total_tokens": 46399
+      },
+      "unanswered": 0
+    }
+  },
+  "arms_agree_relevance": 67,
+  "arms_agree_removal": 68,
+  "only_A_right": 5,
+  "only_B_right": 5,
+  "arm_A_reproduces_stored": 68
+}
