@@ -95,6 +95,10 @@ def main():
     ap.add_argument('--sample', type=int, default=20, help='discarded stories to sample')
     ap.add_argument('--relevant-sample', type=int, default=20,
                     help='relevant (non-removal) stories to sample; 0 = all. Removal and flagged stories are always all')
+    ap.add_argument('--removal-sample', type=int, default=0,
+                    help='removal stories to sample; 0 = all (the default). For batches over several days')
+    ap.add_argument('--flagged-sample', type=int, default=0,
+                    help='flagged stories to sample; 0 = all (the default)')
     ap.add_argument('--pairs', type=int, default=10,
                     help='article pairs to check the story grouping (half joined, half kept apart); 0 = none')
     ap.add_argument('--seed', type=int, default=1)
@@ -135,7 +139,12 @@ def main():
     relevant = sorted(by_kind.get('relevant', []))
     if args.relevant_sample and len(relevant) > args.relevant_sample:
         relevant = rng.sample(relevant, args.relevant_sample)
-    picked = [(s, k) for k in ('removal', 'flagged', 'removal_terms') for s in by_kind.get(k, [])]
+    def capped(kind, n):
+        group = sorted(by_kind.get(kind, []))
+        return rng.sample(group, n) if n and len(group) > n else group
+    picked = [(s, 'removal') for s in capped('removal', args.removal_sample)]
+    picked += [(s, 'flagged') for s in capped('flagged', args.flagged_sample)]
+    picked += [(s, 'removal_terms') for s in by_kind.get('removal_terms', [])]
     picked += [(s, 'relevant') for s in relevant]
     picked += [(s, 'sample') for s in rng.sample(discarded, min(args.sample, len(discarded)))]
     picked += [(p, 'pair') for p in grouping_pairs(stories, args.pairs, rng)]
@@ -204,6 +213,8 @@ def main():
     batch_doc = {'name': batch, 'days': days, 'items': len(picked), 'counts': counts,
                  'candidates': len(records), 'stories': len(stories),
                  'relevant_stories': len(by_kind.get('relevant', [])),
+                 'removal_stories': len(by_kind.get('removal', [])),
+                 'flagged_stories': len(by_kind.get('flagged', [])),
                  'discarded_stories': len(discarded)}
     with open(os.path.join(args.out, '_batch.json'), 'w', encoding='utf-8') as f:
         json.dump(batch_doc, f, ensure_ascii=False)

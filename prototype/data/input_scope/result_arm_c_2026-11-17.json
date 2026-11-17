@@ -1,0 +1,96 @@
+{
+  "model": "qwen2.5:7b",
+  "prompt_version": "2026-11-11.1",
+  "batch": 5,
+  "run_at": "2026-11-17T02:48:43Z",
+  "arms_run": "AC",
+  "items_without_metadata": [],
+  "arms": {
+    "A": {
+      "items": 77,
+      "relevance_exact_agreement": 0.74,
+      "kept_precision": 0.655,
+      "kept_recall": 0.826,
+      "kept": 29,
+      "human_yes": 23,
+      "removal_precision": 0.167,
+      "removal_recall": 0.5,
+      "removal_predicted": 6,
+      "removal_human": 2,
+      "confusion_human_to_model": {
+        "no->no": 38,
+        "no->yes": 4,
+        "uncertain->no": 6,
+        "uncertain->yes": 6,
+        "yes->no": 4,
+        "yes->yes": 19
+      },
+      "seconds": 1830,
+      "tokens": {
+        "prompt_tokens": 19048,
+        "completion_tokens": 4654,
+        "total_tokens": 23702
+      },
+      "unanswered": 0
+    },
+    "C": {
+      "items": 77,
+      "relevance_exact_agreement": 0.74,
+      "kept_precision": 0.667,
+      "kept_recall": 0.87,
+      "kept": 30,
+      "human_yes": 23,
+      "removal_precision": 0.111,
+      "removal_recall": 0.5,
+      "removal_predicted": 9,
+      "removal_human": 2,
+      "confusion_human_to_model": {
+        "no->no": 37,
+        "no->uncertain": 1,
+        "no->yes": 4,
+        "uncertain->no": 6,
+        "uncertain->yes": 6,
+        "yes->no": 3,
+        "yes->yes": 20
+      },
+      "seconds": 4677,
+      "tokens": {
+        "prompt_tokens": 50363,
+        "completion_tokens": 4827,
+        "total_tokens": 55190
+      },
+      "unanswered": 1
+    }
+  },
+  "article_fetch": {
+    "stories": 77,
+    "outcomes": {
+      "ok": 73,
+      "http_403": 3,
+      "http_502": 1
+    },
+    "success_rate": 0.948,
+    "median_extracted_chars": 3168,
+    "short_extractions_under_300_chars": 0,
+    "failures_by_site": {
+      "talcualdigital.com [http_403]": 1,
+      "midianews.com.br [http_403]": 1,
+      "razonpublica.com [http_502]": 1,
+      "elpais.com.uy [http_403]": 1
+    }
+  },
+  "paired_vs_A": {
+    "C": {
+      "agree_relevance": 67,
+      "agree_removal": 72,
+      "only_A_right": 4,
+      "only_C_right": 5
+    }
+  },
+  "arm_C_only_stories_with_article": {
+    "items": 73,
+    "only_A_right": 3,
+    "only_C_right": 5
+  },
+  "arm_A_reproduces_stored": 67
+}
