@@ -31,12 +31,13 @@ jobs:
       - name: Install Python dependencies
         run: pip install requests pandas trafilatura  # gkg_prototype imports gdelt_version_v21, which needs pandas
 
+      # 8,192-token context: the default 4,096 truncated arm C batches with long texts in
+      # non-Latin scripts (the start of the prompt, with the instructions, was cut off)
       - name: Install and start Ollama
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
-          if ! curl -sf http://localhost:11434/api/version; then
-            nohup ollama serve > ollama.log 2>&1 &
-          fi
+          sudo systemctl stop ollama 2>/dev/null || true
+          OLLAMA_CONTEXT_LENGTH=8192 nohup ollama serve > ollama.log 2>&1 &
           for i in $(seq 1 30); do
             curl -sf http://localhost:11434/api/version && break
             sleep 2
@@ -53,6 +54,7 @@ jobs:
             --reviewed prototype/data/input_scope/reviewed.json \
             --out result --model "${{ github.event.inputs.model }}" \
             --arms "${{ github.event.inputs.arms || 'AC' }}"
+          ollama ps  # shows the context length the model actually ran with
 
       - uses: actions/upload-artifact@v4
         if: always()
