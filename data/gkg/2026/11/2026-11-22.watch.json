@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-22",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 166.71,
+   "baseline_median": 184.9,
+   "z": -1.1
+  },
+  "rate_stories": {
+   "value": 19.77,
+   "baseline_median": 20.715,
+   "z": -0.2
+  },
+  "rate_evictions": {
+   "value": 4.27,
+   "baseline_median": 6.710000000000001,
+   "z": -1.3
+  }
+ },
+ "measures": {
+  "date": "2026-11-22",
+  "candidates": 312,
+  "stories": 37,
+  "eviction_stories": 8,
+  "gkg_articles": 187154,
+  "rate_candidates": 166.71,
+  "rate_stories": 19.77,
+  "rate_evictions": 4.27,
+  "top_source": "cedarnews.net",
+  "top_source_candidates": 5,
+  "top_source_share": 0.016,
+  "top_title": "francesca fagnani la casa mozzafiato al ghetto di roma con enrico mentana il terrazzo con vista sulla sinagoga gli inter",
+  "top_title_records": 6,
+  "max_stories_per_title": 1,
+  "top_place": "Cidade de Deus, Manaus, Amazonas, Brazil",
+  "top_place_stories": 1,
+  "sources_of_kept": 43,
+  "effective_sources_of_kept": 41.3,
+  "languages_of_kept": 11,
+  "countries_of_kept": 20,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20",
+  "2026-11-21"
+ ]
+}

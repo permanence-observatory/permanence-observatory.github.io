@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-23T12:54:38Z",
+ "generated_at": "2026-11-23T19:16:43Z",
  "days": [
   {
    "date": "2026-11-05",
@@ -367,6 +367,12 @@
      "AV": 1
     },
     "unique_urls": 340777
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": [
+     "only 0 earlier days: rates not compared"
+    ]
    }
   },
   {
@@ -727,6 +733,12 @@
      "WZ": 1
     },
     "unique_urls": 325727
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": [
+     "only 1 earlier days: rates not compared"
+    ]
    }
   },
   {
@@ -752,16 +764,16 @@
     "unspecified": 4
    },
    "by_region": {
-    "south": 35,
-    "north": 13,
-    "no_place": 4
+    "south": 36,
+    "north": 14,
+    "no_place": 2
    },
    "by_country": {
-    "India": 14,
+    "India": 15,
     "Brazil": 6,
     "Spain": 5,
+    "United States": 4,
     "Israel": 3,
-    "United States": 3,
     "Portugal": 2,
     "Panama": 1,
     "Argentina": 1,
@@ -1089,6 +1101,12 @@
      "SC": 1
     },
     "unique_urls": 208934
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": [
+     "only 2 earlier days: rates not compared"
+    ]
    }
   },
   {
@@ -1444,6 +1462,13 @@
      "DQ": 1
     },
     "unique_urls": 187137
+   },
+   "watch": {
+    "status": "artefact",
+    "reasons": [
+     "one headline repeated 103 times: \"after a successful trip to uruguay pope leo heads to argentina\"",
+     "stories and evictions within the usual range: the reprints are grouped"
+    ]
    }
   },
   {
@@ -1468,12 +1493,12 @@
     "executed": 4
    },
    "by_region": {
-    "south": 46,
+    "south": 47,
     "north": 10,
-    "no_place": 3
+    "no_place": 2
    },
    "by_country": {
-    "India": 10,
+    "India": 11,
     "Brazil": 8,
     "Spain": 6,
     "Bangladesh": 5,
@@ -1808,6 +1833,12 @@
      "PC": 1
     },
     "unique_urls": 305943
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": [
+     "only 4 earlier days: rates not compared"
+    ]
    }
   },
   {
@@ -1833,8 +1864,7 @@
    },
    "by_region": {
     "south": 60,
-    "north": 15,
-    "no_place": 1
+    "north": 16
    },
    "by_country": {
     "Brazil": 16,
@@ -1843,8 +1873,8 @@
     "Spain": 8,
     "Colombia": 6,
     "South Africa": 4,
+    "United States": 3,
     "Bangladesh": 2,
-    "United States": 2,
     "Ecuador": 2,
     "Israel": 2,
     "Zimbabwe": 2,
@@ -2168,6 +2198,10 @@
      "NF": 1
     },
     "unique_urls": 339234
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -2535,6 +2569,10 @@
      "CN": 1
     },
     "unique_urls": 330845
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -2560,13 +2598,13 @@
     "unspecified": 4
    },
    "by_region": {
-    "south": 48,
-    "north": 9,
-    "no_place": 4
+    "south": 49,
+    "north": 10,
+    "no_place": 2
    },
    "by_country": {
     "Brazil": 14,
-    "India": 13,
+    "India": 14,
     "Colombia": 5,
     "Spain": 4,
     "South Africa": 3,
@@ -2581,6 +2619,7 @@
     "Kenya": 1,
     "Zimbabwe": 1,
     "United Kingdom": 1,
+    "France": 1,
     "Nigeria": 1,
     "Israel": 1,
     "Canada": 1,
@@ -2903,6 +2942,10 @@
      "WQ": 1
     },
     "unique_urls": 338890
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -2928,13 +2971,13 @@
     "court": 2
    },
    "by_region": {
-    "south": 54,
+    "south": 55,
     "north": 10,
-    "no_place": 2
+    "no_place": 1
    },
    "by_country": {
     "Brazil": 22,
-    "India": 15,
+    "India": 16,
     "Portugal": 4,
     "Bangladesh": 4,
     "United States": 2,
@@ -3265,6 +3308,10 @@
      "SC": 1
     },
     "unique_urls": 322858
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -3289,20 +3336,19 @@
     "court": 1
    },
    "by_region": {
-    "south": 26,
-    "north": 8,
-    "no_place": 1
+    "south": 27,
+    "north": 8
    },
    "by_country": {
-    "India": 6,
+    "India": 7,
     "Spain": 4,
     "Argentina": 3,
     "United States": 2,
+    "Indonesia": 2,
     "Colombia": 2,
     "Kenya": 2,
     "Brazil": 2,
     "Italy": 1,
-    "Indonesia": 1,
     "Venezuela": 1,
     "Guatemala": 1,
     "United Kingdom": 1,
@@ -3311,7 +3357,6 @@
     "Dominican Republic": 1,
     "Chile": 1,
     "Peru": 1,
-    "Pakistan": 1,
     "Bolivia": 1,
     "South Africa": 1
    },
@@ -3626,6 +3671,10 @@
      "WZ": 1
     },
     "unique_urls": 207523
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -3655,12 +3704,11 @@
    },
    "by_country": {
     "Brazil": 11,
-    "India": 4,
+    "India": 5,
     "Bangladesh": 2,
     "Portugal": 1,
     "Paraguay": 1,
     "Spain": 1,
-    "Israel": 1,
     "Venezuela": 1,
     "Kenya": 1,
     "Philippines": 1,
@@ -3982,6 +4030,10 @@
      "SC": 1
     },
     "unique_urls": 184313
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -4008,13 +4060,13 @@
     "court": 2
    },
    "by_region": {
-    "south": 42,
+    "south": 44,
     "north": 7,
-    "no_place": 4
+    "no_place": 2
    },
    "by_country": {
     "Brazil": 12,
-    "India": 8,
+    "India": 10,
     "South Africa": 7,
     "Spain": 5,
     "Peru": 2,
@@ -4347,6 +4399,13 @@
      "CQ": 1
     },
     "unique_urls": 308352
+   },
+   "watch": {
+    "status": "artefact",
+    "reasons": [
+     "one headline repeated 102 times: \"who makes sydney sweeney s american eagle jeans\"",
+     "stories and evictions within the usual range: the reprints are grouped"
+    ]
    }
   },
   {
@@ -4375,8 +4434,8 @@
    },
    "by_region": {
     "south": 66,
-    "north": 17,
-    "no_place": 3
+    "north": 18,
+    "no_place": 2
    },
    "by_country": {
     "Brazil": 24,
@@ -4390,11 +4449,11 @@
     "France": 2,
     "United Kingdom": 2,
     "Turkey": 2,
+    "United States": 2,
     "Bangladesh": 1,
     "Jamaica": 1,
     "Indonesia": 1,
     "Vietnam": 1,
-    "United States": 1,
     "Bolivia": 1,
     "Egypt": 1,
     "Puerto Rico": 1,
@@ -4722,6 +4781,10 @@
      "WZ": 1
     },
     "unique_urls": 338995
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -4749,8 +4812,8 @@
    },
    "by_region": {
     "south": 65,
-    "north": 10,
-    "no_place": 8
+    "north": 11,
+    "no_place": 7
    },
    "by_country": {
     "India": 16,
@@ -4774,6 +4837,7 @@
     "United Kingdom": 1,
     "Somalia": 1,
     "Malawi": 1,
+    "Canada": 1,
     "Honduras": 1,
     "Democratic Republic of the Congo": 1,
     "Sweden": 1,
@@ -5095,6 +5159,10 @@
      "FG": 1
     },
     "unique_urls": 347077
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -5122,21 +5190,21 @@
     "resettlement": 1
    },
    "by_region": {
-    "south": 58,
-    "north": 10,
-    "no_place": 5
+    "south": 59,
+    "north": 11,
+    "no_place": 3
    },
    "by_country": {
-    "India": 18,
+    "India": 19,
     "Brazil": 16,
     "Spain": 4,
     "Mexico": 3,
+    "United States": 3,
     "Argentina": 3,
     "Kenya": 3,
     "South Africa": 2,
     "Bangladesh": 2,
     "Turkey": 2,
-    "United States": 2,
     "Colombia": 1,
     "United Kingdom": 1,
     "Israel": 1,
@@ -5464,6 +5532,10 @@
      "SB": 1
     },
     "unique_urls": 347704
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   },
   {
@@ -5837,6 +5909,15 @@
      "NF": 1
     },
     "unique_urls": 326013
+   },
+   "watch": {
+    "status": "artefact",
+    "reasons": [
+     "one source, iheart.com, gave 555 of the 1167 candidates (48%)",
+     "one headline repeated 552 times: \"armed squatter removal team faces felony charges in california raid\"",
+     "candidates: 357.96 per 100k articles, 1.9x the median of the last 14 days",
+     "stories and evictions within the usual range: the reprints are grouped"
+    ]
    }
   },
   {
@@ -6194,6 +6275,371 @@
      "TP": 1
     },
     "unique_urls": 208361
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
+   }
+  },
+  {
+   "date": "2026-11-22",
+   "candidates": 312,
+   "relevant_articles": 45,
+   "stories": 37,
+   "by_topic": {
+    "culture": 9,
+    "disaster": 8,
+    "removal": 8,
+    "violence": 4,
+    "health_education": 3,
+    "data": 2,
+    "infrastructure": 2,
+    "housing_policy": 2,
+    "protest": 1,
+    "land_conflict": 1
+   },
+   "removal_by_stage": {
+    "executed": 4,
+    "threat": 2,
+    "unspecified": 2
+   },
+   "by_region": {
+    "south": 32,
+    "north": 3,
+    "no_place": 2
+   },
+   "by_country": {
+    "Brazil": 7,
+    "India": 5,
+    "Colombia": 3,
+    "South Africa": 3,
+    "Mexico": 3,
+    "Cuba": 2,
+    "Nigeria": 1,
+    "Portugal": 1,
+    "United States": 1,
+    "Algeria": 1,
+    "Israel": 1,
+    "Thailand": 1,
+    "Turkey": 1,
+    "Italy": 1,
+    "Nepal": 1,
+    "Peru": 1,
+    "Chile": 1,
+    "Argentina": 1
+   },
+   "gkg_articles": {
+    "total": 187154,
+    "by_feed": {
+     "translation": 135045,
+     "en": 52109
+    },
+    "by_language": {
+     "eng": 52109,
+     "spa": 23695,
+     "zho": 9910,
+     "ita": 9691,
+     "deu": 9559,
+     "rus": 8905,
+     "tur": 7412,
+     "ell": 6334,
+     "fra": 6176,
+     "ara": 5303,
+     "por": 4948,
+     "vie": 4034,
+     "ron": 2899,
+     "srp": 2892,
+     "ukr": 2635,
+     "ind": 2524,
+     "hin": 2248,
+     "kor": 2238,
+     "sqi": 2186,
+     "pol": 1509,
+     "hrv": 1462,
+     "nld": 1284,
+     "fin": 1270,
+     "hun": 1138,
+     "jpn": 1103,
+     "bul": 1102,
+     "swe": 873,
+     "heb": 826,
+     "ben": 820,
+     "dan": 719,
+     "bos": 699,
+     "ces": 650,
+     "nep": 630,
+     "tel": 607,
+     "mkd": 540,
+     "mal": 536,
+     "slk": 482,
+     "nor": 454,
+     "mar": 443,
+     "slv": 432,
+     "guj": 371,
+     "lit": 346,
+     "urd": 303,
+     "cat": 296,
+     "pan": 290,
+     "hye": 270,
+     "msa": 266,
+     "tam": 246,
+     "lav": 221,
+     "axe": 178,
+     "tha": 173,
+     "isl": 166,
+     "glg": 160,
+     "fas": 123,
+     "kan": 121,
+     "est": 88,
+     "sin": 88,
+     "kat": 75,
+     "nno": 33,
+     "swa": 24,
+     "som": 14,
+     "mon": 12,
+     "kaz": 12,
+     "afr": 1
+    },
+    "by_country": {
+     "none": 38427,
+     "US": 20336,
+     "IN": 7525,
+     "UK": 7231,
+     "RS": 6392,
+     "CH": 6287,
+     "IT": 6185,
+     "TU": 5768,
+     "GM": 5680,
+     "SP": 4833,
+     "FR": 4086,
+     "UP": 3744,
+     "AS": 3212,
+     "MX": 3023,
+     "BR": 2883,
+     "GR": 2748,
+     "ID": 2529,
+     "VM": 2275,
+     "JA": 2230,
+     "SW": 2086,
+     "IS": 2079,
+     "AR": 2001,
+     "TW": 1890,
+     "KS": 1654,
+     "CA": 1600,
+     "IR": 1455,
+     "RO": 1291,
+     "EG": 1221,
+     "CO": 1207,
+     "PL": 1169,
+     "PO": 1054,
+     "FI": 1002,
+     "NL": 988,
+     "AU": 984,
+     "BE": 977,
+     "EI": 937,
+     "NI": 936,
+     "HR": 796,
+     "RB": 794,
+     "SZ": 750,
+     "AL": 743,
+     "PK": 733,
+     "SA": 671,
+     "RI": 664,
+     "NP": 630,
+     "DA": 620,
+     "VE": 564,
+     "BU": 541,
+     "PE": 538,
+     "SY": 523,
+     "BG": 508,
+     "SF": 498,
+     "MK": 498,
+     "NO": 492,
+     "CI": 491,
+     "EZ": 482,
+     "RP": 464,
+     "CY": 440,
+     "LY": 418,
+     "HU": 412,
+     "TH": 411,
+     "NZ": 403,
+     "AE": 364,
+     "LE": 357,
+     "MY": 338,
+     "MO": 321,
+     "KV": 317,
+     "QA": 316,
+     "HK": 316,
+     "JO": 310,
+     "LH": 305,
+     "SN": 294,
+     "PM": 290,
+     "MD": 280,
+     "IZ": 268,
+     "YM": 254,
+     "CE": 251,
+     "EC": 241,
+     "WE": 231,
+     "SG": 217,
+     "LO": 212,
+     "BA": 200,
+     "RE": 199,
+     "KE": 196,
+     "OS": 182,
+     "AJ": 179,
+     "SI": 178,
+     "GH": 177,
+     "BL": 176,
+     "MP": 170,
+     "MU": 168,
+     "PA": 166,
+     "AM": 166,
+     "TS": 166,
+     "BO": 165,
+     "UY": 162,
+     "AG": 159,
+     "KN": 156,
+     "LG": 155,
+     "SU": 153,
+     "AF": 147,
+     "CU": 146,
+     "EN": 145,
+     "BK": 115,
+     "GT": 113,
+     "MT": 97,
+     "JE": 95,
+     "ET": 94,
+     "GZ": 93,
+     "KU": 93,
+     "LU": 89,
+     "IC": 85,
+     "CB": 81,
+     "DR": 79,
+     "TZ": 78,
+     "MJ": 78,
+     "UG": 78,
+     "MN": 77,
+     "KZ": 75,
+     "GV": 71,
+     "GG": 68,
+     "JM": 67,
+     "ML": 67,
+     "CF": 64,
+     "HA": 59,
+     "MR": 58,
+     "ZI": 57,
+     "CM": 56,
+     "KG": 56,
+     "MI": 56,
+     "GP": 55,
+     "TD": 55,
+     "BY": 55,
+     "UZ": 53,
+     "SO": 51,
+     "FJ": 51,
+     "DO": 50,
+     "CS": 47,
+     "RW": 47,
+     "MC": 46,
+     "AN": 44,
+     "RM": 44,
+     "ES": 43,
+     "BX": 42,
+     "HO": 41,
+     "IV": 40,
+     "MG": 35,
+     "CG": 35,
+     "BH": 34,
+     "NU": 33,
+     "NS": 33,
+     "GA": 33,
+     "TX": 33,
+     "CD": 32,
+     "BF": 31,
+     "ZA": 30,
+     "DJ": 29,
+     "LA": 28,
+     "NG": 28,
+     "GY": 27,
+     "OD": 26,
+     "BM": 26,
+     "BD": 25,
+     "TO": 23,
+     "BB": 22,
+     "TV": 21,
+     "AY": 20,
+     "WA": 19,
+     "GB": 18,
+     "PP": 18,
+     "TI": 18,
+     "BN": 17,
+     "AO": 17,
+     "RQ": 17,
+     "LI": 17,
+     "VC": 16,
+     "MZ": 16,
+     "YI": 16,
+     "GL": 16,
+     "UV": 15,
+     "NH": 14,
+     "VT": 14,
+     "PS": 13,
+     "AC": 10,
+     "MA": 10,
+     "NC": 10,
+     "MV": 9,
+     "WS": 9,
+     "BC": 9,
+     "CV": 8,
+     "GQ": 8,
+     "GJ": 8,
+     "MB": 8,
+     "MF": 8,
+     "LS": 8,
+     "CW": 7,
+     "ER": 7,
+     "EK": 7,
+     "FG": 6,
+     "LT": 6,
+     "RN": 5,
+     "CT": 5,
+     "GI": 5,
+     "TT": 5,
+     "OC": 4,
+     "SL": 4,
+     "BT": 4,
+     "VQ": 4,
+     "GK": 4,
+     "TP": 4,
+     "SV": 3,
+     "MH": 3,
+     "WI": 3,
+     "CN": 3,
+     "TN": 3,
+     "TK": 3,
+     "PU": 3,
+     "VI": 2,
+     "SM": 2,
+     "SE": 2,
+     "BP": 2,
+     "SH": 2,
+     "ST": 1,
+     "WQ": 1,
+     "AV": 1,
+     "CJ": 1,
+     "WZ": 1,
+     "SB": 1,
+     "FM": 1,
+     "FO": 1,
+     "TL": 1,
+     "CQ": 1,
+     "KR": 1
+    },
+    "unique_urls": 187154
+   },
+   "watch": {
+    "status": "normal",
+    "reasons": []
    }
   }
  ]
