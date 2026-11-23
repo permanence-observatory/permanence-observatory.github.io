@@ -1,0 +1,56 @@
+{
+ "date": "2026-11-13",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 165.4,
+   "baseline_median": 202.01,
+   "z": -1.6
+  },
+  "rate_stories": {
+   "value": 20.44,
+   "baseline_median": 23.174999999999997,
+   "z": -1.1
+  },
+  "rate_evictions": {
+   "value": 8.67,
+   "baseline_median": 6.035,
+   "z": 2.1
+  }
+ },
+ "measures": {
+  "date": "2026-11-13",
+  "candidates": 534,
+  "stories": 66,
+  "eviction_stories": 28,
+  "gkg_articles": 322858,
+  "rate_candidates": 165.4,
+  "rate_stories": 20.44,
+  "rate_evictions": 8.67,
+  "top_source": "globo.com",
+  "top_source_candidates": 15,
+  "top_source_share": 0.028,
+  "top_title": "kenyans brace for heavy el nino rains as flood survivors recall their losses",
+  "top_title_records": 29,
+  "max_stories_per_title": 1,
+  "top_place": "Rio De Janeiro, Brazil",
+  "top_place_stories": 3,
+  "sources_of_kept": 52,
+  "effective_sources_of_kept": 33.1,
+  "languages_of_kept": 8,
+  "countries_of_kept": 19,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.009
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12"
+ ]
+}

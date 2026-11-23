@@ -56,6 +56,8 @@ jobs:
           [ -z "$DAY" ] && DAY=$(date -u -d yesterday +%Y-%m-%d)
           echo "DAY=$DAY" >> "$GITHUB_ENV"
           python pipeline/collect_day.py --date "$DAY" --model "$MODEL"
+          # Compare the day with the previous 14 (writes AAAA-MM-DD.watch.json)
+          python pipeline/watch_day.py --date "$DAY"
 
       - name: Restore the GeoNames files
         uses: actions/cache@v4
@@ -83,6 +85,22 @@ jobs:
           git add mapa/events.json mapa/stats.json
           git commit --amend --no-edit
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Open an issue if the daily watch found a data problem
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          WATCH="data/gkg/${DAY:0:4}/${DAY:5:2}/${DAY}.watch.json"
+          [ -f "$WATCH" ] || exit 0
+          STATUS=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['status'])" "$WATCH")
+          [ "$STATUS" = "data_problem" ] || exit 0
+          REASONS=$(python -c "import json,sys; print(chr(10).join('- ' + r for r in json.load(open(sys.argv[1]))['reasons']))" "$WATCH")
+          gh issue create --repo "$GITHUB_REPOSITORY"             --title "Vigia diário: possível problema de dados em $DAY"             --body "O vigia diário (pipeline/watch_day.py) marcou o dia $DAY como possível problema de dados: o mapa experimental pode estar errado para esse dia.
+
+          Motivos:
+          $REASONS
+
+          Detalhes em $WATCH. Feche esta issue depois de verificar ou corrigir o dia."
 
       - name: Open an issue if the run failed
         if: failure()

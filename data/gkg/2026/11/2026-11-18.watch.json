@@ -1,0 +1,61 @@
+{
+ "date": "2026-11-18",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 190.16,
+   "baseline_median": 193.14,
+   "z": -0.1
+  },
+  "rate_stories": {
+   "value": 23.91,
+   "baseline_median": 21.42,
+   "z": 0.5
+  },
+  "rate_evictions": {
+   "value": 7.78,
+   "baseline_median": 6.19,
+   "z": 1.0
+  }
+ },
+ "measures": {
+  "date": "2026-11-18",
+  "candidates": 660,
+  "stories": 83,
+  "eviction_stories": 27,
+  "gkg_articles": 347077,
+  "rate_candidates": 190.16,
+  "rate_stories": 23.91,
+  "rate_evictions": 7.78,
+  "top_source": "globo.com",
+  "top_source_candidates": 15,
+  "top_source_share": 0.023,
+  "top_title": "pretos e pardos ocupam apenas 30 7 dos cargos gerenciais mostra ibge",
+  "top_title_records": 7,
+  "max_stories_per_title": 1,
+  "top_place": "Mumbai, Maharashtra, India",
+  "top_place_stories": 2,
+  "sources_of_kept": 107,
+  "effective_sources_of_kept": 75.7,
+  "languages_of_kept": 13,
+  "countries_of_kept": 32,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.005
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17"
+ ]
+}

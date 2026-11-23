@@ -1,0 +1,57 @@
+{
+ "date": "2026-11-14",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 152.27,
+   "baseline_median": 199.86,
+   "z": -1.9
+  },
+  "rate_stories": {
+   "value": 16.87,
+   "baseline_median": 22.4,
+   "z": -1.7
+  },
+  "rate_evictions": {
+   "value": 7.23,
+   "baseline_median": 6.19,
+   "z": 0.7
+  }
+ },
+ "measures": {
+  "date": "2026-11-14",
+  "candidates": 316,
+  "stories": 35,
+  "eviction_stories": 15,
+  "gkg_articles": 207523,
+  "rate_candidates": 152.27,
+  "rate_stories": 16.87,
+  "rate_evictions": 7.23,
+  "top_source": "globo.com",
+  "top_source_candidates": 7,
+  "top_source_share": 0.022,
+  "top_title": "bangladesh steps up surveillance of chinese vloggers after india s intervention",
+  "top_title_records": 3,
+  "max_stories_per_title": 1,
+  "top_place": "Garbarini, Assam, India",
+  "top_place_stories": 1,
+  "sources_of_kept": 39,
+  "effective_sources_of_kept": 38.1,
+  "languages_of_kept": 10,
+  "countries_of_kept": 20,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13"
+ ]
+}

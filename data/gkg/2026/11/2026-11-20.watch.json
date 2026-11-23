@@ -1,0 +1,67 @@
+{
+ "date": "2026-11-20",
+ "status": "artefact",
+ "reasons": [
+  "one source, iheart.com, gave 555 of the 1167 candidates (48%)",
+  "one headline repeated 552 times: \"armed squatter removal team faces felony charges in california raid\"",
+  "candidates: 357.96 per 100k articles, 1.9x the median of the last 14 days",
+  "stories and evictions within the usual range: the reprints are grouped"
+ ],
+ "rates": {
+  "rate_candidates": {
+   "value": 357.96,
+   "baseline_median": 188.29500000000002,
+   "z": 8.3
+  },
+  "rate_stories": {
+   "value": 16.56,
+   "baseline_median": 21.695,
+   "z": -1.2
+  },
+  "rate_evictions": {
+   "value": 5.83,
+   "baseline_median": 7.205,
+   "z": -0.9
+  }
+ },
+ "measures": {
+  "date": "2026-11-20",
+  "candidates": 1167,
+  "stories": 54,
+  "eviction_stories": 19,
+  "gkg_articles": 326013,
+  "rate_candidates": 357.96,
+  "rate_stories": 16.56,
+  "rate_evictions": 5.83,
+  "top_source": "iheart.com",
+  "top_source_candidates": 555,
+  "top_source_share": 0.476,
+  "top_title": "armed squatter removal team faces felony charges in california raid",
+  "top_title_records": 552,
+  "max_stories_per_title": 1,
+  "top_place": "Villa Lugano, Buenos Aires, Argentina",
+  "top_place_stories": 2,
+  "sources_of_kept": 67,
+  "effective_sources_of_kept": 1.3,
+  "languages_of_kept": 11,
+  "countries_of_kept": 21,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19"
+ ]
+}

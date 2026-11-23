@@ -1,0 +1,60 @@
+{
+ "date": "2026-11-17",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 186.43,
+   "baseline_median": 196.5,
+   "z": -0.3
+  },
+  "rate_stories": {
+   "value": 25.37,
+   "baseline_median": 20.93,
+   "z": 1.0
+  },
+  "rate_evictions": {
+   "value": 9.73,
+   "baseline_median": 6.175000000000001,
+   "z": 2.3
+  }
+ },
+ "measures": {
+  "date": "2026-11-17",
+  "candidates": 632,
+  "stories": 86,
+  "eviction_stories": 33,
+  "gkg_articles": 338995,
+  "rate_candidates": 186.43,
+  "rate_stories": 25.37,
+  "rate_evictions": 9.73,
+  "top_source": "globo.com",
+  "top_source_candidates": 22,
+  "top_source_share": 0.035,
+  "top_title": "bangladesh garment workers protest in dhaka demand minimum wage hike to 30 000 taka",
+  "top_title_records": 4,
+  "max_stories_per_title": 1,
+  "top_place": "Dharavi, Mumbai, India",
+  "top_place_stories": 3,
+  "sources_of_kept": 89,
+  "effective_sources_of_kept": 57.4,
+  "languages_of_kept": 12,
+  "countries_of_kept": 28,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16"
+ ]
+}

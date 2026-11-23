@@ -1,0 +1,54 @@
+{
+ "date": "2026-11-09",
+ "status": "normal",
+ "reasons": [
+  "only 4 earlier days: rates not compared"
+ ],
+ "rates": {
+  "rate_candidates": {
+   "value": 183.37,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_stories": {
+   "value": 19.28,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_evictions": {
+   "value": 5.88,
+   "baseline_median": null,
+   "z": null
+  }
+ },
+ "measures": {
+  "date": "2026-11-09",
+  "candidates": 561,
+  "stories": 59,
+  "eviction_stories": 18,
+  "gkg_articles": 305943,
+  "rate_candidates": 183.37,
+  "rate_stories": 19.28,
+  "rate_evictions": 5.88,
+  "top_source": "globo.com",
+  "top_source_candidates": 15,
+  "top_source_share": 0.027,
+  "top_title": "pope arrives in argentina and tells milei that people not the economy should come first",
+  "top_title_records": 10,
+  "max_stories_per_title": 1,
+  "top_place": "Dhaka, Bangladesh",
+  "top_place_stories": 3,
+  "sources_of_kept": 86,
+  "effective_sources_of_kept": 69.5,
+  "languages_of_kept": 14,
+  "countries_of_kept": 26,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08"
+ ]
+}
