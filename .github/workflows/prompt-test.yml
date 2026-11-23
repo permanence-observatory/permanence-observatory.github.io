@@ -1,0 +1,55 @@
+# Prompt test (prototype/prompt_test.py): production instructions against a candidate that
+# separates ordinary evictions from removals in informal settlements, on the reviewed stories
+# and on eviction stories from the history. Manual only; commits nothing. The result is kept
+# as a run artifact.
+name: Prompt test
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'Ollama model'
+        required: false
+        default: 'qwen2.5:7b'
+
+jobs:
+  prompt-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install requests pandas  # gkg_prototype imports gdelt_version_v21, which needs pandas
+
+      - name: Install and start Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          sudo systemctl stop ollama 2>/dev/null || true
+          OLLAMA_CONTEXT_LENGTH=8192 nohup ollama serve > ollama.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:11434/api/version && break
+            sleep 2
+          done
+
+      - name: Download model
+        run: ollama pull "${{ github.event.inputs.model }}"
+
+      - name: Run both prompts
+        run: |
+          python prototype/prompt_test.py --out result --model "${{ github.event.inputs.model }}"
+          ollama ps
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prompt-test-result
+          path: |
+            result/prompt_test_result.json
+            result/prompt_test_changed.csv
