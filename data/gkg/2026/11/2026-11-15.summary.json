@@ -21,27 +21,27 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-15-0037",
+      "story_id": "2026-11-15-0039",
       "stage": "executed",
       "title": "Assam Authorities Demolish Homes of 132 Muslim Families in India"
     },
     {
-      "story_id": "2026-11-15-0072",
+      "story_id": "2026-11-15-0076",
       "stage": "threat",
       "title": "Retired Dockworker Fights for Home Amid Government Development Projects"
     },
     {
-      "story_id": "2026-11-15-0099",
+      "story_id": "2026-11-15-0108",
       "stage": "threat",
       "title": "Varanasi Heritage Row: Demolition Of Ustad Bismillah Khan's 90-Year-Old Ancestral House Sparks Conservation Concerns"
     },
     {
-      "story_id": "2026-11-15-0089",
+      "story_id": "2026-11-15-0095",
       "stage": "unspecified",
       "title": "Four Women Arrested in Gurugram for Alleged Religious Conversion of Slum Children"
     },
     {
-      "story_id": "2026-11-15-0187",
+      "story_id": "2026-11-15-0189",
       "stage": "threat",
       "title": "भोपाल में जनता क्वार्टर तोड़ने की तैयारी से हड़कंप... 490 परिवारों को सता रहा सड़क पर आने का डर"
     }
@@ -55,12 +55,12 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-15-0037",
+      "story_id": "2026-11-15-0039",
       "records": 5,
       "title": "Assam Authorities Demolish Homes of 132 Muslim Families in India"
     },
     {
-      "story_id": "2026-11-15-0028",
+      "story_id": "2026-11-15-0029",
       "records": 2,
       "title": "Young man burnt to death in fire at Korail slum in Dhaka"
     },
@@ -70,7 +70,7 @@
       "title": "কড়াইল বস্তিতে আগুনে পুড়ে যুবকের মৃত্যু"
     },
     {
-      "story_id": "2026-11-15-0059",
+      "story_id": "2026-11-15-0053",
       "records": 2,
       "title": "Inicio | Periódico CiudadCCS"
     },
@@ -80,27 +80,27 @@
       "title": "Matheus Nachtergaele celebra volta à Cidade de Deus: 'Um pequeno milagre'"
     },
     {
-      "story_id": "2026-11-15-0089",
+      "story_id": "2026-11-15-0095",
       "records": 2,
       "title": "Four Women Arrested in Gurugram for Alleged Religious Conversion of Slum Children"
     },
     {
-      "story_id": "2026-11-15-0014",
+      "story_id": "2026-11-15-0016",
       "records": 1,
       "title": "Da Real Barraca à Acampada da República"
     },
     {
-      "story_id": "2026-11-15-0029",
+      "story_id": "2026-11-15-0030",
       "records": 1,
       "title": "Paraná marchó en la 11° edición del Orgullo Disidente: Fuerte reclamo por el cupo trans y la salud pública"
     },
     {
-      "story_id": "2026-11-15-0030",
+      "story_id": "2026-11-15-0033",
       "records": 1,
       "title": "Casi 150 personas duermen en la calle o viven en chabolas | Noticias El Día de Valladolid"
     },
     {
-      "story_id": "2026-11-15-0035",
+      "story_id": "2026-11-15-0036",
       "records": 1,
       "title": "La ruta de la histórica Barraca del Guenyo"
     }
@@ -424,5 +424,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 2068
+  "seconds_total": 2068,
+  "story_grouping_version": "2026-11-23.1"
 }

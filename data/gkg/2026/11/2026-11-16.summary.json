@@ -6,7 +6,7 @@
     "yes": 75,
     "uncertain": 20
   },
-  "stories_relevant": 50,
+  "stories_relevant": 51,
   "stories_removal": 17,
   "flagged_for_review": 19,
   "topics_by_story": {
@@ -23,17 +23,17 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-16-0007",
+      "story_id": "2026-11-16-0002",
       "stage": "threat",
       "title": "तोड़ा जाएगा भोपाल का जनता क्वार्टर, 490 परिवारों के सामने संकट - janata quarter to be demolished 490 families face crisis"
     },
     {
-      "story_id": "2026-11-16-0013",
+      "story_id": "2026-11-16-0014",
       "stage": "threat",
       "title": "Nighttime stress in South Africa: a simple surface modification altered sleep quality for thousands"
     },
     {
-      "story_id": "2026-11-16-0031",
+      "story_id": "2026-11-16-0034",
       "stage": "unspecified",
       "title": "House demolitions: MPs want answers…as they look for explanations for policy contradictions – DailyNews"
     },
@@ -43,17 +43,17 @@
       "title": "Desalojan de madrugada la acampada por la vivienda de plaza de Cataluña tras mes y medio de protesta"
     },
     {
-      "story_id": "2026-11-16-0082",
+      "story_id": "2026-11-16-0084",
       "stage": "executed",
       "title": "पुनर्विकासात अडथळा; पोलीस बळाने घर रिकामे करा!"
     },
     {
-      "story_id": "2026-11-16-0087",
+      "story_id": "2026-11-16-0089",
       "stage": "threat",
       "title": "Philippines Cleared Vendors and Faced Slum Cover-Up Claims Amid Conflicting Trump Arrival Reports"
     },
     {
-      "story_id": "2026-11-16-0090",
+      "story_id": "2026-11-16-0091",
       "stage": "threat",
       "title": "Veintiuna familias de Torremolinos evitaron su desalojo tras pactar un alquiler social con la Sareb"
     },
@@ -63,47 +63,47 @@
       "title": "Desalojados los asentamientos ilegales de los bajos del Baluarte de los Mallorquines"
     },
     {
-      "story_id": "2026-11-16-0199",
+      "story_id": "2026-11-16-0201",
       "stage": "threat",
       "title": "MP entra com ação contra empresa e Prefeitura de Cuiabá por ocupação irregular de rua pública"
     },
     {
-      "story_id": "2026-11-16-0210",
+      "story_id": "2026-11-16-0214",
       "stage": "court",
       "title": "calcutta high court stay order till 1st december on jahangirs house demolition"
     },
     {
-      "story_id": "2026-11-16-0227",
+      "story_id": "2026-11-16-0231",
       "stage": "executed",
       "title": "Unprecedented demolition in Yesha: IDF destroys home of terrorist behind rocket launch efforts"
     },
     {
-      "story_id": "2026-11-16-0233",
+      "story_id": "2026-11-16-0235",
       "stage": "executed",
       "title": "शिवराज के फोन और विधायक के धरने के बीच बड़ी कार्रवाई, दुष्कर्म के आरोपी के घर चला बुलडोजर"
     },
     {
-      "story_id": "2026-11-16-0235",
+      "story_id": "2026-11-16-0249",
       "stage": "threat",
       "title": "Arab News | Israeli authorities order demolitions in Hebron, displacing dozens of Palestinian families"
     },
     {
-      "story_id": "2026-11-16-0066",
+      "story_id": "2026-11-16-0071",
       "stage": "unspecified",
       "title": "'No Documents, No Relatives': Mumbai Police Struggle To Identify Homeless Hit-And-Run Victims And Trace Drivers"
     },
     {
-      "story_id": "2026-11-16-0292",
+      "story_id": "2026-11-16-0299",
       "stage": "executed",
       "title": "Desalojan a 12 personas de una vivienda por el incendio de un trastero en  Maó"
     },
     {
-      "story_id": "2026-11-16-0307",
+      "story_id": "2026-11-16-0310",
       "stage": "court",
       "title": "TJMS suspende reintegração de posse no Córrego Seminário"
     },
     {
-      "story_id": "2026-11-16-0318",
+      "story_id": "2026-11-16-0326",
       "stage": "unspecified",
       "title": "विदिशा में 8 साल की बच्ची से दुष्कर्म पर बवाल, आरोपी के घर पर चला बुलडोजर, आरा मशीन सील कर भेजा जेल"
     }
@@ -116,8 +116,8 @@
     "ben": 2,
     "mal": 1,
     "ind": 1,
-    "mar": 1,
     "nep": 1,
+    "mar": 1,
     "rus": 1
   },
   "top_stories": [
@@ -127,22 +127,17 @@
       "title": "Desalojan de madrugada la acampada por la vivienda de plaza de Cataluña tras mes y medio de protesta"
     },
     {
-      "story_id": "2026-11-16-0013",
+      "story_id": "2026-11-16-0014",
       "records": 9,
       "title": "Nighttime stress in South Africa: a simple surface modification altered sleep quality for thousands"
     },
     {
-      "story_id": "2026-11-16-0144",
+      "story_id": "2026-11-16-0146",
       "records": 3,
       "title": "Operação no Complexo da Maré tem barricadas em chamas  | Rio de Janeiro"
     },
     {
-      "story_id": "2026-11-16-0032",
-      "records": 2,
-      "title": "Video: \"Una visita que le dará  luz a nuestras comunidades\" por Radio Nacional"
-    },
-    {
-      "story_id": "2026-11-16-0056",
+      "story_id": "2026-11-16-0059",
       "records": 2,
       "title": "'Not treated as a slum for about 34 years': Bombay high court frees two plots in Saki Naka of slum tag"
     },
@@ -152,24 +147,29 @@
       "title": "Assassinatos aumentam na Baixada Fluminense; mais de um milhão vivem em áreas controladas pelo crime na região"
     },
     {
-      "story_id": "2026-11-16-0199",
+      "story_id": "2026-11-16-0201",
       "records": 2,
       "title": "MP entra com ação contra empresa e Prefeitura de Cuiabá por ocupação irregular de rua pública"
     },
     {
-      "story_id": "2026-11-16-0210",
+      "story_id": "2026-11-16-0214",
       "records": 2,
       "title": "calcutta high court stay order till 1st december on jahangirs house demolition"
     },
     {
-      "story_id": "2026-11-16-0007",
+      "story_id": "2026-11-16-0002",
       "records": 1,
       "title": "तोड़ा जाएगा भोपाल का जनता क्वार्टर, 490 परिवारों के सामने संकट - janata quarter to be demolished 490 families face crisis"
     },
     {
-      "story_id": "2026-11-16-0016",
+      "story_id": "2026-11-16-0009",
       "records": 1,
       "title": "Investigan posible vínculo con el narcotráfico tras doble asesinato en La Perla"
+    },
+    {
+      "story_id": "2026-11-16-0023",
+      "records": 1,
+      "title": "10 killed, 150 houses razed in Anambra clash"
     }
   ],
   "collected_at": "2026-11-17T17:37:45Z",
@@ -493,5 +493,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 6290
+  "seconds_total": 6290,
+  "story_grouping_version": "2026-11-23.1"
 }

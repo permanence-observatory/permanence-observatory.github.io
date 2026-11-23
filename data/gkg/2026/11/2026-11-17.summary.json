@@ -23,12 +23,12 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-17-0017",
+      "story_id": "2026-11-17-0015",
       "stage": "threat",
       "title": "Parlamentarios franceses y 63 asociaciones reclaman a Macron frenar el desalojo de la Casa de América Latina"
     },
     {
-      "story_id": "2026-11-17-0001",
+      "story_id": "2026-11-17-0003",
       "stage": "unspecified",
       "title": "Tembisa residents without water and electricity years after court victory"
     },
@@ -38,39 +38,34 @@
       "title": "Police investigate murder of nine found in shack in Atteridgeville"
     },
     {
-      "story_id": "2026-11-17-0081",
+      "story_id": "2026-11-17-0085",
       "stage": "resettlement",
       "title": "Forest dept to pay Rs 1,040 crore for 6,500 flats in Kalyan to rehabilitate eligible SGNP encroachers, ETRealty"
     },
     {
-      "story_id": "2026-11-17-0084",
+      "story_id": "2026-11-17-0089",
       "stage": "threat",
       "title": "Zimbabwe: City Council Suspends All Housing Demolitions Until Further Notice"
     },
     {
-      "story_id": "2026-11-17-0090",
+      "story_id": "2026-11-17-0099",
       "stage": "unspecified",
       "title": "Mientras Bucaramanga se endeuda, Chimitá colapsa"
     },
     {
-      "story_id": "2026-11-17-0109",
+      "story_id": "2026-11-17-0119",
       "stage": "threat",
       "title": "AIUDF Urges Assam CM to Halt Evictions and Ensure Rehabilitation for Displaced Families"
     },
     {
-      "story_id": "2026-11-17-0121",
+      "story_id": "2026-11-17-0122",
       "stage": "threat",
       "title": "Anggaran Rp400 Juta, Dermaga Telaga Ngebel Ponorogo Ditata dan PKL Direlokasi"
     },
     {
-      "story_id": "2026-11-17-0066",
+      "story_id": "2026-11-17-0069",
       "stage": "executed",
       "title": "Former timber mill to be demolished to make way for affordable homes"
-    },
-    {
-      "story_id": "2026-11-17-0146",
-      "stage": "executed",
-      "title": "Desalojan a los concentrados en plaza Sant Jaume tras desmantelar la acampada por la vivienda de Barcelona"
     },
     {
       "story_id": "2026-11-17-0147",
@@ -78,27 +73,32 @@
       "title": "Confirman desalojo al no probarse que la demandada residía en la vivienda por una relación laboral"
     },
     {
-      "story_id": "2026-11-17-0153",
-      "stage": "threat",
-      "title": "NYC-DSA convention backs Ocasio-Cortez for president, votes down opposition to Mamdani's public housing demolition"
+      "story_id": "2026-11-17-0150",
+      "stage": "executed",
+      "title": "Desalojan a los concentrados en plaza Sant Jaume tras desmantelar la acampada por la vivienda de Barcelona"
     },
     {
-      "story_id": "2026-11-17-0154",
+      "story_id": "2026-11-17-0155",
       "stage": "threat",
       "title": "Harare home demolitions: Why a moratorium is not enough – Nehanda Radio"
     },
     {
-      "story_id": "2026-11-17-0178",
-      "stage": "unspecified",
-      "title": "La protesta por la vivienda en Barcelona termina en desalojo y seis activistas siguen en huelga de hambre"
+      "story_id": "2026-11-17-0162",
+      "stage": "threat",
+      "title": "NYC-DSA convention backs Ocasio-Cortez for president, votes down opposition to Mamdani's public housing demolition"
     },
     {
-      "story_id": "2026-11-17-0183",
+      "story_id": "2026-11-17-0175",
       "stage": "threat",
       "title": "Operação na Maré: PM atua contra o TCP pelo 2º dia seguido"
     },
     {
-      "story_id": "2026-11-17-0199",
+      "story_id": "2026-11-17-0183",
+      "stage": "unspecified",
+      "title": "La protesta por la vivienda en Barcelona termina en desalojo y seis activistas siguen en huelga de hambre"
+    },
+    {
+      "story_id": "2026-11-17-0192",
       "stage": "unspecified",
       "title": "Invasão a residência termina com três mortos em Barra Mansa"
     },
@@ -108,19 +108,14 @@
       "title": "Catholic Church and Civil Groups Condemn Philippines for Clearing Poor Areas Ahead of ASEAN Summit"
     },
     {
-      "story_id": "2026-11-17-0244",
+      "story_id": "2026-11-17-0239",
       "stage": "executed",
       "title": "محافظ القاهرة: أزلنا 112 منطقة عشوائية خطرة.. ونعمل على استعادة ريادة العاصمة"
     },
     {
-      "story_id": "2026-11-17-0287",
+      "story_id": "2026-11-17-0289",
       "stage": "executed",
       "title": "demolieron seis casas usadas para microtráfico y esconder robos"
-    },
-    {
-      "story_id": "2026-11-17-0294",
-      "stage": "threat",
-      "title": "Procida, torna il rischio demolizione per la casa di una donna di 70 anni: il legale si rivolge alle Nazioni Unite"
     },
     {
       "story_id": "2026-11-17-0296",
@@ -128,62 +123,67 @@
       "title": "Torremolinos teme que se reactiven los desalojos de cuatro pisos en El Calvario"
     },
     {
-      "story_id": "2026-11-17-0297",
+      "story_id": "2026-11-17-0298",
       "stage": "threat",
-      "title": "Israeli authorities issue demolition notices for around 65 homes and apartments in Hebron"
+      "title": "Procida, torna il rischio demolizione per la casa di una donna di 70 anni: il legale si rivolge alle Nazioni Unite"
     },
     {
-      "story_id": "2026-11-17-0298",
+      "story_id": "2026-11-17-0299",
       "stage": "court",
       "title": "Justiça barra despejo de 400 famílias de fazenda no Pará onde dois sem-terra foram mortos"
     },
     {
-      "story_id": "2026-11-17-0314",
-      "stage": "executed",
-      "title": "Coastal home in Trimingham, north Norfolk, demolished"
+      "story_id": "2026-11-17-0301",
+      "stage": "threat",
+      "title": "Israeli authorities issue demolition notices for around 65 homes and apartments in Hebron"
     },
     {
-      "story_id": "2026-11-17-0319",
+      "story_id": "2026-11-17-0317",
       "stage": "threat",
       "title": "Incendios forestales: Gobierno detecta comunas expuestas y advierte posibles desalojos de campamentos | Nacional"
     },
     {
-      "story_id": "2026-11-17-0354",
+      "story_id": "2026-11-17-0327",
+      "stage": "executed",
+      "title": "Coastal home in Trimingham, north Norfolk, demolished"
+    },
+    {
+      "story_id": "2026-11-17-0358",
       "stage": "unspecified",
       "title": "Conflicto armado desplaza a comunidades indígenas de Venezuela"
     },
     {
-      "story_id": "2026-11-17-0322",
-      "stage": "threat",
-      "title": "КОПАЛ ВО ДВОРОТ, ПА ЈА ПОВИКАЛ ПОЛИЦИЈАТА: НЕОБИЧЕН СЛУЧАЈ ВО СТРУМИЦА - ПРОНАЈДЕНИ КОСКИ КОИ НАЛИКУВААТ НА ЧОВЕЧКИ!"
-    },
-    {
       "story_id": "2026-11-17-0370",
-      "stage": "executed",
-      "title": "Tensions Flare During Overnight Eviction of Barcelona Housing Protesters"
-    },
-    {
-      "story_id": "2026-11-17-0378",
       "stage": "unspecified",
       "title": "Palestinian forced to self-demolish his house in Jerusalem"
     },
     {
-      "story_id": "2026-11-17-0379",
+      "story_id": "2026-11-17-0321",
+      "stage": "threat",
+      "title": "КОПАЛ ВО ДВОРОТ, ПА ЈА ПОВИКАЛ ПОЛИЦИЈАТА: НЕОБИЧЕН СЛУЧАЈ ВО СТРУМИЦА - ПРОНАЈДЕНИ КОСКИ КОИ НАЛИКУВААТ НА ЧОВЕЧКИ!"
+    },
+    {
+      "story_id": "2026-11-17-0372",
       "stage": "threat",
       "title": "Garwe's flip-flopping on home demolitions encourages the construction of more illegal structures"
     },
     {
-      "story_id": "2026-11-17-0410",
-      "stage": "threat",
-      "title": "Favela di Via Cilicia, il municipio in pressing per chiudere l'accesso sotto al cavalcavia: \"la situazione è insostenibile\""
+      "story_id": "2026-11-17-0377",
+      "stage": "executed",
+      "title": "Tensions Flare During Overnight Eviction of Barcelona Housing Protesters"
     },
     {
-      "story_id": "2026-11-17-0412",
+      "story_id": "2026-11-17-0413",
       "stage": "threat",
       "title": "Construyeron una casa en el terreno de su madre, ella pidió desalojarlos y la Justicia la condenó a pagar más de $21 millones"
     },
     {
-      "story_id": "2026-11-17-0423",
+      "story_id": "2026-11-17-0414",
+      "stage": "threat",
+      "title": "Favela di Via Cilicia, il municipio in pressing per chiudere l'accesso sotto al cavalcavia: \"la situazione è insostenibile\""
+    },
+    {
+      "story_id": "2026-11-17-0428",
       "stage": "unspecified",
       "title": "Dagga dealing suspects arrested in Hercules at Gomora squatter camp"
     }
@@ -204,12 +204,12 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-17-0183",
+      "story_id": "2026-11-17-0175",
       "records": 6,
       "title": "Operação na Maré: PM atua contra o TCP pelo 2º dia seguido"
     },
     {
-      "story_id": "2026-11-17-0144",
+      "story_id": "2026-11-17-0145",
       "records": 5,
       "title": "Balıkesir'de kuvvetli sağanak: Ev ve iş yerlerini su bastı"
     },
@@ -219,19 +219,14 @@
       "title": "Mulheres lideram 63% dos negócios da Rocinha, diz pesquisa"
     },
     {
-      "story_id": "2026-11-17-0001",
+      "story_id": "2026-11-17-0003",
       "records": 3,
       "title": "Tembisa residents without water and electricity years after court victory"
     },
     {
-      "story_id": "2026-11-17-0084",
+      "story_id": "2026-11-17-0089",
       "records": 3,
       "title": "Zimbabwe: City Council Suspends All Housing Demolitions Until Further Notice"
-    },
-    {
-      "story_id": "2026-11-17-0146",
-      "records": 3,
-      "title": "Desalojan a los concentrados en plaza Sant Jaume tras desmantelar la acampada por la vivienda de Barcelona"
     },
     {
       "story_id": "2026-11-17-0147",
@@ -239,12 +234,17 @@
       "title": "Confirman desalojo al no probarse que la demandada residía en la vivienda por una relación laboral"
     },
     {
-      "story_id": "2026-11-17-0017",
+      "story_id": "2026-11-17-0150",
+      "records": 3,
+      "title": "Desalojan a los concentrados en plaza Sant Jaume tras desmantelar la acampada por la vivienda de Barcelona"
+    },
+    {
+      "story_id": "2026-11-17-0015",
       "records": 2,
       "title": "Parlamentarios franceses y 63 asociaciones reclaman a Macron frenar el desalojo de la Casa de América Latina"
     },
     {
-      "story_id": "2026-11-17-0008",
+      "story_id": "2026-11-17-0004",
       "records": 2,
       "title": "One hospitalized, Park Township home considered total loss after fire"
     },
@@ -577,5 +577,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 7476
+  "seconds_total": 7476,
+  "story_grouping_version": "2026-11-23.1"
 }

@@ -21,57 +21,57 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-21-0057",
-      "stage": "threat",
-      "title": "Armed with guns and sword, owner of squatter removal company cleared out a home. Now he faces felonies"
+      "story_id": "2026-11-21-0042",
+      "stage": "executed",
+      "title": "Armed with guns and a sword, a squatter removal owner evicted a Bay Area home. Now he faces felonies"
     },
     {
-      "story_id": "2026-11-21-0085",
+      "story_id": "2026-11-21-0067",
       "stage": "threat",
       "title": "रहिवाशांचा तीव्र विरोध; प्रभादेवीत रेल्वेच्या जागेवरील पाडकाम थांबवले; विनंतीनंतर कारवाई स्थगित"
     },
     {
-      "story_id": "2026-11-21-0114",
+      "story_id": "2026-11-21-0100",
       "stage": "unspecified",
       "title": "İstanbul Beyoğlu'nda Moloz Yüklü Kamyon Gecekondunun Duvarına Girdi"
     },
     {
-      "story_id": "2026-11-21-0136",
+      "story_id": "2026-11-21-0122",
       "stage": "unspecified",
       "title": "Un premier exemple pour combattre l'habitat indigne"
     },
     {
-      "story_id": "2026-11-21-0152",
+      "story_id": "2026-11-21-0128",
       "stage": "unspecified",
       "title": "جرف الصخر مغلقة أمام سكانها.. 1430 عائلة عالقة في عشوائيات بزيبز"
     },
     {
-      "story_id": "2026-11-21-0154",
+      "story_id": "2026-11-21-0133",
       "stage": "threat",
       "title": "Démolitions et déguerpissements : 395 familles dédommagées -"
     },
     {
-      "story_id": "2026-11-21-0157",
+      "story_id": "2026-11-21-0140",
       "stage": "threat",
       "title": "The Israeli Army Razed a Settler Outpost, Then Left Palestinians to Face a Pogrom"
     },
     {
-      "story_id": "2026-11-21-0181",
+      "story_id": "2026-11-21-0154",
       "stage": "unspecified",
       "title": "Messina, addio alle baracche: consegnate le nuove case a 14 famiglie"
     },
     {
-      "story_id": "2026-11-21-0197",
+      "story_id": "2026-11-21-0173",
       "stage": "threat",
       "title": "Reintegração de posse em RO: 100 famílias podem perder terras"
     },
     {
-      "story_id": "2026-11-21-0230",
+      "story_id": "2026-11-21-0201",
       "stage": "threat",
       "title": "BMC Demolition Notice in Govandi; Residents Face Eviction Fear"
     },
     {
-      "story_id": "2026-11-21-0272",
+      "story_id": "2026-11-21-0245",
       "stage": "unspecified",
       "title": "Gentrificación en la Ciudad de México elevó rentas de 5,000 a 20,000 pesos mensuales y obliga a habitantes locales a vivir en la periferia con traslados de hasta cuatro horas diarias"
     }
@@ -88,52 +88,52 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-21-0052",
+      "story_id": "2026-11-21-0037",
       "records": 5,
       "title": "Impulsa Gobernador Durazo talento artístico en comunidades de la sierra con inauguración de la Casa de la Cultura de Cumpas"
     },
     {
-      "story_id": "2026-11-21-0114",
+      "story_id": "2026-11-21-0100",
       "records": 4,
       "title": "İstanbul Beyoğlu'nda Moloz Yüklü Kamyon Gecekondunun Duvarına Girdi"
     },
     {
-      "story_id": "2026-11-21-0057",
+      "story_id": "2026-11-21-0042",
       "records": 3,
-      "title": "Armed with guns and sword, owner of squatter removal company cleared out a home. Now he faces felonies"
+      "title": "Armed with guns and a sword, a squatter removal owner evicted a Bay Area home. Now he faces felonies"
     },
     {
-      "story_id": "2026-11-21-0058",
+      "story_id": "2026-11-21-0047",
       "records": 2,
       "title": "Karnataka: CM announces 16,000 crore rural development projects, targets 15 lakh housing sites"
     },
     {
-      "story_id": "2026-11-21-0198",
+      "story_id": "2026-11-21-0172",
       "records": 2,
       "title": "Temporal em Quatis: chuva de 75 mm deixa famílias desalojadas"
     },
     {
-      "story_id": "2026-11-21-0244",
+      "story_id": "2026-11-21-0218",
       "records": 2,
       "title": "MidiaNews | Prefeitura leva caminhão-pipa e alimentos a moradores atingidos com a chuva na Comunidade Barra Grande"
     },
     {
-      "story_id": "2026-11-21-0246",
+      "story_id": "2026-11-21-0221",
       "records": 2,
       "title": "Incendio al ghetto di Torretta Antonacci: due migranti intossicati, uno ferito"
     },
     {
-      "story_id": "2026-11-21-0264",
+      "story_id": "2026-11-21-0238",
       "records": 2,
       "title": "Cruz Roja Venezolana ha entregado insumos a más de 40.000 personas y continuará su labor en las comunidades"
     },
     {
-      "story_id": "2026-11-21-0005",
+      "story_id": "2026-11-21-0003",
       "records": 1,
       "title": "«Llevo ocho meses viviendo en la calle. Cuando uno cae aquí, pierde su identidad»"
     },
     {
-      "story_id": "2026-11-21-0006",
+      "story_id": "2026-11-21-0007",
       "records": 1,
       "title": "Uprooted by climate change, invisible to the government"
     }
@@ -455,5 +455,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 5841
+  "seconds_total": 5841,
+  "story_grouping_version": "2026-11-23.1"
 }

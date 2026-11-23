@@ -26,17 +26,17 @@
       "title": "Assam demolishes homes of 132 Bengali Muslim families who were displaced in 1983 riots"
     },
     {
-      "story_id": "2026-11-14-0024",
+      "story_id": "2026-11-14-0027",
       "stage": "threat",
       "title": "Calcutta High Court halts demolition of ex-TMC strongman Jahangir Khan's Falta house"
     },
     {
-      "story_id": "2026-11-14-0047",
+      "story_id": "2026-11-14-0050",
       "stage": "executed",
       "title": "Atlanta is about to demolish the home where a gay man's sodomy arrest changed history"
     },
     {
-      "story_id": "2026-11-14-0059",
+      "story_id": "2026-11-14-0061",
       "stage": "court",
       "title": "एसआरएतील रहिवाशाला हायकोर्टाचा दिलासा, अपिलावर निर्णय होईपर्यंत घर खाली न करण्याचे आदेश"
     },
@@ -51,22 +51,22 @@
       "title": "Destruye viviendas construidas en los alrededores complejo de presas Tavera-Bao en Santiago"
     },
     {
-      "story_id": "2026-11-14-0168",
+      "story_id": "2026-11-14-0166",
       "stage": "threat",
       "title": "Justiça ordena combate a invasões em imóveis do Minha Casa, Minha Vida | Rio de Janeiro"
     },
     {
-      "story_id": "2026-11-14-0182",
+      "story_id": "2026-11-14-0184",
       "stage": "threat",
       "title": "\"Where will I go with my 3 children?\": Panic in Bhopal's Janta Quarters as women consume poison ahead of proposed demolition"
     },
     {
-      "story_id": "2026-11-14-0192",
+      "story_id": "2026-11-14-0193",
       "stage": "executed",
       "title": "Prefeitura realiza demolição de antigo prédio abandonado e atende reivindicação histórica de moradores"
     },
     {
-      "story_id": "2026-11-14-0196",
+      "story_id": "2026-11-14-0194",
       "stage": "unspecified",
       "title": "Defensa Civil de Lanús confirmó la demolición de la fiambrería donde se originó la explosión por riesgo de derrumbe"
     },
@@ -76,22 +76,22 @@
       "title": "Más de 120 animales abandonados entre los escombros tras desalojo de campamento en Cerrillos: organizaciones piden ayuda urgente y acusan al Estado"
     },
     {
-      "story_id": "2026-11-14-0215",
+      "story_id": "2026-11-14-0218",
       "stage": "executed",
       "title": "അന്ന് സർക്കാർ വീടുകൾ നൽകി; ഇന്ന് കൈയേറ്റം ആരോപിച്ച് ഇടിച്ചുനിരത്തി; കണ്ണീരണിഞ്ഞ് അസം മുസ്‍ലിംകൾ | SIRAJLIVE.COM"
     },
     {
-      "story_id": "2026-11-14-0173",
+      "story_id": "2026-11-14-0172",
       "stage": "executed",
       "title": "Tras la demolición de una vivienda en la Cuarta Sección, se agravó la inseguridad y quedaron tapadas las acequias"
     },
     {
-      "story_id": "2026-11-14-0236",
+      "story_id": "2026-11-14-0237",
       "stage": "unspecified",
       "title": "Soweto labour centre closed due to break-in"
     },
     {
-      "story_id": "2026-11-14-0268",
+      "story_id": "2026-11-14-0267",
       "stage": "unspecified",
       "title": "Comunidades de Magüí Payán, Nariño, reviven el miedo al desplazamiento por grupos armados: 'Somos víctimas de masacres y nos toca dejar todo botado'"
     }
@@ -120,12 +120,12 @@
       "title": "Assam demolishes homes of 132 Bengali Muslim families who were displaced in 1983 riots"
     },
     {
-      "story_id": "2026-11-14-0021",
+      "story_id": "2026-11-14-0022",
       "records": 2,
       "title": "Windover Palms residents face eviction after historic floods"
     },
     {
-      "story_id": "2026-11-14-0024",
+      "story_id": "2026-11-14-0027",
       "records": 2,
       "title": "Calcutta High Court halts demolition of ex-TMC strongman Jahangir Khan's Falta house"
     },
@@ -140,7 +140,7 @@
       "title": "Ferrara Terzo Mondo, il mercatino solidale compie 47 anni e sostiene le famiglie in Etiopia"
     },
     {
-      "story_id": "2026-11-14-0041",
+      "story_id": "2026-11-14-0039",
       "records": 1,
       "title": "Usut Dugaan Kekerasan Aparat di UGM saat Demo 10 November, Komnas HAM Periksa CCTV"
     },
@@ -150,7 +150,7 @@
       "title": "Colapso histórico de cloacas en Carora asfixia a comunidades y amenaza plantel educativo ante la inacción oficial"
     },
     {
-      "story_id": "2026-11-14-0047",
+      "story_id": "2026-11-14-0050",
       "records": 1,
       "title": "Atlanta is about to demolish the home where a gay man's sodomy arrest changed history"
     },
@@ -479,5 +479,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 4777
+  "seconds_total": 4777,
+  "story_grouping_version": "2026-11-23.1"
 }
