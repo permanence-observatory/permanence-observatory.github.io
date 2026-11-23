@@ -2,8 +2,8 @@
   "date": "2026-11-07",
   "candidates": 476,
   "relevant": {
-    "no": 386,
     "yes": 69,
+    "no": 386,
     "uncertain": 21
   },
   "stories_relevant": 52,
@@ -11,8 +11,8 @@
   "flagged_for_review": 20,
   "topics_by_story": {
     "removal": 15,
-    "culture": 14,
     "disaster": 14,
+    "culture": 14,
     "housing_policy": 4,
     "land_conflict": 2,
     "infrastructure": 2,
@@ -23,44 +23,49 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-07-0019",
+      "story_id": "2026-11-07-0018",
       "stage": "executed",
       "title": "SFPD Raids Squatter House in Sea Cliff, Removes Group of People"
     },
     {
-      "story_id": "2026-11-07-0055",
+      "story_id": "2026-11-07-0057",
       "stage": "threat",
       "title": "Un asentamiento frente a Hacienda eleva esta problemática en el Nou Llevant"
     },
     {
-      "story_id": "2026-11-07-0069",
+      "story_id": "2026-11-07-0070",
       "stage": "threat",
       "title": "Wayanad landslides: Despite township progress, 13 Adivasi families still caught between 'no-go zones' and delayed rehab"
     },
     {
-      "story_id": "2026-11-07-0092",
-      "stage": "threat",
-      "title": "इन्सुली क्षेत्रफळवाडीत ओंकार हत्तीचा धुडगूस; वाहनांची तोडफोड, भातशेतीची नासधूस! घराच्या कंपाउंडचे गेटही तोडले"
-    },
-    {
-      "story_id": "2026-11-07-0095",
+      "story_id": "2026-11-07-0091",
       "stage": "threat",
       "title": "Bukele ofrece destruir una casa de una pandilla en Haití"
     },
     {
-      "story_id": "2026-11-07-0123",
+      "story_id": "2026-11-07-0097",
+      "stage": "threat",
+      "title": "इन्सुली क्षेत्रफळवाडीत ओंकार हत्तीचा धुडगूस; वाहनांची तोडफोड, भातशेतीची नासधूस! घराच्या कंपाउंडचे गेटही तोडले"
+    },
+    {
+      "story_id": "2026-11-07-0113",
       "stage": "unspecified",
       "title": "Roditelji u Bajinoj Bašti prijavili osobe prerušene u časne sestre koje plaše decu"
     },
     {
-      "story_id": "2026-11-07-0134",
+      "story_id": "2026-11-07-0132",
       "stage": "unspecified",
       "title": "Una familia, al borde del desahucio en Lanzarote, entre ellos una pareja superviviente de la Dana de Valencia"
     },
     {
-      "story_id": "2026-11-07-0070",
+      "story_id": "2026-11-07-0071",
       "stage": "threat",
       "title": "Bismillah Khan: Akhilesh Yadav targets BJP after part of Bismillah Khan's house demolished, Varanasi officials deny role"
+    },
+    {
+      "story_id": "2026-11-07-0151",
+      "stage": "threat",
+      "title": "'जिनके लिए शहनाई नहीं बजी... भाजपा पर बरसे अखिलेश, बिस्मिल्लाह खान का घर गिराने का दावा"
     },
     {
       "story_id": "2026-11-07-0152",
@@ -68,17 +73,12 @@
       "title": "Israel Demolishes Palestinian Bedouin Homes in West Bank's E1 Area Ahead of Illegal Settlement Expansion Plan"
     },
     {
-      "story_id": "2026-11-07-0153",
-      "stage": "threat",
-      "title": "'जिनके लिए शहनाई नहीं बजी... भाजपा पर बरसे अखिलेश, बिस्मिल्लाह खान का घर गिराने का दावा"
-    },
-    {
-      "story_id": "2026-11-07-0156",
+      "story_id": "2026-11-07-0164",
       "stage": "executed",
       "title": "Israel's govt demolished their homes, Bedouins responded by voting against it"
     },
     {
-      "story_id": "2026-11-07-0179",
+      "story_id": "2026-11-07-0182",
       "stage": "executed",
       "title": "Demolition of 'hazardous' home on First Avenue begins at owners expense"
     },
@@ -88,12 +88,12 @@
       "title": "El barrio de Madrid que nació como un experimento y acabó en ruinas: 408 viviendas a la espera de su derribo"
     },
     {
-      "story_id": "2026-11-07-0208",
+      "story_id": "2026-11-07-0202",
       "stage": "unspecified",
       "title": "Los acampados por la vivienda desalojan la Plaza Porticada"
     },
     {
-      "story_id": "2026-11-07-0099",
+      "story_id": "2026-11-07-0095",
       "stage": "unspecified",
       "title": "Texas Just Made It Easier to Remove Squatters — and That's One More Reason Investors Are Pouring Into the State » Live Insurance News"
     }
@@ -116,27 +116,27 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-07-0063",
+      "story_id": "2026-11-07-0066",
       "records": 6,
       "title": "MP: Massive fire breaks out in slum area of Jabalpur's Gazinagar"
     },
     {
-      "story_id": "2026-11-07-0171",
+      "story_id": "2026-11-07-0170",
       "records": 5,
       "title": "Muere un joven durante una pelea en la barriada de Isla Chica de Huelva"
     },
     {
-      "story_id": "2026-11-07-0028",
+      "story_id": "2026-11-07-0030",
       "records": 3,
       "title": "Sau vụ cháy Trường THCS Kim Liên, Hà Nội: Phụ huynh mong muốn gì?"
     },
     {
-      "story_id": "2026-11-07-0070",
+      "story_id": "2026-11-07-0071",
       "records": 3,
       "title": "Bismillah Khan: Akhilesh Yadav targets BJP after part of Bismillah Khan's house demolished, Varanasi officials deny role"
     },
     {
-      "story_id": "2026-11-07-0128",
+      "story_id": "2026-11-07-0130",
       "records": 2,
       "title": "जबलपुर में आग लगने से झुग्गी-बस्ती के 50 से ज्यादा घर जलकर खाक"
     },
@@ -146,24 +146,24 @@
       "title": "Gazze'de kış felaketi başladı: Binlerce çadırı su bastı, 240 bin aile sel tehlikesiyle karşı karşıya"
     },
     {
-      "story_id": "2026-11-07-0159",
+      "story_id": "2026-11-07-0155",
       "records": 2,
       "title": "Người đàn ông SN 1990 giã từ khu ổ chuột, 4 năm kiếm hơn 33 nghìn tỷ"
     },
     {
-      "story_id": "2026-11-07-0208",
+      "story_id": "2026-11-07-0202",
       "records": 2,
       "title": "Los acampados por la vivienda desalojan la Plaza Porticada"
     },
     {
-      "story_id": "2026-11-07-0002",
+      "story_id": "2026-11-07-0001",
       "records": 1,
-      "title": "Barrio de Nazaret en Valencia | Dentro del mercado de Nazaret: «En el barrio no quedan tiendas y por un carrete de hilo tenemos que ir al centro»"
+      "title": "Incêndio no Amapá: Fumaça atinge quilombolas em Tartarugalzinho"
     },
     {
       "story_id": "2026-11-07-0011",
       "records": 1,
-      "title": "Incêndio no Amapá: Fumaça atinge quilombolas em Tartarugalzinho"
+      "title": "Barrio de Nazaret en Valencia | Dentro del mercado de Nazaret: «En el barrio no quedan tiendas y por un carrete de hilo tenemos que ir al centro»"
     }
   ],
   "collected_at": "2026-11-13T21:50:25Z",
@@ -484,5 +484,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 7618
+  "seconds_total": 7618,
+  "story_grouping_version": "2026-11-23.1"
 }

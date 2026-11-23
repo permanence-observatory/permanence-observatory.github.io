@@ -3,8 +3,8 @@
   "candidates": 665,
   "relevant": {
     "no": 552,
-    "yes": 105,
-    "uncertain": 8
+    "uncertain": 8,
+    "yes": 105
   },
   "stories_relevant": 78,
   "stories_removal": 16,
@@ -27,32 +27,32 @@
       "title": "Jerusalem compound demolished after housing Palestinians without permits"
     },
     {
-      "story_id": "2026-11-06-0084",
+      "story_id": "2026-11-06-0074",
       "stage": "threat",
       "title": "Sentencian a ocho años a despojadores en Iztapalapa – Periódico Zócalo"
     },
     {
-      "story_id": "2026-11-06-0085",
+      "story_id": "2026-11-06-0080",
       "stage": "executed",
       "title": "Israel Demolishes Bedouin Homes in E1 as Settler Violence Escalates"
     },
     {
-      "story_id": "2026-11-06-0087",
+      "story_id": "2026-11-06-0088",
       "stage": "threat",
       "title": "City considers demolition of unsafe Eustis home after fires, squatting concerns"
     },
     {
-      "story_id": "2026-11-06-0099",
+      "story_id": "2026-11-06-0096",
       "stage": "unspecified",
       "title": "Un poblado ilegal en la Montaña de Guaza crece junto a las viviendas de Los Cristianos"
     },
     {
-      "story_id": "2026-11-06-0133",
+      "story_id": "2026-11-06-0132",
       "stage": "court",
       "title": "Gujarat High Court Fines Gram Panchayat ₹1.20 Lakh For Demolishing Homes Without Following 'Due Process'"
     },
     {
-      "story_id": "2026-11-06-0229",
+      "story_id": "2026-11-06-0226",
       "stage": "executed",
       "title": "PHOTO ESSAY: Israel's government demolished their homes. Bedouins responded by voting against it"
     },
@@ -62,42 +62,42 @@
       "title": "Israeli authorities force two Palestinian families to demolish their homes in occupied Jerusalem"
     },
     {
-      "story_id": "2026-11-06-0205",
+      "story_id": "2026-11-06-0210",
       "stage": "unspecified",
       "title": "Mumbai BDD Chawl Redevelopment: 557 Families Get New 500 Sq Ft Flats As CM Devendra Fadnavis Promises Homes At Same Location"
     },
     {
-      "story_id": "2026-11-06-0286",
+      "story_id": "2026-11-06-0289",
       "stage": "unspecified",
       "title": "Cortiço que desabou em BH já foi multado 7 vezes por falhas"
     },
     {
-      "story_id": "2026-11-06-0304",
+      "story_id": "2026-11-06-0300",
       "stage": "threat",
       "title": "Gobierno de Abelardo de la Espriella inició expulsión de más de 80 venezolanos"
     },
     {
-      "story_id": "2026-11-06-0347",
+      "story_id": "2026-11-06-0348",
       "stage": "executed",
       "title": "Procurement Notices - UNDP-VEN-00714 - Demolición integral mecánica de Edificio: Casa María. Avenida La Atlántida"
     },
     {
-      "story_id": "2026-11-06-0361",
+      "story_id": "2026-11-06-0365",
       "stage": "executed",
       "title": "Operação conjunta retira barracas irregulares e atende população em situação de rua em Ceilândia"
     },
     {
-      "story_id": "2026-11-06-0377",
+      "story_id": "2026-11-06-0381",
       "stage": "threat",
       "title": "Bukele pide ubicación de una casa para demoler en Haití"
     },
     {
-      "story_id": "2026-11-06-0378",
+      "story_id": "2026-11-06-0382",
       "stage": "threat",
       "title": "Queda de cortiço em BH: 2 imóveis são isolados e 11 interditados"
     },
     {
-      "story_id": "2026-11-06-0402",
+      "story_id": "2026-11-06-0408",
       "stage": "executed",
       "title": "Chocó, tres meses después del terremoto: reactivación económica, entrega de viviendas, donaciones internacionales y demoliciones"
     }
@@ -118,12 +118,12 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-06-0012",
+      "story_id": "2026-11-06-0003",
       "records": 17,
       "title": "Trường THCS Kim Liên thông báo trong đêm việc 3.000 học sinh nghỉ học sau vụ cháy"
     },
     {
-      "story_id": "2026-11-06-0229",
+      "story_id": "2026-11-06-0226",
       "records": 4,
       "title": "PHOTO ESSAY: Israel's government demolished their homes. Bedouins responded by voting against it"
     },
@@ -133,12 +133,12 @@
       "title": "Jerusalem compound demolished after housing Palestinians without permits"
     },
     {
-      "story_id": "2026-11-06-0088",
+      "story_id": "2026-11-06-0089",
       "records": 3,
       "title": "Ingin Kurangi Tawuran, Pramono Resmikan Ring Tinju di Kampung Melayu Jaktim"
     },
     {
-      "story_id": "2026-11-06-0199",
+      "story_id": "2026-11-06-0205",
       "records": 3,
       "title": "Diyarbakır'da sağanak! Yollar göle döndü, alt geçitleri su bastı"
     },
@@ -148,24 +148,24 @@
       "title": "Inspeccionan trabajos ante la emergencia por lluvias en Villa El Salvador"
     },
     {
-      "story_id": "2026-11-06-0136",
+      "story_id": "2026-11-06-0140",
       "records": 2,
       "title": "Thembisa resident's dream to turn a polluted riverbank into a botanical garden"
     },
     {
       "story_id": "2026-11-06-0020",
       "records": 1,
-      "title": "Şanlıurfa'da şiddetli sağanak yağış sele dönüştü: Ev ve iş yerlerini su bastı, ulaşım kilitlendi"
-    },
-    {
-      "story_id": "2026-11-06-0022",
-      "records": 1,
       "title": "Destaca Gladyz Butanda riqueza cultural de las comunidades de Morelia - Quadratín"
     },
     {
-      "story_id": "2026-11-06-0034",
+      "story_id": "2026-11-06-0021",
       "records": 1,
-      "title": "Operação da PM estoura 'casa de dolagem' no Aglomerado da Serra, em BH"
+      "title": "Şanlıurfa'da şiddetli sağanak yağış sele dönüştü: Ev ve iş yerlerini su bastı, ulaşım kilitlendi"
+    },
+    {
+      "story_id": "2026-11-06-0030",
+      "records": 1,
+      "title": "Governo Federal anuncia que comunidades urbanas e favelas agora possuem CEP"
     }
   ],
   "collected_at": "2026-11-13T19:38:34Z",
@@ -485,5 +485,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 4556
+  "seconds_total": 4556,
+  "story_grouping_version": "2026-11-23.1"
 }

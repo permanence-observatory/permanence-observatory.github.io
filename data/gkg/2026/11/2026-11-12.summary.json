@@ -2,8 +2,8 @@
   "date": "2026-11-12",
   "candidates": 515,
   "relevant": {
-    "yes": 88,
     "no": 404,
+    "yes": 88,
     "uncertain": 23
   },
   "stories_relevant": 61,
@@ -23,7 +23,7 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-12-0034",
+      "story_id": "2026-11-12-0035",
       "stage": "threat",
       "title": "Agentes encubiertos y drones permitieron desmantelar a los 'Illimani' en Ciudad Bolívar – Radio Santa Fe 1070 a.m. Noticias de Colombia"
     },
@@ -38,72 +38,72 @@
       "title": "ममता बनर्जी के भतीजे अभिषेक के घर पर गरजा बुलडोजर, सुबह-सुबह कार्रवाई से बंगाल में हलचल"
     },
     {
-      "story_id": "2026-11-12-0081",
+      "story_id": "2026-11-12-0082",
       "stage": "unspecified",
       "title": "Ativistas denunciam deslocamento de comunidades indígenas na Venezuela devido à violência"
     },
     {
-      "story_id": "2026-11-12-0076",
+      "story_id": "2026-11-12-0079",
       "stage": "executed",
       "title": "Bulldozer reaches outside Abhishek Banerjee's house: Tin shade, boundary gate removed"
     },
     {
-      "story_id": "2026-11-12-0099",
+      "story_id": "2026-11-12-0104",
       "stage": "executed",
       "title": "Police demolish three homes and sheep pen in Kfar Tarfon"
     },
     {
-      "story_id": "2026-11-12-0109",
+      "story_id": "2026-11-12-0108",
       "stage": "executed",
       "title": "Desalojada la acampada por el derecho a la vivienda de las Setas en Sevilla"
     },
     {
-      "story_id": "2026-11-12-0121",
+      "story_id": "2026-11-12-0117",
       "stage": "threat",
       "title": "कोलकाता में अभिषेक बनर्जी के घर के बाहर चला बुलडोजर: KMC ने फुटपाथ से हटाया बांस का अस्थायी ढांचा, TMC और प्रशासन के बीच बढ़ा सियासी तनाव"
     },
     {
-      "story_id": "2026-11-12-0132",
+      "story_id": "2026-11-12-0138",
       "stage": "unspecified",
       "title": "Gauhati High Court Directs Assam Government to Ensure Rehabilitation and Compensation for Evicted Families"
     },
     {
-      "story_id": "2026-11-12-0133",
+      "story_id": "2026-11-12-0141",
       "stage": "executed",
       "title": "Ndirande residents protest as Blantyre City Council demolishes roadside shops"
     },
     {
-      "story_id": "2026-11-12-0143",
+      "story_id": "2026-11-12-0147",
       "stage": "threat",
       "title": "SPARE HIS NAME: Government Halts Home Demolitions After Kazembe Warns Councils Are Soiling Mnangagwa's Image"
     },
     {
-      "story_id": "2026-11-12-0173",
-      "stage": "threat",
-      "title": "What City Village demolition means for Bradford residents | Bradford Telegraph and Argus"
-    },
-    {
-      "story_id": "2026-11-12-0182",
-      "stage": "unspecified",
-      "title": "Los vecinos de Piedralaves, Ávila, vuelven a sus casas"
-    },
-    {
-      "story_id": "2026-11-12-0183",
+      "story_id": "2026-11-12-0179",
       "stage": "unspecified",
       "title": "Los últimos acampados por la vivienda de Granada cumplen el trato y desalojan"
     },
     {
-      "story_id": "2026-11-12-0088",
+      "story_id": "2026-11-12-0183",
+      "stage": "unspecified",
+      "title": "Los vecinos de Piedralaves, Ávila, vuelven a sus casas"
+    },
+    {
+      "story_id": "2026-11-12-0184",
+      "stage": "threat",
+      "title": "What City Village demolition means for Bradford residents | Bradford Telegraph and Argus"
+    },
+    {
+      "story_id": "2026-11-12-0080",
       "stage": "threat",
       "title": "Eschau. « Nous sommes scandalisés » : un permis de démolir une maison alsacienne qui fait des vagues"
     },
     {
-      "story_id": "2026-11-12-0195",
+      "story_id": "2026-11-12-0199",
       "stage": "executed",
       "title": "लखनऊ ट्रिपल मर्डर केस के आरोपी ऋषभ शुक्ला के घर पर चला बुलडोजर, मिट्टी में मिल गया मकान"
     },
     {
-      "story_id": "2026-11-12-0198",
+      "story_id": "2026-11-12-0206",
       "stage": "threat",
       "title": "District Six eviction battle postponed as families push for mediation"
     },
@@ -113,32 +113,32 @@
       "title": "Un héroe beduino que rescató a 30 israelíes el 7 de octubre expresó su frustración luego de que Israel demoliera viviendas de su familia"
     },
     {
-      "story_id": "2026-11-12-0220",
+      "story_id": "2026-11-12-0215",
       "stage": "executed",
       "title": "Encapuchados protagonizan toma en la casa central de la U. de Chile: los desalojaron tras 45 minutos"
     },
     {
-      "story_id": "2026-11-12-0069",
+      "story_id": "2026-11-12-0073",
       "stage": "threat",
       "title": "Summerside mobile home park residents win fight against eviction, for now"
     },
     {
-      "story_id": "2026-11-12-0263",
-      "stage": "threat",
-      "title": "Letter to the Editor: SQUATTERS REMAIN ON JETT ESTATE DESPITE COURT DEFAULT"
-    },
-    {
-      "story_id": "2026-11-12-0271",
+      "story_id": "2026-11-12-0269",
       "stage": "executed",
       "title": "ट्रिपल मर्डर मामले में बड़ी कार्रवाई, आरोपियों के तीन मकानों को एलडीए ने बुलडोजर से गिरवाया"
     },
     {
-      "story_id": "2026-11-12-0279",
+      "story_id": "2026-11-12-0271",
+      "stage": "threat",
+      "title": "Letter to the Editor: SQUATTERS REMAIN ON JETT ESTATE DESPITE COURT DEFAULT"
+    },
+    {
+      "story_id": "2026-11-12-0275",
       "stage": "threat",
       "title": "Câmara de Loures garante que vai continuar a derrubar barracas no Talude Militar"
     },
     {
-      "story_id": "2026-11-12-0302",
+      "story_id": "2026-11-12-0295",
       "stage": "threat",
       "title": "Quilombola do Curiaú: protesto fecha AP-70 contra despejo de bar"
     },
@@ -148,7 +148,7 @@
       "title": "NMC demolishes dilapidated house in Itwari, seizes two truckloads of encroachment material"
     },
     {
-      "story_id": "2026-11-12-0320",
+      "story_id": "2026-11-12-0321",
       "stage": "executed",
       "title": "മുണ്ടക്കൈ ടൗൺഷിപ്പിൽ 13 വീടുകള്‍ വെട്ടിക്കുറച്ചു"
     },
@@ -171,17 +171,17 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-12-0109",
+      "story_id": "2026-11-12-0108",
       "records": 19,
       "title": "Desalojada la acampada por el derecho a la vivienda de las Setas en Sevilla"
     },
     {
-      "story_id": "2026-11-12-0076",
+      "story_id": "2026-11-12-0079",
       "records": 5,
       "title": "Bulldozer reaches outside Abhishek Banerjee's house: Tin shade, boundary gate removed"
     },
     {
-      "story_id": "2026-11-12-0070",
+      "story_id": "2026-11-12-0069",
       "records": 4,
       "title": "Cathcart families left with full pit toilets for a year"
     },
@@ -191,32 +191,32 @@
       "title": "Diario HOY | Triste final al legado de Artemio Bracho: su casa museo es desalojada tras conflicto familiar"
     },
     {
-      "story_id": "2026-11-12-0099",
+      "story_id": "2026-11-12-0104",
       "records": 2,
       "title": "Police demolish three homes and sheep pen in Kfar Tarfon"
     },
     {
-      "story_id": "2026-11-12-0001",
-      "records": 1,
-      "title": "Squatters likely caused fire at Ogdensburg's old American Legion building, officials say"
-    },
-    {
-      "story_id": "2026-11-12-0010",
+      "story_id": "2026-11-12-0003",
       "records": 1,
       "title": "Messina, dalla baraccopoli di Camaro alla casa di Spartà: «Un cambio radicale di vita, lì era una comunità»"
     },
     {
-      "story_id": "2026-11-12-0034",
+      "story_id": "2026-11-12-0006",
+      "records": 1,
+      "title": "Squatters likely caused fire at Ogdensburg's old American Legion building, officials say"
+    },
+    {
+      "story_id": "2026-11-12-0035",
       "records": 1,
       "title": "Agentes encubiertos y drones permitieron desmantelar a los 'Illimani' en Ciudad Bolívar – Radio Santa Fe 1070 a.m. Noticias de Colombia"
     },
     {
-      "story_id": "2026-11-12-0047",
+      "story_id": "2026-11-12-0044",
       "records": 1,
       "title": "Comunidade denuncia encerramento da EJA em escola da Zona Norte | Rio de Janeiro"
     },
     {
-      "story_id": "2026-11-12-0050",
+      "story_id": "2026-11-12-0045",
       "records": 1,
       "title": "Pidieron 18 años de prisión para Pity Álvarez por el crimen de Villa Lugano"
     }
@@ -546,5 +546,6 @@
       "WQ": 1
     },
     "unique_urls": 338890
-  }
+  },
+  "story_grouping_version": "2026-11-23.1"
 }

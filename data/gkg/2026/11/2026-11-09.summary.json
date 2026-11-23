@@ -10,8 +10,8 @@
   "stories_removal": 18,
   "flagged_for_review": 13,
   "topics_by_story": {
-    "culture": 18,
     "removal": 18,
+    "culture": 18,
     "disaster": 14,
     "housing_policy": 7,
     "protest": 5,
@@ -22,12 +22,12 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-09-0004",
+      "story_id": "2026-11-09-0003",
       "stage": "unspecified",
       "title": "Campanadas en las iglesias, pirotecnia en la Villa 31, llaves en Plaza de Mayo y fervor popular: así recibió Buenos Aires al Papa"
     },
     {
-      "story_id": "2026-11-09-0028",
+      "story_id": "2026-11-09-0027",
       "stage": "unspecified",
       "title": "A tres meses del terremoto, gobierno De La Espriella rinde cuentas del Fondo Milagro: vivienda, apoyos económicos y demolición, entre las prioridades"
     },
@@ -37,49 +37,49 @@
       "title": "Liberia: Court-Ordered Demolition Leaves Johnsonville Families Homeless"
     },
     {
-      "story_id": "2026-11-09-0063",
+      "story_id": "2026-11-09-0059",
       "stage": "executed",
       "title": "Defesa Civil já demoliu mais de 150 casas após chuvas em Juiz de Fora"
     },
     {
-      "story_id": "2026-11-09-0072",
+      "story_id": "2026-11-09-0071",
       "stage": "threat",
       "title": "Nueva Canarias denuncia la demolición inminente de una casa centenaria en Mácher"
     },
     {
-      "story_id": "2026-11-09-0086",
+      "story_id": "2026-11-09-0084",
       "stage": "executed",
       "title": "Operación para desmantelar el campamento del puerto de Ceuta: la Policía ejecuta un segundo desalojo de migrantes"
     },
     {
-      "story_id": "2026-11-09-0108",
+      "story_id": "2026-11-09-0102",
       "stage": "unspecified",
       "title": "Comienza a desmantelarse el campamento del Puerto"
     },
     {
-      "story_id": "2026-11-09-0140",
+      "story_id": "2026-11-09-0138",
       "stage": "threat",
       "title": "Faro Pechiguera: suspenden el desalojo de familias en infraviviendas"
     },
     {
-      "story_id": "2026-11-09-0138",
+      "story_id": "2026-11-09-0143",
+      "stage": "unspecified",
+      "title": "Málagas Elendsviertel Los Asperones: Kinderlachen zwischen brennenden Autoreifen"
+    },
+    {
+      "story_id": "2026-11-09-0140",
       "stage": "unspecified",
       "title": "\"I fear my home will fall into a sinkhole\" says Cape Town resident"
     },
     {
-      "story_id": "2026-11-09-0143",
+      "story_id": "2026-11-09-0152",
       "stage": "unspecified",
       "title": "Insurer refunds Khayelitsha pensioner after we query funeral policy deductions"
     },
     {
-      "story_id": "2026-11-09-0148",
+      "story_id": "2026-11-09-0157",
       "stage": "threat",
       "title": "Occupation forces continue raiding homes, bulldozing land south of Nablus"
-    },
-    {
-      "story_id": "2026-11-09-0157",
-      "stage": "unspecified",
-      "title": "Málagas Elendsviertel Los Asperones: Kinderlachen zwischen brennenden Autoreifen"
     },
     {
       "story_id": "2026-11-09-0165",
@@ -87,27 +87,27 @@
       "title": "Comienza desalojo en toma Nuevo Amanecer de Cerrillos: buscan desocupar 350 viviendas irregulares"
     },
     {
-      "story_id": "2026-11-09-0196",
+      "story_id": "2026-11-09-0207",
       "stage": "threat",
       "title": "Arab News | Israeli forces demolish Palestinian home in Al-Hijra amid ongoing tensions"
     },
     {
-      "story_id": "2026-11-09-0272",
+      "story_id": "2026-11-09-0284",
       "stage": "threat",
       "title": "Proposal submitted to demolish homes and build block of flats in Poole"
     },
     {
-      "story_id": "2026-11-09-0288",
+      "story_id": "2026-11-09-0285",
       "stage": "unspecified",
       "title": "Techos de zinc no frenan el plomo: el terror de las balas perdidas"
     },
     {
-      "story_id": "2026-11-09-0326",
+      "story_id": "2026-11-09-0325",
       "stage": "threat",
       "title": "Lac Bleu, Diba-Diba, Okala : Oligui Nguéma débloque 4 milliards supplémentaires pour les familles déguerpies -"
     },
     {
-      "story_id": "2026-11-09-0339",
+      "story_id": "2026-11-09-0341",
       "stage": "executed",
       "title": "Urzúa: hay 173 grietas en Santa Martha Acatitla y se han demolido 5 casas"
     }
@@ -123,44 +123,44 @@
     "tur": 1,
     "srp": 1,
     "ind": 1,
-    "kan": 1,
     "deu": 1,
+    "kan": 1,
     "guj": 1,
     "fra": 1
   },
   "top_stories": [
     {
-      "story_id": "2026-11-09-0086",
+      "story_id": "2026-11-09-0084",
       "records": 19,
       "title": "Operación para desmantelar el campamento del puerto de Ceuta: la Policía ejecuta un segundo desalojo de migrantes"
     },
     {
-      "story_id": "2026-11-09-0051",
+      "story_id": "2026-11-09-0053",
       "records": 9,
       "title": "Chinese vloggers flood Dhaka, pass off Bangladesh's slums as India's?"
     },
     {
-      "story_id": "2026-11-09-0004",
+      "story_id": "2026-11-09-0003",
       "records": 7,
       "title": "Campanadas en las iglesias, pirotecnia en la Villa 31, llaves en Plaza de Mayo y fervor popular: así recibió Buenos Aires al Papa"
     },
     {
-      "story_id": "2026-11-09-0013",
+      "story_id": "2026-11-09-0012",
       "records": 3,
       "title": "Lagos debate: Doherty, GRV fault govt over traffic, flooding, housing"
     },
     {
-      "story_id": "2026-11-09-0061",
+      "story_id": "2026-11-09-0064",
       "records": 2,
       "title": "The Kenyan slum fighting back against poverty tourism"
     },
     {
-      "story_id": "2026-11-09-0046",
+      "story_id": "2026-11-09-0048",
       "records": 2,
       "title": "दीवाली की रात आग से राजस्थान-दिल्ली समेत देशभर में 23 मौतें, MP में 13 तो महाराष्ट्र में 6 लोग जिंदा जले - diwali fires across india killed too many people in rajasthan uttar pradesh and delhi sixmember families in both madhya pradesh maharashtra"
     },
     {
-      "story_id": "2026-11-09-0138",
+      "story_id": "2026-11-09-0140",
       "records": 2,
       "title": "\"I fear my home will fall into a sinkhole\" says Cape Town resident"
     },
@@ -170,12 +170,12 @@
       "title": "Comienza desalojo en toma Nuevo Amanecer de Cerrillos: buscan desocupar 350 viviendas irregulares"
     },
     {
-      "story_id": "2026-11-09-0196",
+      "story_id": "2026-11-09-0207",
       "records": 2,
       "title": "Arab News | Israeli forces demolish Palestinian home in Al-Hijra amid ongoing tensions"
     },
     {
-      "story_id": "2026-11-09-0306",
+      "story_id": "2026-11-09-0309",
       "records": 2,
       "title": "Mirante do Caldas celebra 5 anos com programação voltada à floresta, à economia criativa e à comunidade"
     }
@@ -496,5 +496,6 @@
       "PC": 1
     },
     "unique_urls": 305943
-  }
+  },
+  "story_grouping_version": "2026-11-23.1"
 }

@@ -41,7 +41,7 @@ from classify_llm import (DEFAULT_ENDPOINT, PROMPT_VERSION, call_model,  # noqa:
 from gkg_prototype import (AMBIGUOUS_NAMES, STRONG_REMOVAL_RE, WEAK_REMOVAL_RE,  # noqa: E402
                            collect, fold, url_text)
 
-PIPELINE_VERSION = '2026-11-13.1'
+PIPELINE_VERSION = '2026-11-23.1'
 UNCLASSIFIED = {'relevant': None, 'topics': [], 'removal': None, 'place': '', 'reason': None}
 
 # Settlement names that are whole districts or municipalities: seeing one in a
@@ -68,27 +68,55 @@ def removal_check(record, ambiguous_names):
     return sorted(strong | weak), flag
 
 
+# " | Talk Radio 105.9", " - Diario HOY": an outlet name after the headline. Only short
+# tails are cut (an outlet name, not the second half of a real headline)
+TITLE_SEP_RE = re.compile(r'\s+[|–—-]\s+')
+
+
+def title_key(title):
+    """Headline without case, accents, outlet suffix or punctuation: reprints share it."""
+    t = (title or '').strip()
+    parts = TITLE_SEP_RE.split(t)
+    if len(parts) > 1 and len(parts[-1].split()) <= 6 and len(' '.join(parts[:-1]).split()) >= max(6, len(parts[-1].split()) + 1):
+        t = t[:t.rfind(parts[-1])].rstrip(' |-–—')
+    return ' '.join(re.findall(r'\w+', fold(t)))
+
+
 def assign_stories(records, day, min_shared=3, max_df=0.05):
-    """Group records that tell the same story. Two titles are linked when they share
-    at least min_shared words that are rare that day (in at most max_df of titles),
-    or a rare two-word proper name ("Kim Liên", "Los Asperones").
-    Approximate: catches reprints and rewrites in the same language."""
-    words = [set(w for w in re.findall(r'\w+', fold(r['title'])) if len(w) >= 3 and not w.isdigit())
-             for r in records]
+    """Group records that tell the same story. Records with the same headline (title_key)
+    are one story. Distinct headlines are linked when they share at least min_shared
+    words that are rare that day (in at most max_df of the distinct headlines), or a
+    rare two-word proper name ("Kim Liên", "Los Asperones").
+    Rarity is counted over distinct headlines, so a story reprinted hundreds of times
+    does not make its own words common (2026-11-20: 540 identical reprints were left
+    as separate stories). Approximate: catches reprints and rewrites in the same language."""
+    keys = [title_key(r['title']) for r in records]
+    reps, rep_of = [], {}
+    for i, k in enumerate(keys):
+        if not k:
+            reps.append(i)  # no headline: a story of its own
+            rep_of[i] = len(reps) - 1
+        elif k not in rep_of:
+            rep_of[k] = len(reps)
+            reps.append(i)
+    node = [rep_of[k] if k else rep_of[i] for i, k in enumerate(keys)]
+    heads = [records[i]['title'] for i in reps]
+
+    words = [set(w for w in re.findall(r'\w+', fold(t)) if len(w) >= 3 and not w.isdigit()) for t in heads]
     df = Counter(w for ws in words for w in ws)
-    limit = max(3, max_df * len(records))
+    limit = max(3, max_df * len(heads))
     rare = [{w for w in ws if df[w] <= limit} for ws in words]
     # Two capitalized words in a row; a big story makes its own name common, so
     # names get a looser limit than single words
     names = []
-    for r in records:
-        tokens = re.findall(r'\w+', r['title'])
+    for t in heads:
+        tokens = re.findall(r'\w+', t)
         names.append({f'{fold(a)} {fold(b)}' for a, b in zip(tokens, tokens[1:])
                       if a[:1].isupper() and b[:1].isupper() and len(a) >= 3 and len(b) >= 3})
     name_df = Counter(n for ns in names for n in ns)
     for ws, ns in zip(rare, names):
         ws.update(n for n in ns if name_df[n] <= 3 * limit)  # counts as enough on its own, see below
-    parent = list(range(len(records)))
+    parent = list(range(len(heads)))
 
     def find(i):
         while parent[i] != i:
@@ -107,11 +135,11 @@ def assign_stories(records, day, min_shared=3, max_df=0.05):
             for b in range(a + 1, len(idx)):
                 shared[(idx[a], idx[b])] += weight
     for (a, b), n in shared.items():
-        if n >= min_shared or (records[a]['title'] and records[a]['title'].lower() == records[b]['title'].lower()):
+        if n >= min_shared:
             parent[find(a)] = find(b)
     ids = {}
     for i, r in enumerate(records):
-        r['story_id'] = f"{day}-{ids.setdefault(find(i), len(ids) + 1):04d}"
+        r['story_id'] = f"{day}-{ids.setdefault(find(node[i]), len(ids) + 1):04d}"
 
 
 def classify(records, model, endpoint, batch):

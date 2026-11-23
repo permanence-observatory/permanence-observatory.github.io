@@ -25,17 +25,17 @@
   },
   "removal_stories": [
     {
-      "story_id": "2026-11-18-0009",
+      "story_id": "2026-11-18-0007",
       "stage": "unspecified",
       "title": "Desmantelan fábrica clandestina capaz de producir 3.000 fusiles al año en una favela de Río de Janeiro"
     },
     {
-      "story_id": "2026-11-18-0034",
+      "story_id": "2026-11-18-0028",
       "stage": "threat",
       "title": "20.000 familias de estatus migratorio mixto, en riesgo de ser desalojadas por una nueva norma de Trump"
     },
     {
-      "story_id": "2026-11-18-0011",
+      "story_id": "2026-11-18-0013",
       "stage": "threat",
       "title": "Joburg floods turn deadly as man swept away in swollen Soweto stream"
     },
@@ -45,19 +45,14 @@
       "title": "जयपुर में फिर चला बुलडोजर; 80 से ज्यादा मकान-दुकानों पर JDA का एक्शन"
     },
     {
-      "story_id": "2026-11-18-0073",
+      "story_id": "2026-11-18-0070",
       "stage": "threat",
       "title": "दाऊद इब्राहिम के पर चलेगा BMC का बुलडोजर, बगल में बनी मस्जिद भी तोड़ने की तैयारी"
     },
     {
-      "story_id": "2026-11-18-0091",
+      "story_id": "2026-11-18-0089",
       "stage": "unspecified",
       "title": "Vivienda pública batalla legal busca evitar desalojos de miles – Telemundo 52"
-    },
-    {
-      "story_id": "2026-11-18-0098",
-      "stage": "threat",
-      "title": "Dawood House Demolition: भेंडी बाजारातील दाऊदच्या घरावर महापालिकेची कारवाई; धोकादायक इमारत जमीनदोस्त होणार"
     },
     {
       "story_id": "2026-11-18-0101",
@@ -65,77 +60,82 @@
       "title": "'ഭൂമിക്ക് പകരം ഭൂമിയാണ് നീതി'; അസമിൽ കുടിയൊഴിപ്പിക്കപ്പെട്ട ആയിരക്കണക്കിന് കുടുംബങ്ങളെ സ്ഥിരമായി പുനരധിവസിപ്പിക്കണമെന്ന് എ.ഐ.യു.ഡി.എഫ് | AIUDF Demands Permanent Rehabilitation and Land for Evicted Families in Assam"
     },
     {
+      "story_id": "2026-11-18-0102",
+      "stage": "threat",
+      "title": "Dawood House Demolition: भेंडी बाजारातील दाऊदच्या घरावर महापालिकेची कारवाई; धोकादायक इमारत जमीनदोस्त होणार"
+    },
+    {
       "story_id": "2026-11-18-0105",
       "stage": "unspecified",
       "title": "Zimbabwe: Come and Claim Compensation - Harare Mayor Tells Residents Whose Houses Were Illegally Demolished"
     },
     {
-      "story_id": "2026-11-18-0107",
+      "story_id": "2026-11-18-0110",
       "stage": "threat",
       "title": "Dawood Ibrahim's Ancestral Home In Mumbai Set For Demolition"
     },
     {
-      "story_id": "2026-11-18-0123",
-      "stage": "unspecified",
-      "title": ""
-    },
-    {
-      "story_id": "2026-11-18-0126",
+      "story_id": "2026-11-18-0122",
       "stage": "unspecified",
       "title": "সাততলা বস্তির আগুনে ঘরহারা শতাধিক পরিবার"
     },
     {
-      "story_id": "2026-11-18-0138",
+      "story_id": "2026-11-18-0128",
+      "stage": "unspecified",
+      "title": ""
+    },
+    {
+      "story_id": "2026-11-18-0137",
       "stage": "threat",
       "title": "भीलवाड़ा में घर पर हमला, जेसीबी से मकान ढहाया और पशुओं को कुचला"
     },
     {
-      "story_id": "2026-11-18-0148",
-      "stage": "threat",
-      "title": "અમદાવાદ: 950થી વધુ ડ્રગ્સના આરોપીઓની હેડક્વાર્ટરમાં પરેડ, ફરી પકડાયા તો બુલડોઝરની ચીમકી, બેદરકાર PI સામે પણ તવાઈ"
-    },
-    {
-      "story_id": "2026-11-18-0155",
+      "story_id": "2026-11-18-0145",
       "stage": "executed",
       "title": "Tercer desalojo en una semana en el centro de Barcelona: la Guardia Urbana saca de Sant Jaume a los activistas en huelga de hambre por la vivienda"
     },
     {
+      "story_id": "2026-11-18-0150",
+      "stage": "threat",
+      "title": "અમદાવાદ: 950થી વધુ ડ્રગ્સના આરોપીઓની હેડક્વાર્ટરમાં પરેડ, ફરી પકડાયા તો બુલડોઝરની ચીમકી, બેદરકાર PI સામે પણ તવાઈ"
+    },
+    {
       "story_id": "2026-11-18-0178",
-      "stage": "threat",
-      "title": "ദാവൂദ് ഇബ്രാഹിമിന്‍റെ വീട് പൊളിക്കാൻ മുംബൈ കോർപ്പറേഷൻ; മസ്‌ജിദ് ആണെന്ന് അവകാശപ്പെട്ട് എതിർപ്പുമായി കോൺഗ്രസ്"
-    },
-    {
-      "story_id": "2026-11-18-0179",
-      "stage": "threat",
-      "title": "Правителството на Филипините бе разкритикувано за разчистване на гета в Манила преди срещата на върха"
-    },
-    {
-      "story_id": "2026-11-18-0186",
       "stage": "executed",
       "title": "ജയ്പൂരില്‍ 80ലേറെ വീടുകളും കടകളും പൊളിച്ചുനീക്കി, പ്രതിഷേധം"
     },
     {
-      "story_id": "2026-11-18-0198",
+      "story_id": "2026-11-18-0181",
+      "stage": "threat",
+      "title": "ദാവൂദ് ഇബ്രാഹിമിന്‍റെ വീട് പൊളിക്കാൻ മുംബൈ കോർപ്പറേഷൻ; മസ്‌ജിദ് ആണെന്ന് അവകാശപ്പെട്ട് എതിർപ്പുമായി കോൺഗ്രസ്"
+    },
+    {
+      "story_id": "2026-11-18-0184",
+      "stage": "threat",
+      "title": "Правителството на Филипините бе разкритикувано за разчистване на гета в Манила преди срещата на върха"
+    },
+    {
+      "story_id": "2026-11-18-0208",
       "stage": "unspecified",
       "title": "Soweto News | Latest Soweto News"
     },
     {
-      "story_id": "2026-11-18-0214",
+      "story_id": "2026-11-18-0228",
       "stage": "executed",
       "title": "Palestinians find refuge in ancient caves after Israel demolishes homes"
     },
     {
-      "story_id": "2026-11-18-0230",
+      "story_id": "2026-11-18-0238",
       "stage": "threat",
       "title": "Fire-ravaged Northwood home could be demolished for 52 flats"
     },
     {
-      "story_id": "2026-11-18-0268",
+      "story_id": "2026-11-18-0264",
       "stage": "executed",
       "title": "અમદાવાદ: દોઢ વર્ષથી ઘર માટે રઝળતા ચંડોળાના પરિવારો AMCની કચેરીમાં જ ગાદલા લઈ સૂઈ ગયા, 15 દિવસમાં ટેન્ડરની બાંહેધરી અપાઈ"
     },
     {
-      "story_id": "2026-11-18-0269",
+      "story_id": "2026-11-18-0274",
       "stage": "threat",
       "title": "City of Vandalia uses \"fast track\" to help move forward 2 demolitions–One Alderman would like to see more effort to rehabbing homes"
     },
@@ -145,12 +145,12 @@
       "title": "यूपी के इस जिले में तोड़े जाएंगे 101 पुलिस कर्मियों के जर्जर आवास, योगी कैबिनेट में फैसला"
     },
     {
-      "story_id": "2026-11-18-0312",
+      "story_id": "2026-11-18-0320",
       "stage": "threat",
       "title": "Eviction notices ruled invalid for PEI trailer park residents"
     },
     {
-      "story_id": "2026-11-18-0341",
+      "story_id": "2026-11-18-0344",
       "stage": "threat",
       "title": "Michoacán: aprueban desalojar a agresores aunque la casa sea suya - Quadratín"
     },
@@ -177,17 +177,17 @@
   },
   "top_stories": [
     {
-      "story_id": "2026-11-18-0011",
+      "story_id": "2026-11-18-0013",
       "records": 17,
       "title": "Joburg floods turn deadly as man swept away in swollen Soweto stream"
     },
     {
-      "story_id": "2026-11-18-0012",
+      "story_id": "2026-11-18-0017",
       "records": 11,
       "title": "Pretos e pardos ocupam apenas 30,7% dos cargos gerenciais, mostra IBGE"
     },
     {
-      "story_id": "2026-11-18-0125",
+      "story_id": "2026-11-18-0121",
       "records": 7,
       "title": "Masacre de Barracas: se conoce el veredicto"
     },
@@ -197,12 +197,12 @@
       "title": "Mentana: «Sfidare Lilli Gruber sarebbe bello. Dove? Non escludo colpi di scena. Cambio tv ma non la casa al Ghetto, lì ci morirò»"
     },
     {
-      "story_id": "2026-11-18-0056",
+      "story_id": "2026-11-18-0053",
       "records": 5,
       "title": "মহাখালীর সাততলা বস্তির আগুন দেড় ঘণ্টা পর নিয়ন্ত্রণে"
     },
     {
-      "story_id": "2026-11-18-0009",
+      "story_id": "2026-11-18-0007",
       "records": 4,
       "title": "Desmantelan fábrica clandestina capaz de producir 3.000 fusiles al año en una favela de Río de Janeiro"
     },
@@ -212,17 +212,17 @@
       "title": "Zimbabwe: Come and Claim Compensation - Harare Mayor Tells Residents Whose Houses Were Illegally Demolished"
     },
     {
-      "story_id": "2026-11-18-0200",
+      "story_id": "2026-11-18-0197",
       "records": 4,
       "title": "Após enchente, distrito que ficou ilhado na Bahia tem 15 famílias desalojadas e 400 pessoas afetadas"
     },
     {
-      "story_id": "2026-11-18-0014",
+      "story_id": "2026-11-18-0012",
       "records": 3,
       "title": "Mulheres comandam 63% dos negócios pesquisados na Rocinha, revela estudo"
     },
     {
-      "story_id": "2026-11-18-0107",
+      "story_id": "2026-11-18-0110",
       "records": 3,
       "title": "Dawood Ibrahim's Ancestral Home In Mumbai Set For Demolition"
     }
@@ -550,5 +550,6 @@
   },
   "files_ok": 192,
   "files_missing": 0,
-  "seconds_total": 10910
+  "seconds_total": 10910,
+  "story_grouping_version": "2026-11-23.1"
 }
