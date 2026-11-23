@@ -1,0 +1,54 @@
+{
+ "date": "2026-11-11",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 193.14,
+   "baseline_median": 208.75,
+   "z": -0.8
+  },
+  "rate_stories": {
+   "value": 24.79,
+   "baseline_median": 23.174999999999997,
+   "z": 0.7
+  },
+  "rate_evictions": {
+   "value": 5.44,
+   "baseline_median": 6.035,
+   "z": -0.6
+  }
+ },
+ "measures": {
+  "date": "2026-11-11",
+  "candidates": 639,
+  "stories": 82,
+  "eviction_stories": 18,
+  "gkg_articles": 330845,
+  "rate_candidates": 193.14,
+  "rate_stories": 24.79,
+  "rate_evictions": 5.44,
+  "top_source": "globo.com",
+  "top_source_candidates": 26,
+  "top_source_share": 0.041,
+  "top_title": "peddling of false narratives only undermines their credibility india on reports of chinese vloggers falsely claiming dha",
+  "top_title_records": 7,
+  "max_stories_per_title": 1,
+  "top_place": "Brazil",
+  "top_place_stories": 3,
+  "sources_of_kept": 97,
+  "effective_sources_of_kept": 70.7,
+  "languages_of_kept": 12,
+  "countries_of_kept": 27,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.003
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10"
+ ]
+}

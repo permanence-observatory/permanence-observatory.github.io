@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-19",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 181.19,
+   "baseline_median": 191.64999999999998,
+   "z": -0.4
+  },
+  "rate_stories": {
+   "value": 20.99,
+   "baseline_median": 21.91,
+   "z": -0.2
+  },
+  "rate_evictions": {
+   "value": 8.05,
+   "baseline_median": 6.6850000000000005,
+   "z": 0.8
+  }
+ },
+ "measures": {
+  "date": "2026-11-19",
+  "candidates": 630,
+  "stories": 73,
+  "eviction_stories": 28,
+  "gkg_articles": 347704,
+  "rate_candidates": 181.19,
+  "rate_stories": 20.99,
+  "rate_evictions": 8.05,
+  "top_source": "indiatimes.com",
+  "top_source_candidates": 10,
+  "top_source_share": 0.016,
+  "top_title": "simulacro de fema deja dudas en comunidades hispanas en eeuu",
+  "top_title_records": 11,
+  "max_stories_per_title": 1,
+  "top_place": "Dharavi, Mumbai, India",
+  "top_place_stories": 3,
+  "sources_of_kept": 92,
+  "effective_sources_of_kept": 70.3,
+  "languages_of_kept": 13,
+  "countries_of_kept": 24,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.008
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18"
+ ]
+}

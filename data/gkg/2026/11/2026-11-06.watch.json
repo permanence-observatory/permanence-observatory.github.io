@@ -1,0 +1,51 @@
+{
+ "date": "2026-11-06",
+ "status": "normal",
+ "reasons": [
+  "only 1 earlier days: rates not compared"
+ ],
+ "rates": {
+  "rate_candidates": {
+   "value": 204.16,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_stories": {
+   "value": 23.95,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_evictions": {
+   "value": 4.91,
+   "baseline_median": null,
+   "z": null
+  }
+ },
+ "measures": {
+  "date": "2026-11-06",
+  "candidates": 665,
+  "stories": 78,
+  "eviction_stories": 16,
+  "gkg_articles": 325727,
+  "rate_candidates": 204.16,
+  "rate_stories": 23.95,
+  "rate_evictions": 4.91,
+  "top_source": "indiatimes.com",
+  "top_source_candidates": 11,
+  "top_source_share": 0.017,
+  "top_title": "pennsylvania man charged in connection with 41 year old stabbing death of ohio teenager",
+  "top_title_records": 23,
+  "max_stories_per_title": 1,
+  "top_place": "Brazil",
+  "top_place_stories": 2,
+  "sources_of_kept": 90,
+  "effective_sources_of_kept": 76.0,
+  "languages_of_kept": 12,
+  "countries_of_kept": 23,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-05"
+ ]
+}

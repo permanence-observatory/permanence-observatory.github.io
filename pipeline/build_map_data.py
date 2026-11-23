@@ -188,8 +188,15 @@ def main():
         if os.path.exists(summary_path):
             with open(summary_path, encoding='utf-8') as f:
                 gkg = json.load(f).get('gkg_articles')
+        # Verdict of the daily watch (pipeline/watch_day.py), when it has run for the day
+        watch_path = path[:-len('.jsonl')] + '.watch.json'
+        watch = None
+        if os.path.exists(watch_path):
+            with open(watch_path, encoding='utf-8') as f:
+                w = json.load(f)
+            watch = {'status': w.get('status'), 'reasons': w.get('reasons', [])}
         day_stats.append({**{k: (dict(v.most_common()) if isinstance(v, Counter) else v) for k, v in st.items()},
-                          'gkg_articles': gkg})
+                          'gkg_articles': gkg, 'watch': watch})
 
     events.sort(key=lambda e: (e['date'], e['id']), reverse=True)
     os.makedirs(os.path.dirname(args.out), exist_ok=True)

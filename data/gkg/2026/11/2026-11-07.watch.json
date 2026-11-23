@@ -1,0 +1,52 @@
+{
+ "date": "2026-11-07",
+ "status": "normal",
+ "reasons": [
+  "only 2 earlier days: rates not compared"
+ ],
+ "rates": {
+  "rate_candidates": {
+   "value": 227.82,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_stories": {
+   "value": 24.89,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_evictions": {
+   "value": 7.18,
+   "baseline_median": null,
+   "z": null
+  }
+ },
+ "measures": {
+  "date": "2026-11-07",
+  "candidates": 476,
+  "stories": 52,
+  "eviction_stories": 15,
+  "gkg_articles": 208934,
+  "rate_candidates": 227.82,
+  "rate_stories": 24.89,
+  "rate_evictions": 7.18,
+  "top_source": "indiatimes.com",
+  "top_source_candidates": 11,
+  "top_source_share": 0.023,
+  "top_title": "powerful haitian gang reaches out to state disarmament group as gunfights persist",
+  "top_title_records": 21,
+  "max_stories_per_title": 1,
+  "top_place": "Jabalpur, Madhya Pradesh, India",
+  "top_place_stories": 2,
+  "sources_of_kept": 61,
+  "effective_sources_of_kept": 53.5,
+  "languages_of_kept": 13,
+  "countries_of_kept": 21,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06"
+ ]
+}

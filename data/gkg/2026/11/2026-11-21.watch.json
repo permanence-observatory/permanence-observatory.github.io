@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-21",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 177.1,
+   "baseline_median": 188.29500000000002,
+   "z": -0.4
+  },
+  "rate_stories": {
+   "value": 21.12,
+   "baseline_median": 20.715,
+   "z": 0.1
+  },
+  "rate_evictions": {
+   "value": 5.28,
+   "baseline_median": 7.205,
+   "z": -1.3
+  }
+ },
+ "measures": {
+  "date": "2026-11-21",
+  "candidates": 369,
+  "stories": 44,
+  "eviction_stories": 11,
+  "gkg_articles": 208361,
+  "rate_candidates": 177.1,
+  "rate_stories": 21.12,
+  "rate_evictions": 5.28,
+  "top_source": "thedailystar.net",
+  "top_source_candidates": 6,
+  "top_source_share": 0.016,
+  "top_title": "bolivian festival seeks to return the guinea pig to the nations rituals and its dinner plates",
+  "top_title_records": 28,
+  "max_stories_per_title": 1,
+  "top_place": "South Africa",
+  "top_place_stories": 2,
+  "sources_of_kept": 51,
+  "effective_sources_of_kept": 44.3,
+  "languages_of_kept": 8,
+  "countries_of_kept": 18,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20"
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "date": "2026-11-05",
+ "status": "normal",
+ "reasons": [
+  "only 0 earlier days: rates not compared"
+ ],
+ "rates": {
+  "rate_candidates": {
+   "value": 213.34,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_stories": {
+   "value": 21.42,
+   "baseline_median": null,
+   "z": null
+  },
+  "rate_evictions": {
+   "value": 5.87,
+   "baseline_median": null,
+   "z": null
+  }
+ },
+ "measures": {
+  "date": "2026-11-05",
+  "candidates": 727,
+  "stories": 73,
+  "eviction_stories": 20,
+  "gkg_articles": 340777,
+  "rate_candidates": 213.34,
+  "rate_stories": 21.42,
+  "rate_evictions": 5.87,
+  "top_source": "baomoi.com",
+  "top_source_candidates": 26,
+  "top_source_share": 0.036,
+  "top_title": "meth trafficking stokes pacific health crisis",
+  "top_title_records": 21,
+  "max_stories_per_title": 1,
+  "top_place": "Delhi, India",
+  "top_place_stories": 6,
+  "sources_of_kept": 107,
+  "effective_sources_of_kept": 83.8,
+  "languages_of_kept": 11,
+  "countries_of_kept": 23,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": []
+}

@@ -75,6 +75,17 @@ table { border-collapse: collapse; width: 100%; font-size: .78rem; font-variant-
 th, td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap }
 th:first-child, td:first-child { text-align: left }
 th { color: var(--muted); font-weight: 500 }
+.watch { display: grid; gap: 10px }
+.watch .day { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--raise) }
+.watch .head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: .85rem }
+.watch .head b { font-weight: 600 }
+.watch ul { margin: 0; padding-left: 18px; font: .74rem/1.5 var(--mono); color: var(--muted) }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--ink) }
+.st i { width: 9px; height: 9px; border-radius: 50%; display: inline-block }
+.st[data-s="data_problem"] i { background: #d03b3b }
+.st[data-s="artefact"] i { background: #fab219 }
+.st[data-s="real_rise"] i { background: #3987e5 }
+.st[data-s="low"] i { background: #94a3a0 }
 .foot { font-size: .75rem; color: var(--muted); display: grid; gap: 4px }
 .foot a { color: var(--point) }
 .status { color: var(--muted) }
@@ -148,6 +159,12 @@ th { color: var(--muted); font-weight: 500 }
   </section>
 
   <section class="card">
+    <h2 data-i18n="wTitle"></h2>
+    <p class="sub" data-i18n="wSub"></p>
+    <div class="watch" id="c-watch"></div>
+  </section>
+
+  <section class="card">
     <details class="data">
       <summary data-i18n="table"></summary>
       <div class="tablewrap"><table id="t-days"></table></div>
@@ -178,6 +195,11 @@ const I18N = {
     f5: 'Table 1. Countries with most stories in the period', f5sub: 'Stories with a known place; the country is the last part of the place read by the model.',
     table: 'Data table by day', date: 'Day', articles: 'GKG articles', candidates: 'Candidates', relArticles: 'Relevant articles',
     stories: 'Stories', rate: 'Per 100k', removals: 'Evictions', weekend: 'Weekend',
+    wTitle: 'Daily watch', watchCol: 'Watch',
+    wSub: 'Each day is compared with the 14 before it (rates per 100,000 GKG articles), and a rise is checked for whether it comes from many sources and stories or from one source, headline or place. Reasons are generated in English.',
+    wNone: 'No alerts in this period.',
+    ws: { data_problem: '⚠ Possible data problem: the map may be wrong for this day', artefact: '◇ Artefact: mass reprints, map not affected',
+      real_rise: '▲ Real rise: worth a look', low: '▼ Below the usual range', normal: '—' },
     st: { executed: 'Carried out', threat: 'Threat or announcement', court: 'Court decision', resettlement: 'Resettlement', unspecified: 'Stage not identified' },
     rg: { south: 'Global South', north: 'Global North' },
     t: { removal: 'Eviction', disaster: 'Disaster', violence: 'Violence', housing_policy: 'Housing policy', infrastructure: 'Infrastructure',
@@ -201,6 +223,11 @@ const I18N = {
     f5: 'Tabela 1. Países com mais assuntos no período', f5sub: 'Assuntos com local conhecido; o país é a última parte do local lido pelo modelo.',
     table: 'Tabela de dados por dia', date: 'Dia', articles: 'Artigos GKG', candidates: 'Candidatas', relArticles: 'Notícias relevantes',
     stories: 'Assuntos', rate: 'Por 100 mil', removals: 'Remoções', weekend: 'Fim de semana',
+    wTitle: 'Vigia diário', watchCol: 'Vigia',
+    wSub: 'Cada dia é comparado com os 14 anteriores (taxas por 100 mil artigos do GKG), e uma alta é examinada: vem de muitas fontes e assuntos, ou de uma só fonte, um só título ou um só local? Os motivos são gerados em inglês.',
+    wNone: 'Nenhum alerta no período.',
+    ws: { data_problem: '⚠ Possível problema de dados: o mapa pode estar errado neste dia', artefact: '◇ Artefato: reimpressões em massa, sem efeito no mapa',
+      real_rise: '▲ Aumento real: vale olhar', low: '▼ Abaixo do normal', normal: '—' },
     st: { executed: 'Executada', threat: 'Ameaça ou anúncio', court: 'Decisão judicial', resettlement: 'Reassentamento', unspecified: 'Etapa não identificada' },
     rg: { south: 'Sul global', north: 'Norte global' },
     t: { removal: 'Remoção', disaster: 'Desastre', violence: 'Violência', housing_policy: 'Política habitacional', infrastructure: 'Infraestrutura',
@@ -222,6 +249,12 @@ const short = iso => dayDate(iso).toLocaleDateString(loc(), { day: 'numeric', mo
 const long = iso => dayDate(iso).toLocaleDateString(loc(), { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 const isWeekend = iso => [0, 6].includes(dayDate(iso).getUTCDay());
 const rate = d => (d.gkg_articles && d.gkg_articles.total ? d.stories / d.gkg_articles.total * 1e5 : null);
+
+function watchOf(date) {
+  const d = state.all.find(x => x.date === date);
+  const s = d && d.watch && d.watch.status;
+  return s && s !== 'normal' ? s : null;
+}
 
 function days() {
   if (!state.period) return state.all;
@@ -326,7 +359,8 @@ function dailyChart(host, ds, series, { type = 'columns', height = 220, fmt = nu
       const cx = x0(i) + band / 2;
       if (type === 'line') { cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('visibility', 'visible'); }
       const rows = series.map(se => [se.label, se.values[i] == null ? T().noDenom : fmt(se.values[i]), se.color]);
-      showTip(host, cx, long(d) + (isWeekend(d) ? ` · ${T().weekend}` : ''), rows);
+      const w = watchOf(d);
+      showTip(host, cx, long(d) + (isWeekend(d) ? ` · ${T().weekend}` : '') + (w ? ` · ${(T().ws[w] || w).split(':')[0]}` : ''), rows);
     };
     const hide = () => { cross.setAttribute('visibility', 'hidden'); hideTip(host); };
     hit.addEventListener('pointerenter', show); hit.addEventListener('focus', show);
@@ -417,9 +451,27 @@ function figCountry(ds) {
   }));
 }
 
+function figWatch(ds) {
+  const t = T();
+  const flagged = ds.filter(d => d.watch && d.watch.status && d.watch.status !== 'normal').reverse();
+  const host = $('c-watch');
+  if (!flagged.length) { const p = document.createElement('p'); p.className = 'sub'; p.textContent = t.wNone; host.replaceChildren(p); return; }
+  host.replaceChildren(...flagged.map(d => {
+    const box = document.createElement('div'); box.className = 'day';
+    const head = document.createElement('div'); head.className = 'head';
+    const b = document.createElement('b'); b.textContent = long(d.date);
+    const st = document.createElement('span'); st.className = 'st'; st.dataset.s = d.watch.status;
+    const i = document.createElement('i'); st.append(i, document.createTextNode(t.ws[d.watch.status] || d.watch.status));
+    head.append(b, st);
+    const ul = document.createElement('ul');
+    (d.watch.reasons || []).forEach(r => { const li = document.createElement('li'); li.textContent = r; ul.append(li); });
+    box.append(head, ul); return box;
+  }));
+}
+
 function table(ds) {
   const t = T();
-  const head = [t.date, t.articles, t.candidates, t.relArticles, t.stories, t.rate, t.removals];
+  const head = [t.date, t.articles, t.candidates, t.relArticles, t.stories, t.rate, t.removals, t.watchCol];
   const tb = $('t-days'); tb.replaceChildren();
   const thead = document.createElement('thead'); const hr = document.createElement('tr');
   head.forEach(h => { const th = document.createElement('th'); th.textContent = h; hr.append(th); });
@@ -430,6 +482,8 @@ function table(ds) {
     const rem = Object.values(d.removal_by_stage || {}).reduce((a, b) => a + b, 0);
     [long(d.date), num(d.gkg_articles && d.gkg_articles.total), num(d.candidates), num(d.relevant_articles), num(d.stories), num(rate(d)), num(rem)]
       .forEach(v => { const td = document.createElement('td'); td.textContent = v; tr.append(td); });
+    const wd = document.createElement('td'); const st = (d.watch && d.watch.status) || '';
+    wd.textContent = st && st !== 'normal' ? (t.ws[st] || st).split(':')[0] : '—'; tr.append(wd);
     body.append(tr);
   });
   tb.append(body);
@@ -440,7 +494,7 @@ function render() {
   const ds = days();
   const first = state.all[0].date, last = state.all[state.all.length - 1].date;
   $('caveat').textContent = T().caveat(state.all.length, short(first), short(last));
-  tiles(ds); figStories(ds); figTopics(ds); figRemoval(ds); figRegion(ds); figCountry(ds); table(ds);
+  tiles(ds); figStories(ds); figTopics(ds); figRemoval(ds); figRegion(ds); figCountry(ds); figWatch(ds); table(ds);
 }
 
 function applyLang() {

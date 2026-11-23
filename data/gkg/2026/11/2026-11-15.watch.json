@@ -1,0 +1,58 @@
+{
+ "date": "2026-11-15",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 181.76,
+   "baseline_median": 196.5,
+   "z": -0.4
+  },
+  "rate_stories": {
+   "value": 17.9,
+   "baseline_median": 21.91,
+   "z": -1.0
+  },
+  "rate_evictions": {
+   "value": 2.71,
+   "baseline_median": 6.6850000000000005,
+   "z": -2.6
+  }
+ },
+ "measures": {
+  "date": "2026-11-15",
+  "candidates": 335,
+  "stories": 33,
+  "eviction_stories": 5,
+  "gkg_articles": 184313,
+  "rate_candidates": 181.76,
+  "rate_stories": 17.9,
+  "rate_evictions": 2.71,
+  "top_source": "bdnews24.com",
+  "top_source_candidates": 8,
+  "top_source_share": 0.024,
+  "top_title": "sydney sweeney has great jeans who made them psst workers",
+  "top_title_records": 36,
+  "max_stories_per_title": 1,
+  "top_place": "Cidade de Deus, Rio De Janeiro, Brazil",
+  "top_place_stories": 2,
+  "sources_of_kept": 37,
+  "effective_sources_of_kept": 32.7,
+  "languages_of_kept": 5,
+  "countries_of_kept": 13,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14"
+ ]
+}
