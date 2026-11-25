@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-24",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 166.32,
+   "baseline_median": 184.095,
+   "z": -1.0
+  },
+  "rate_stories": {
+   "value": 17.17,
+   "baseline_median": 20.715,
+   "z": -0.8
+  },
+  "rate_evictions": {
+   "value": 5.62,
+   "baseline_median": 6.710000000000001,
+   "z": -0.6
+  }
+ },
+ "measures": {
+  "date": "2026-11-24",
+  "candidates": 562,
+  "stories": 58,
+  "eviction_stories": 19,
+  "gkg_articles": 337893,
+  "rate_candidates": 166.32,
+  "rate_stories": 17.17,
+  "rate_evictions": 5.62,
+  "top_source": "globo.com",
+  "top_source_candidates": 19,
+  "top_source_share": 0.034,
+  "top_title": "3 hurt in highway 23 crash in st joseph township",
+  "top_title_records": 5,
+  "max_stories_per_title": 1,
+  "top_place": "Rio de Janeiro, Brazil",
+  "top_place_stories": 3,
+  "sources_of_kept": 64,
+  "effective_sources_of_kept": 57.0,
+  "languages_of_kept": 12,
+  "countries_of_kept": 26,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.007
+ },
+ "baseline_days": [
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20",
+  "2026-11-21",
+  "2026-11-22",
+  "2026-11-23"
+ ]
+}
