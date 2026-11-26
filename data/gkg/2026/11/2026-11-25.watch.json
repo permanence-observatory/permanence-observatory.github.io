@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-25",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 166.19,
+   "baseline_median": 181.475,
+   "z": -0.8
+  },
+  "rate_stories": {
+   "value": 21.91,
+   "baseline_median": 20.105,
+   "z": 0.4
+  },
+  "rate_evictions": {
+   "value": 9.35,
+   "baseline_median": 6.695,
+   "z": 1.4
+  }
+ },
+ "measures": {
+  "date": "2026-11-25",
+  "candidates": 569,
+  "stories": 75,
+  "eviction_stories": 32,
+  "gkg_articles": 342383,
+  "rate_candidates": 166.19,
+  "rate_stories": 21.91,
+  "rate_evictions": 9.35,
+  "top_source": "kickoff.com",
+  "top_source_candidates": 15,
+  "top_source_share": 0.026,
+  "top_title": "relatorio da abin revela estrategias de pcc e comando vermelho para crescer no trafico",
+  "top_title_records": 6,
+  "max_stories_per_title": 1,
+  "top_place": "Vidisha, Madhya Pradesh, India",
+  "top_place_stories": 2,
+  "sources_of_kept": 62,
+  "effective_sources_of_kept": 45.4,
+  "languages_of_kept": 13,
+  "countries_of_kept": 25,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20",
+  "2026-11-21",
+  "2026-11-22",
+  "2026-11-23",
+  "2026-11-24"
+ ]
+}
