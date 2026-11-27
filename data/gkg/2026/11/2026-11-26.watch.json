@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-26",
+ "status": "normal",
+ "reasons": [],
+ "rates": {
+  "rate_candidates": {
+   "value": 165.96,
+   "baseline_median": 179.14499999999998,
+   "z": -0.7
+  },
+  "rate_stories": {
+   "value": 22.95,
+   "baseline_median": 20.105,
+   "z": 0.7
+  },
+  "rate_evictions": {
+   "value": 7.23,
+   "baseline_median": 7.505000000000001,
+   "z": -0.1
+  }
+ },
+ "measures": {
+  "date": "2026-11-26",
+  "candidates": 528,
+  "stories": 73,
+  "eviction_stories": 23,
+  "gkg_articles": 318142,
+  "rate_candidates": 165.96,
+  "rate_stories": 22.95,
+  "rate_evictions": 7.23,
+  "top_source": "globo.com",
+  "top_source_candidates": 17,
+  "top_source_share": 0.032,
+  "top_title": "senior bc conservative staffer sued for defamation by ex langley township mayor",
+  "top_title_records": 13,
+  "max_stories_per_title": 1,
+  "top_place": "Kathmandu, Bagmati, Nepal",
+  "top_place_stories": 5,
+  "sources_of_kept": 66,
+  "effective_sources_of_kept": 55.3,
+  "languages_of_kept": 9,
+  "countries_of_kept": 23,
+  "files_missing_share": 0.0,
+  "unclassified_share": 0.0
+ },
+ "baseline_days": [
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20",
+  "2026-11-21",
+  "2026-11-22",
+  "2026-11-23",
+  "2026-11-24",
+  "2026-11-25"
+ ]
+}
